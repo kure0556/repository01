@@ -1,4 +1,4 @@
-package zircuf.uti.datetime;
+package zircuf.util.datetime;
 
 import static org.junit.jupiter.api.Assertions.*;
 

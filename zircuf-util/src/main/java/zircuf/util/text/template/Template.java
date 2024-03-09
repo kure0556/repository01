@@ -4,52 +4,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import zircuf.util.performance.Performance;
-
 public class Template {
-	public static void main(String[] args) {
-		String template = """
-				{
-				  aaa:"${0:}",
-				  bbb:"${1:}",
-				  ccc:"${0}${1}",
-				  ddd:"${2:指定なし}"
-				}
-				""";
-		System.out.println(Template.ofArray(template).inject2("あああ", null, "ううう"));
-
-		TextTemplate<String[]> compile = Template.ofArray(template);
-		new Performance() {
-			@Override
-			protected void proc() {
-				compile.inject2("あああ");
-			}
-		}.keisoku();
-
-		StringBuilder sb = new StringBuilder();
-		new Performance() {
-			@Override
-			protected void proc() {
-				sb.setLength(0);
-				compile.append(sb, new String[]{"あああ", "いいい", "ううう"});
-			}
-		}.keisoku();
-
-		System.out.println(sb.toString());
-		
-		TextTemplate<Map<String, String>> compile2 = Template.ofMap(template);
-
-		new Performance() {
-			@Override
-			protected void proc() {
-				sb.setLength(0);
-				compile2.append(sb, Map.of("1", "あああ", "2", "いいい"));
-			}
-		}.keisoku();
-
-		System.out.println(sb.toString());
-		
-	}
 
 	public static TextTemplate<String[]> ofArray(String template) {
 		return compile(new ArrayTemplate(), template);
