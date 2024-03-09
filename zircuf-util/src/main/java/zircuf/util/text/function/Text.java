@@ -15,8 +15,8 @@ public final class Text {
 	public static String lineIdx(String[] line, int idx) {
 		if (idx < line.length)
 			return line[idx];
-		throw new ArrayIndexOutOfBoundsException("Index %d out of bounds for length %d : "
-				.formatted(idx, line.length) + Arrays.toString(line));
+		throw new ArrayIndexOutOfBoundsException("Index %d out of bounds for length %d : %s"
+				.formatted(idx, line.length, Arrays.toString(line)));
 	}
 
 	public static <T> String summry(List<T> data, Function<T, String> henkan) {
