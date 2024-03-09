@@ -1,4 +1,4 @@
-package zircuf.uti.datetime;
+package zircuf.util.datetime;
 
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;

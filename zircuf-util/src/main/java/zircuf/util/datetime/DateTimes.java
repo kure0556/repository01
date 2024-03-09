@@ -1,4 +1,4 @@
-package zircuf.uti.datetime;
+package zircuf.util.datetime;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -8,7 +8,7 @@ import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
-import zircuf.uti.performance.Performance;
+import zircuf.util.performance.Performance;
 
 public class DateTimes {
 	public static void main(String[] args) {

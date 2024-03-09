@@ -1,4 +1,4 @@
-package zircuf.uti.performance;
+package zircuf.util.performance;
 
 public abstract class Performance {
 
