@@ -19,14 +19,25 @@ public final class Text {
 				.formatted(idx, line.length, Arrays.toString(line)));
 	}
 
-	public static <T> String summry(List<T> data, Function<T, String> henkan) {
+	public static String summry(List<String[]> data) {
+		return summry(data, Join::pipe);
+	}
+
+	public static <T> String summry(List<T> data, Function<T, String> toStr) {
 		if (Objects.isNull(data)) {
 			return "table data is null.";
 		}
 		StringBuilder sb = new StringBuilder();
 		data.stream().limit(10).forEach(line -> {
-			sb.append(henkan.apply(line));
+			sb.append(toStr.apply(line)).append("\n");
 		});
+		if (data.size() > 10) {
+			if (data.size() > 11) {
+				sb.append("  :").append("\n");
+			}
+			sb.append(toStr.apply(data.get(data.size() - 1))).append("\n");
+		}
+		sb.append("--- table data has %d line(s).".formatted(data.size()));
 		return sb.toString();
 	}
 }
