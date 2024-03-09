@@ -10,4 +10,8 @@ public final class Split {
 		return text.split("\t");
 	}
 
+	public static final String[] pipe(String text) {
+		return text.split("\\|");
+	}
+
 }

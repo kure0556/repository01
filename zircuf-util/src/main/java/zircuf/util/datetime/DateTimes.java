@@ -25,6 +25,7 @@ public class DateTimes {
 
 		System.out.println(of(asEpochTimeMillisJST(ldt)));
 		System.out.println(of(asEpochTimeMillis(zdt)));
+		System.out.println(of(asEpochTimeMillis(udt)));
 		System.out.println();
 
 		new Performance() {
