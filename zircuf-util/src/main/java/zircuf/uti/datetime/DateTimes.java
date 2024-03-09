@@ -27,20 +27,6 @@ public class DateTimes {
 		System.out.println(of(asEpochTimeMillis(zdt)));
 		System.out.println();
 
-		ldt = trim(ldt);
-		zdt = trim(zdt);
-		udt = trim(udt);
-
-		System.out.println(DTF.ISO_DATE_TIME.format(ldt));
-		System.out.println(DTF.ISO_DATE_TIME.format(zdt));
-		System.out.println(DTF.ISO_DATE_TIME_ZONED.format(zdt));
-		System.out.println(DTF.ISO_DATE_TIME_ZONED.format(udt));
-		System.out.println(DTF.formatIsoAsUTC(zdt));
-		System.out.println(DTF.formatIsoAsUTC(udt));
-		System.out.println(DTF.NANOS_ISO_INSTANT.format(zdt));
-		System.out.println(DTF.NANOS_ISO_INSTANT.format(udt));
-		System.out.println();
-
 		new Performance() {
 			@Override
 			protected void proc() {
