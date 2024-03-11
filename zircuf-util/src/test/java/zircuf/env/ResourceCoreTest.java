@@ -4,11 +4,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import zircuf.util.data.table.TableConverter.Converter;
+
 class ResourceCoreTest {
 
 	@Test
 	void test() {
-		ResourceCore.local().of("code_table.tsv").asTsv().converter(1);
+		Converter converter = ResourceCore.local().of("code_table.tsv").asTsv().titled().converter(1);
 		fail("まだ実装されていません");
 	}
 
