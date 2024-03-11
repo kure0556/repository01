@@ -4,19 +4,19 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Stream;
 
-import zircuf.util.io.common.OLineSeparator;
 import zircuf.util.text.function.Join;
 
-public interface Writer extends OLineSeparator {
+public interface Writer {
 
 	public Path write(CharSequence text);
 
 	default public Path writeAll(Iterable<? extends CharSequence> lines) {
-		// TODO:書き直す
-		String ls = oLineSeparator().orElse(System.lineSeparator());
 		StringBuilder sb = new StringBuilder();
 		for (CharSequence charSequence : lines) {
-			sb.append(charSequence).append(ls);
+			// サブクラスPathWriterは高速書き込み(chanel)をサポートしているが
+			// そちらの改行のデフォルトがSystem.lineSeparator()であるため
+			// 互換性のため改行コード固定にする
+			sb.append(charSequence).append(System.lineSeparator());
 		}
 		return write(sb);
 	}

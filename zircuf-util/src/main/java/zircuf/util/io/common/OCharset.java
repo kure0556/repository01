@@ -6,7 +6,7 @@ import java.util.Optional;
 public interface OCharset {
 
 	default public Optional<Charset> oCharset() {
-		return Optional.of(Charset.defaultCharset());
+		return Optional.empty();
 	}
 
 	default public Charset getCharset() {

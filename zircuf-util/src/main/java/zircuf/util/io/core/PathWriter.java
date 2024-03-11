@@ -1,7 +1,6 @@
 package zircuf.util.io.core;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -17,8 +16,10 @@ public interface PathWriter extends Writer, OCharset {
 
 	default public Path write(CharSequence text) {
 		try {
-			Files.createDirectories(getPath().getParent());
-			return Files.writeString(getPath(), text, oCharset().orElse(Charset.defaultCharset()));
+			Path path = getPath();
+			// 出力先ディレクトリの作成
+			Files.createDirectories(path.getParent());
+			return Files.writeString(path, text, getCharset());
 		} catch (IOException e) {
 			throw To.rException(e);
 		}
@@ -26,8 +27,10 @@ public interface PathWriter extends Writer, OCharset {
 
 	default public Path writeAll(Iterable<? extends CharSequence> lines) {
 		try {
-			Files.createDirectories(getPath().getParent());
-			return Files.write(getPath(), lines, oCharset().orElse(Charset.defaultCharset()));
+			Path path = getPath();
+			// 出力先ディレクトリの作成
+			Files.createDirectories(path.getParent());
+			return Files.write(path, lines, getCharset());
 		} catch (IOException e) {
 			throw To.rException(e);
 		}

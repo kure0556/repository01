@@ -28,9 +28,9 @@ public final class Text {
 			return "table data is null.";
 		}
 		StringBuilder sb = new StringBuilder();
-		data.stream().limit(10).forEach(line -> {
-			sb.append(toStr.apply(line)).append("\n");
-		});
+		for (int i = 0; i < Math.min(data.size(), 10); i++) {
+			sb.append(toStr.apply(data.get(i))).append("\n");
+		}
 		if (data.size() > 10) {
 			if (data.size() > 11) {
 				sb.append("  :").append("\n");
