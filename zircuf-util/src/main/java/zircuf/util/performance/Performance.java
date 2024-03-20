@@ -1,6 +1,18 @@
 package zircuf.util.performance;
 
+import java.util.function.Consumer;
+
 public abstract class Performance {
+
+	public static void of(Consumer<String> target) {
+		new Performance() {
+			@Override
+			protected void proc() {
+				target.accept(null);
+			}
+		}.keisoku();
+	}
+	
 
 	int count = 1000000;
 

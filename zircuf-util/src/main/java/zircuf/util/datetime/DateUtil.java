@@ -10,7 +10,7 @@ import java.util.Date;
 public class DateUtil {
 
 	/**
-	 *  @deprecated より簡潔な代替メソッドがあります {@link DateTimes#of(Date)}
+	 *  @deprecated より簡潔な代替メソッドがあります {@link DT#of(Date)}
 	 */
 	@Deprecated()
 	public static final LocalDateTime asLocalDateTime(final Date date) {
@@ -18,7 +18,7 @@ public class DateUtil {
 	}
 
 	/**
-	 *  @deprecated より簡潔な代替メソッドがあります {@link DateTimes#ofJST(Date)}
+	 *  @deprecated より簡潔な代替メソッドがあります {@link DT#ofJST(Date)}
 	 */
 	@Deprecated()
 	public static final ZonedDateTime asZonedDateTime(final Date date) {

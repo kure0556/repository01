@@ -12,7 +12,7 @@ class DTFTest {
 
 		LocalDateTime ldt = LocalDateTime.now();
 		ZonedDateTime zdt = ZonedDateTime.now();
-		ZonedDateTime udt = ZonedDateTime.now(DateTimes.UTC);
+		ZonedDateTime udt = ZonedDateTime.now(DT.UTC);
 
 		System.out.println(DTF.ISO_DATE_TIME.format(ldt));
 		System.out.println(DTF.ISO_DATE_TIME.format(zdt));
@@ -24,9 +24,9 @@ class DTFTest {
 		System.out.println(DTF.NANOS_ISO_INSTANT.format(udt));
 		System.out.println();
 
-		ldt = DateTimes.trim(ldt);
-		zdt = DateTimes.trim(zdt);
-		udt = DateTimes.trim(udt);
+		ldt = DT.trim(ldt);
+		zdt = DT.trim(zdt);
+		udt = DT.trim(udt);
 
 		System.out.println(DTF.ISO_DATE_TIME.format(ldt));
 		System.out.println(DTF.ISO_DATE_TIME.format(zdt));
