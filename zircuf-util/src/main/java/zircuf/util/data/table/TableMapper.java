@@ -28,7 +28,7 @@ public interface TableMapper {
 
 		private Mapper(@NonNull List<String[]> table, int fromIdx, int toIdx) {
 			try {
-				table.stream().forEach(line -> {
+				table.forEach(line -> {
 					String key = line[fromIdx];
 					List<String> list = compiledMap.get(key);
 					if (Objects.isNull(list)) {

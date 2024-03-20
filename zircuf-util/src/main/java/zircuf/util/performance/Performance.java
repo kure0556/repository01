@@ -4,7 +4,7 @@ import java.util.function.Consumer;
 
 public abstract class Performance {
 
-	public static void of(Consumer<String> target) {
+	public static void of(Consumer<?> target) {
 		new Performance() {
 			@Override
 			protected void proc() {
@@ -12,11 +12,10 @@ public abstract class Performance {
 			}
 		}.keisoku();
 	}
-	
 
 	int count = 1000000;
 
-	public void keisoku() {
+	void keisoku() {
 		long nanoTime = System.nanoTime();
 		for (int i = 0; i < count; i++) {
 			proc();

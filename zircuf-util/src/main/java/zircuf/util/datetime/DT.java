@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
@@ -35,24 +36,21 @@ public class DT {
 		System.out.println();
 
 		Performance.of(s -> {
-			trim(LocalDateTime.now());
+			trimMillis(LocalDateTime.now());
 		});
 
-		new Performance() {
-			@Override
-			protected void proc() {
-				LocalDateTime.now().withNano(0);
-			}
-		}.keisoku();
+		Performance.of(s -> {
+			LocalDateTime.now().withNano(0);
+		});
 
-		LocalDateTime asLocalDateTime = DTF.DATE_TIME.asLocalDateTime("19870312235911");
+		LocalDateTime asLocalDateTime = DTF.DATE_TIME.of("19870312235911");
 		System.out.println(asLocalDateTime);
 
-		ZonedDateTime asZonedDateTime = DTF.ISO_DATE_TIME_ZONED.asZonedDateTime("1987-03-12T23:59:11Z");
+		ZonedDateTime asZonedDateTime = DTF.ISO_DATE_TIME_ZONED.ofZoned("1987-03-12T23:59:11Z");
 		System.out.println(asZonedDateTime);
-		System.out.println(DTF.ofLocalDateTime("1987-03-12T23:59:11"));
-		System.out.println(DTF.ofZonedDateTime("1987-03-12T23:59:11Z"));
-		System.out.println(DTF.ofZonedDateTime("1987-03-12T23:59:11+09:00"));
+		System.out.println(DT.of("1987-03-12T23:59:11"));
+		System.out.println(DT.ofZoned("1987-03-12T23:59:11Z"));
+		System.out.println(DT.ofZoned("1987-03-12T23:59:11+09:00"));
 		System.out.println();
 
 		System.out.println(DT.Text.asIsoFromFlat("19870312235911"));
@@ -60,6 +58,28 @@ public class DT {
 
 	public static final ZoneId JST = ZoneId.of("Asia/Tokyo");
 	public static final ZoneId UTC = ZoneId.of("UTC");
+
+	// -----------------------------
+	// 文字列からの変換
+	// -----------------------------
+
+	/**
+	 * ISO形式でのparse {@link LocalDateTime#parse(text)} と同じ挙動
+	 * @param text
+	 * @return
+	 */
+	public static final LocalDateTime of(final String text) {
+		return LocalDateTime.parse(text);
+	}
+
+	/**
+	 * ISO形式でのparse {@link ZonedDateTime#parse(text)} と同じ挙動
+	 * @param text
+	 * @return
+	 */
+	public static final ZonedDateTime ofZoned(final String text) {
+		return ZonedDateTime.parse(text);
+	}
 
 	// -----------------------------
 	// Dateからの変換
@@ -106,14 +126,14 @@ public class DT {
 	}
 
 	// -----------------------------
-	// 秒の除去
+	// 秒以下の除去
 	// -----------------------------
 
-	public static final LocalDateTime trim(final LocalDateTime localDateTime) {
+	public static final LocalDateTime trimMillis(final LocalDateTime localDateTime) {
 		return localDateTime.truncatedTo(ChronoUnit.SECONDS);
 	}
 
-	public static final ZonedDateTime trim(final ZonedDateTime zonedDateTime) {
+	public static final ZonedDateTime trimMillis(final ZonedDateTime zonedDateTime) {
 		return zonedDateTime.truncatedTo(ChronoUnit.SECONDS);
 	}
 
@@ -125,9 +145,20 @@ public class DT {
 		return zonedDateTime.truncatedTo(ChronoUnit.MILLIS);
 	}
 
+	// -----------------------------
+	// その他
+	// -----------------------------
+
+	public static final String formatIsoAsUTC(final ZonedDateTime zdt) {
+		// 標準フォーマッタISO_INSTANTはInstantを参照しているため、UTCでの表記にできる
+		// ナノ秒を消してフォーマット
+		return DateTimeFormatter.ISO_INSTANT.format(zdt.truncatedTo(ChronoUnit.SECONDS));
+	}
+
 	public static class Text {
 		public static String asIsoFromFlat(final String yyyymmddhhmmss) {
-			return DTF.ISO_DATE_TIME.format(DTF.DATE_TIME.parse(yyyymmddhhmmss));
+			return DTF.ISO_DATE_TIME.format(DTF.DATE_TIME.of(yyyymmddhhmmss));
 		}
 	}
+
 }

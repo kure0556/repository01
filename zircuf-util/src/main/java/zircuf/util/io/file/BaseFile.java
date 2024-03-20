@@ -10,26 +10,11 @@ import java.time.ZoneId;
 import java.util.function.Function;
 
 import zircuf.util.general.To;
+import zircuf.util.io.core.PathDeletable;
 
-public interface BaseFile {
+public interface BaseFile extends PathDeletable {
 
 	public Path getPath();
-
-	default public void delete() {
-		try {
-			Files.delete(getPath());
-		} catch (IOException e) {
-			throw To.rException(e);
-		}
-	}
-
-	default public boolean deleteIfExists() {
-		try {
-			return Files.deleteIfExists(getPath());
-		} catch (IOException e) {
-			throw To.rException(e);
-		}
-	}
 
 	default public LocalDateTime getLastModified() {
 		try {

@@ -3,7 +3,6 @@ package zircuf.util.datetime;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAccessor;
 
 public enum DTF {
@@ -27,6 +26,14 @@ public enum DTF {
 	 */
 	ISO_DATE_TIME_ZONED("yyyy-MM-dd'T'HH:mm:ssXXX"),
 	/**
+	 * yyyy-mm-ddThh:mm:ss.SSS
+	 */
+	MILLIS_ISO_DATE_TIME("yyyy-MM-dd'T'HH:mm:ss.SSS"),
+	/**
+	 * yyyy-mm-ddThh:mm:ss.SSSXXX
+	 */
+	MILLIS_ISO_DATE_TIME_ZONED("yyyy-MM-dd'T'HH:mm:ss.SSSXXX"),
+	/**
 	 * yyyy-mm-ddThh:mm:ss.n
 	 */
 	NANOS_ISO_DATE_TIME(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
@@ -34,12 +41,7 @@ public enum DTF {
 	 * yyyy-mm-ddThh:mm:ss.nXXX[V]
 	 */
 	NANOS_ISO_DATE_TIME_ZONED(DateTimeFormatter.ISO_OFFSET_DATE_TIME),
-	/**
-	 * yyyy-mm-ddThh:mm:ss.nZ<br/>
-	 * Instantからフォーマットするので必ずUTC（Z帯）になります。<br/>
-	 * ただしナノ秒が表示されるため、表示させたくない場合は{@link DTF#formatAsUTC(ZonedDateTime)}を使用します。
-	 */
-	NANOS_ISO_INSTANT(DateTimeFormatter.ISO_INSTANT),
+
 	;
 
 	private final DateTimeFormatter dateTimeFormatter;
@@ -52,50 +54,20 @@ public enum DTF {
 		this.dateTimeFormatter = dateTimeFormatter;
 	}
 
-	public final String format(final TemporalAccessor temporal) {
-		return dateTimeFormatter.format(temporal);
-	}
-
-	/**
-	 * 入力がISO形式であれば {@link LocalDateTime#parse(text)} や<br/>
-	 * {@link ZonedDateTime#parse(text)} が推奨される
-	 * @param text
-	 * @return
-	 */
-	public final TemporalAccessor parse(final String text) {
-		return dateTimeFormatter.parse(text);
-	}
-
-	public final LocalDateTime asLocalDateTime(final String text) {
+	public final LocalDateTime of(final String text) {
 		return LocalDateTime.parse(text, dateTimeFormatter);
 	}
 
-	public final ZonedDateTime asZonedDateTime(final String text) {
+	public final ZonedDateTime ofZoned(final String text) {
 		return ZonedDateTime.parse(text, dateTimeFormatter);
 	}
 
-	public static final String formatIsoAsUTC(final ZonedDateTime zdt) {
-		// 標準フォーマッタISO_INSTANTはInstantを参照しているため、UTCでの表記にできる
-		// ナノ秒を消してフォーマット
-		return DateTimeFormatter.ISO_INSTANT.format(zdt.truncatedTo(ChronoUnit.SECONDS));
+	public final String ofText(final String text, DTF other) {
+		return other.format(dateTimeFormatter.parse(text));
 	}
 
-	/**
-	 * ISO形式でのparse {@link LocalDateTime#parse(text)} と同じ挙動
-	 * @param text
-	 * @return
-	 */
-	public static final LocalDateTime ofLocalDateTime(final String text) {
-		return LocalDateTime.parse(text);
-	}
-
-	/**
-	 * ISO形式でのparse {@link ZonedDateTime#parse(text)} と同じ挙動
-	 * @param text
-	 * @return
-	 */
-	public static final ZonedDateTime ofZonedDateTime(final String text) {
-		return ZonedDateTime.parse(text);
+	public final String format(final TemporalAccessor temporal) {
+		return dateTimeFormatter.format(temporal);
 	}
 
 }

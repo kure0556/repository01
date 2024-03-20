@@ -48,13 +48,9 @@ public class Table implements TableCore, TableConverter, TableMapper {
 		//		System.out.println(string);
 
 		Converter converter = Table.of(list).converter();
-		new Performance() {
-			@SuppressWarnings("deprecation")
-			@Override
-			protected void proc() {
-				converter.get("5000", 1);
-			}
-		}.keisoku();
+		Performance.of(s -> {
+			converter.get("5000", 1);
+		});
 
 	}
 

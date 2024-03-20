@@ -22,55 +22,43 @@ class TemplateTest {
 		System.out.println(Template.ofArray(template).inject2("あああ", null, "ううう"));
 
 		TextTemplate<String[]> compile = Template.ofArray(template);
-		new Performance() {
-			@Override
-			protected void proc() {
-				compile.inject2("あああ");
-			}
-		}.keisoku();
+
+		Performance.of(s -> {
+			compile.inject2("あああ");
+		});
 
 		StringBuilder sb = new StringBuilder();
-		new Performance() {
-			@Override
-			protected void proc() {
-				sb.setLength(0);
-				compile.append(sb, new String[] { "あああ", "いいい", "ううう" });
-			}
-		}.keisoku();
+		Performance.of(s -> {
+			sb.setLength(0);
+			compile.append(sb, new String[] { "あああ", "いいい", "ううう" });
+		});
 
 		System.out.println(sb.toString());
 
 		TextTemplate<Map<String, String>> compile2 = Template.ofMap(template);
 
-		new Performance() {
-			@Override
-			protected void proc() {
-				sb.setLength(0);
-				compile2.append(sb, Map.of("1", "あああ", "2", "いいい"));
-			}
-		}.keisoku();
+		Performance.of(s -> {
+			sb.setLength(0);
+			compile2.append(sb, Map.of("1", "あああ", "2", "いいい"));
+		});
 
 		System.out.println(sb.toString());
 
 	}
 
-
 	@Test
 	void test2() {
 
-		new Performance() {
-			@Override
-			protected void proc() {
-				String template = """
-						{
-						  aaa:"%s",
-						  bbb:"%s",
-						  ccc:"%s",
-						  ddd:"%s"
-						}
-						""".formatted("あああ", "いいい", "ううう", "えええ");
-			}
-		}.keisoku();
+		Performance.of(s -> {
+			String template = """
+					{
+					  aaa:"%s",
+					  bbb:"%s",
+					  ccc:"%s",
+					  ddd:"%s"
+					}
+					""".formatted("あああ", "いいい", "ううう", "えええ");
+		});
 
 	}
 }
