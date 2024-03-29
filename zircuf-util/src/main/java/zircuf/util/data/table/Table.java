@@ -54,6 +54,14 @@ public class Table implements TableCore, TableConverter, TableMapper {
 
 	}
 
+	public final Table ofTsv(String tsvText) {
+		return Table.of(tsvText.lines().map(Split::tsv).toList());
+	}
+
+	public final Table ofCsv(String csvText) {
+		return Table.of(csvText.lines().map(Split::csv).toList());
+	}
+
 	@NonNull
 	@Getter
 	private final List<String[]> table;

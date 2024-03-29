@@ -26,7 +26,7 @@ public interface TableConverter {
 
 		private Converter(@NonNull List<String[]> table, int fromIdx) {
 			try {
-				table.stream().forEach(line -> {
+				table.forEach(line -> {
 					compiledMap.put(line[fromIdx], line);
 				});
 			} catch (ArrayIndexOutOfBoundsException e) {
