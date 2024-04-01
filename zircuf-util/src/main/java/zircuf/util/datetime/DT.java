@@ -9,55 +9,11 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
-import zircuf.util.performance.Performance;
-
-/**
- * 
- */
 public class DT {
-	public static void main(String[] args) {
-		Date date = new Date();
-		System.out.println(DT.of(date));		// LocalDateTime
-		System.out.println(DT.ofJST(date));		// ZonedDateTime
-		System.out.println(DT.of(date.getTime()));		// LocalDateTime
-		System.out.println(DT.ofJST(date.getTime()));	// ZonedDateTime
-		System.out.println();
-
-		LocalDateTime ldt = LocalDateTime.now();
-		ZonedDateTime zdt = ZonedDateTime.now();
-		ZonedDateTime udt = ZonedDateTime.now(DT.UTC);
-
-		System.out.println(DT.of(asEpochTimeMillis(ldt)));
-		System.out.println(DT.of(asEpochTimeMillis(zdt)));
-		System.out.println(DT.of(asEpochTimeMillis(udt)));
-		System.out.println(DT.ofJST(asEpochTimeMillis(ldt)));
-		System.out.println(DT.ofJST(asEpochTimeMillis(zdt)));
-		System.out.println(DT.ofJST(asEpochTimeMillis(udt)));
-		System.out.println();
-
-		Performance.of(s -> {
-			trimMillis(LocalDateTime.now());
-		});
-
-		Performance.of(s -> {
-			LocalDateTime.now().withNano(0);
-		});
-
-		LocalDateTime asLocalDateTime = DTF.DATE_TIME.of("19870312235911");
-		System.out.println(asLocalDateTime);
-
-		ZonedDateTime asZonedDateTime = DTF.ISO_DATE_TIME_ZONED.ofZoned("1987-03-12T23:59:11Z");
-		System.out.println(asZonedDateTime);
-		System.out.println(DT.of("1987-03-12T23:59:11"));
-		System.out.println(DT.ofZoned("1987-03-12T23:59:11Z"));
-		System.out.println(DT.ofZoned("1987-03-12T23:59:11+09:00"));
-		System.out.println();
-
-		System.out.println(DT.Text.asIsoFromFlat("19870312235911"));
-	}
 
 	public static final ZoneId JST = ZoneId.of("Asia/Tokyo");
 	public static final ZoneId UTC = ZoneId.of("UTC");
+	public static final ZoneOffset offsetJST = ZoneOffset.ofHours(9);
 
 	// -----------------------------
 	// 文字列からの変換
