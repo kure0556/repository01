@@ -10,9 +10,10 @@ import java.time.ZoneId;
 import java.util.function.Function;
 
 import zircuf.util.general.To;
-import zircuf.util.io.core.PathDeletable;
+import zircuf.util.io.core.path.PathDeletable;
+import zircuf.util.io.core.path.PathExistable;
 
-public interface BaseFile extends PathDeletable {
+public interface BaseFile extends PathDeletable, PathExistable {
 
 	public Path getPath();
 

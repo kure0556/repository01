@@ -23,12 +23,12 @@ class TemplateTest {
 
 		TextTemplate<String[]> compile = Template.ofArray(template);
 
-		Performance.of(s -> {
+		Performance.of(() -> {
 			compile.inject2("あああ");
 		});
 
 		StringBuilder sb = new StringBuilder();
-		Performance.of(s -> {
+		Performance.of(() -> {
 			sb.setLength(0);
 			compile.append(sb, new String[] { "あああ", "いいい", "ううう" });
 		});
@@ -37,7 +37,7 @@ class TemplateTest {
 
 		TextTemplate<Map<String, String>> compile2 = Template.ofMap(template);
 
-		Performance.of(s -> {
+		Performance.of(() -> {
 			sb.setLength(0);
 			compile2.append(sb, Map.of("1", "あああ", "2", "いいい"));
 		});
@@ -49,7 +49,7 @@ class TemplateTest {
 	@Test
 	void test2() {
 
-		Performance.of(s -> {
+		Performance.of(() -> {
 			String template = """
 					{
 					  aaa:"%s",

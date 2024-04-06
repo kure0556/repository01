@@ -1,28 +1,25 @@
 package zircuf.util.performance;
 
-import java.util.function.Consumer;
-
 public abstract class Performance {
 
-	public static void of(Consumer<?> target) {
-		new Performance() {
+	public static void of(Runnable target) {
+		double millis = new Performance() {
 			@Override
 			protected void proc() {
-				target.accept(null);
+				target.run();
 			}
-		}.keisoku();
+		}.millis();
+		System.out.println(millis);
 	}
 
 	int count = 1000000;
 
-	void keisoku() {
+	double millis() {
 		long nanoTime = System.nanoTime();
 		for (int i = 0; i < count; i++) {
 			proc();
 		}
-		long time = System.nanoTime() - nanoTime;
-		double millis = (double) time / 1000000d;
-		System.out.println(millis);
+		return (double) (System.nanoTime() - nanoTime) / 1000000d;
 	}
 
 	protected abstract void proc();

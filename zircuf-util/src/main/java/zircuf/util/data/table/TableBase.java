@@ -3,21 +3,25 @@ package zircuf.util.data.table;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Function;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import zircuf.util.text.function.Text;
 
-interface TableCore {
+interface TableBase {
 
 	public List<String[]> getTable();
 
-	public static <T> T accept(List<String[]> data, Function<List<String[]>, T> initter) { 
-		return initter.apply(data);
-	}
-
 	default public String toSummry() {
 		return Text.summry(getTable());
+	}
+
+	default public int size() {
+		return getTable().size();
+	}
+
+	default public void forEach(Consumer<String[]> action) {
+		getTable().forEach(action);
 	}
 
 	default public Stream<String[]> stream() {

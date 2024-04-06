@@ -49,11 +49,11 @@ class DTTest {
 		System.out.println(DT.ofJST(DT.asEpochTimeMillis(udt)));
 		System.out.println();
 
-		Performance.of(s -> {
+		Performance.of(() -> {
 			DT.trimMillis(LocalDateTime.now());
 		});
 
-		Performance.of(s -> {
+		Performance.of(() -> {
 			LocalDateTime.now().withNano(0);
 		});
 

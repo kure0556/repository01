@@ -1,6 +1,6 @@
 package zircuf.util.data.table;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -22,7 +22,7 @@ public interface TableConverter {
 
 	public static final class Converter {
 
-		private HashMap<String, String[]> compiledMap = new HashMap<>();
+		private LinkedHashMap<String, String[]> compiledMap = new LinkedHashMap<>();
 
 		private Converter(@NonNull List<String[]> table, int fromIdx) {
 			try {

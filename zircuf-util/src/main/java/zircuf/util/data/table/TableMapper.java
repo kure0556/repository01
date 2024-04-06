@@ -2,7 +2,7 @@ package zircuf.util.data.table;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Objects;
@@ -22,9 +22,21 @@ public interface TableMapper {
 		return new Mapper(getTable(), fromIdx, toIdx);
 	}
 
+	default public LinkedHashMap<String, List<String>> asListMap() {
+		return new Mapper(getTable(), 0, 1).getListMap();
+	}
+
+	default public LinkedHashMap<String, List<String>> asListMap(int fromIdx, int toIdx) {
+		return new Mapper(getTable(), fromIdx, toIdx).getListMap();
+	}
+
 	public static final class Mapper {
 
-		private HashMap<String, List<String>> compiledMap = new HashMap<>();
+		private LinkedHashMap<String, List<String>> compiledMap = new LinkedHashMap<>();
+
+		LinkedHashMap<String, List<String>> getListMap() {
+			return compiledMap;
+		}
 
 		private Mapper(@NonNull List<String[]> table, int fromIdx, int toIdx) {
 			try {

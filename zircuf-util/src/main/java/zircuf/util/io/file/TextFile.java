@@ -10,8 +10,8 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import zircuf.util.general.To;
 import zircuf.util.io.common.Encode;
-import zircuf.util.io.core.PathReader;
-import zircuf.util.io.core.PathWriter;
+import zircuf.util.io.core.path.PathReader;
+import zircuf.util.io.core.path.PathWriter;
 
 @RequiredArgsConstructor
 public class TextFile implements BaseFile, PathReader, PathWriter {

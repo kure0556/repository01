@@ -1,10 +1,11 @@
-package zircuf.util.io.core;
+package zircuf.util.io.core.path;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 import zircuf.util.general.To;
+import zircuf.util.io.core.Deletable;
 
 public interface PathDeletable extends Deletable {
 

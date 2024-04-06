@@ -1,4 +1,4 @@
-package zircuf.util.io.core;
+package zircuf.util.io.core.path;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 
 import zircuf.util.general.To;
 import zircuf.util.io.common.OCharset;
+import zircuf.util.io.core.Reader;
 
 /**
  * Pathが与えられた場合に様々なデータに変換するインターフェース
