@@ -1,0 +1,55 @@
+package zircuf.core.business.validate.annotation;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Function;
+
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Edit {
+
+	EType[] value();
+
+	public enum EType {
+		// 汎用編集ロジック
+		TRIM(EditLogic::trim),
+		NON_NULL_LIST(EditLogic::nonNullList),
+		;
+
+		private Function<Object, Object> function;
+
+		@SuppressWarnings("unchecked")
+		<T> EType(Function<T, T> function) {
+			this.function = (Function<Object, Object>) function;
+		}
+
+		public Object edit(Object fieldObject) {
+			return function.apply(fieldObject);
+		}
+
+	}
+
+	// ----------------------
+	// 汎用編集ロジック
+	// ----------------------
+
+	public static class EditLogic {
+
+		public static String trim(String input) {
+			return input.trim();
+		}
+
+		public static List<?> nonNullList(List<?> input) {
+			if (Objects.isNull(input)) {
+				return Collections.emptyList();
+			}
+			return input;
+		}
+
+	}
+}
