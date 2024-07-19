@@ -27,6 +27,7 @@ class SystemClockTest {
 
 		System.out.println();
 
+		systemClock = new SystemClock();
 		systemClock.setOrigin(2024, 1, 1, 16, 0);
 
 		System.out.println(systemClock.now());
