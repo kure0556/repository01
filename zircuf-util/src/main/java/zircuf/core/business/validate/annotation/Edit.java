@@ -43,7 +43,10 @@ public @interface Edit {
 	public static class EditLogic {
 
 		public static String trim(String input) {
-			return input.trim();
+			if (input.startsWith(" ") || input.endsWith(" ")) {
+				return input.trim();
+			}
+			return input;
 		}
 
 		public static List<?> nonNullList(List<?> input) {

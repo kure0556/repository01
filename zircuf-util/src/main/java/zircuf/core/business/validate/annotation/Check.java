@@ -12,7 +12,9 @@ import java.util.function.Predicate;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Check {
 
-	CType[] value();
+	CType[] value() default {};
+
+	Class<? extends Predicate<?>>[] logic() default {};
 
 	public enum CType {
 		// 汎用チェックロジック

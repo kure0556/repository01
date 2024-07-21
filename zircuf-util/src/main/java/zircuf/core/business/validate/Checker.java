@@ -15,7 +15,7 @@ public class Checker<T> extends AbstractValidator<T> {
 		return new Checker<S>(clazz);
 	}
 
-	private static final boolean trace = true;
+	private static final boolean trace = false;
 
 	public Checker(Class<T> clazz) {
 		super(clazz);
@@ -48,7 +48,7 @@ public class Checker<T> extends AbstractValidator<T> {
 						boolean ok = cType.isOk(fieldVal);
 						result = result && ok;
 						if (!ok || trace)
-							System.out.println(toString(field, fieldVal) + " : " + cType + "=" + ok);
+							putLog(field, fieldVal, cType, String.valueOf(ok));
 					} catch (Exception e) {
 						throw new RuntimeException("チェック処理例外発生 : " + cType + " : " + toString(field, fieldVal), e);
 					}
@@ -58,20 +58,23 @@ public class Checker<T> extends AbstractValidator<T> {
 			// 拡張チェックロジック
 			CheckLogic checkLogicAnno = field.getAnnotation(CheckLogic.class);
 			if (Objects.nonNull(checkLogicAnno)) {
-				for (Class<? extends Predicate<?>> class1 : checkLogicAnno.value()) {
+				for (Class<? extends Predicate<?>> checkLogicClass : checkLogicAnno.value()) {
 					try {
 						@SuppressWarnings("unchecked")
-						Predicate<Object> check = (Predicate<Object>) class1.getDeclaredConstructor().newInstance();
+						Predicate<Object> check = (Predicate<Object>) checkLogicClass.getDeclaredConstructor()
+								.newInstance();
 						boolean ok = check.test(fieldVal);
 						result = result && ok;
 						if (!ok || trace)
-							System.out.println(toString(field, fieldVal) + " : " + class1 + "=" + ok);
+							putLog(field, fieldVal, checkLogicClass, String.valueOf(ok));
 					} catch (Exception e) {
-						throw new RuntimeException("チェック処理例外発生 : " + class1 + " : " + toString(field, fieldVal), e);
+						throw new RuntimeException(
+								"チェック処理例外発生 : " + checkLogicClass + " : " + toString(field, fieldVal), e);
 					}
 				}
 			}
 
+			// Dto、Collectionの走査
 			Deep deepAnno = field.getAnnotation(Deep.class);
 			if (Objects.nonNull(deepAnno) && Objects.nonNull(fieldVal)) {
 				boolean ok = deep(field, fieldVal);
@@ -87,7 +90,7 @@ public class Checker<T> extends AbstractValidator<T> {
 	@Override
 	@SuppressWarnings("unchecked")
 	protected <C> boolean deepInit(Class<C> class1, Object fieldVal, FieldType fieldType, String nextFieldName) {
-		return new Checker<C>(class1, lv + 1, nextFieldName, fieldType).check((C)fieldVal);
+		return new Checker<C>(class1, lv + 1, nextFieldName, fieldType).check((C) fieldVal);
 	}
 
 }

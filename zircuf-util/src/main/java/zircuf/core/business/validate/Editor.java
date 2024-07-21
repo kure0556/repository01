@@ -35,21 +35,28 @@ public class Editor<T> extends AbstractValidator<T> {
 			// 汎用編集ロジック
 			Edit editAnno = field.getAnnotation(Edit.class);
 			if (Objects.nonNull(editAnno)) {
+				boolean isEdited = false;
 				for (EType eType : editAnno.value()) {
 					try {
-						Object preVal = fieldVal;
-						fieldVal = eType.edit(fieldVal);
-						System.out.println(toString(field, preVal) + " : " + eType + " -> " + fieldVal);
+						Object editedVal = eType.edit(fieldVal);
+						if (!Objects.equals(fieldVal, editedVal)) {
+							putLog(field, fieldVal, eType, editedVal.toString());
+							fieldVal = editedVal;
+							isEdited = true;
+						}
 					} catch (Exception e) {
 						throw new RuntimeException("編集処理例外発生 : " + eType + " : " + toString(field, fieldVal), e);
 					}
 				}
-				field.set(object, fieldVal);
+				if (isEdited) {
+					field.set(object, fieldVal);
+				}
 			}
 
 			// 拡張編集ロジック
 			// TODO:実装予定
 
+			// Dto、Collectionの走査
 			Deep deepAnno = field.getAnnotation(Deep.class);
 			if (Objects.nonNull(deepAnno) && Objects.nonNull(fieldVal)) {
 				deep(field, fieldVal);
@@ -63,7 +70,7 @@ public class Editor<T> extends AbstractValidator<T> {
 	@Override
 	@SuppressWarnings("unchecked")
 	protected <C> boolean deepInit(Class<C> class1, Object fieldVal, FieldType fieldType2, String nextFieldName) {
-		new Editor<C>(class1, lv + 1, nextFieldName, fieldType).edit((C)fieldVal);
+		new Editor<C>(class1, lv + 1, nextFieldName, fieldType).edit((C) fieldVal);
 		return true;
 	}
 
