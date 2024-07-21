@@ -17,7 +17,9 @@ public @interface Edit {
 
 	public enum EType {
 		// 汎用編集ロジック
+		/** トリム */
 		TRIM(EditLogic::trim),
+		/** nullの項目を空のリストに変換 */
 		NON_NULL_LIST(EditLogic::nonNullList),
 		;
 

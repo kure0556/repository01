@@ -7,15 +7,22 @@ import java.util.function.Predicate;
 import zircuf.core.business.validate.annotation.Check;
 import zircuf.core.business.validate.annotation.Check.CType;
 import zircuf.core.business.validate.annotation.CheckLogic;
+import zircuf.core.business.validate.annotation.Deep;
 
 public class Checker<T> extends AbstractValidator<T> {
 
-	public static <U> Checker<U> of(Class<U> clazz) {
-		return new Checker<U>(clazz);
+	public static <S> Checker<S> of(Class<S> clazz) {
+		return new Checker<S>(clazz);
 	}
+
+	private static final boolean trace = true;
 
 	public Checker(Class<T> clazz) {
 		super(clazz);
+	}
+
+	private Checker(Class<T> clazz, int lv, String parentFieldName, FieldType fieldType) {
+		super(clazz, lv, parentFieldName, fieldType);
 	}
 
 	public boolean check(final T object) {
@@ -40,7 +47,8 @@ public class Checker<T> extends AbstractValidator<T> {
 					try {
 						boolean ok = cType.isOk(fieldVal);
 						result = result && ok;
-						System.out.println(toString(field, fieldVal) + " : " + cType + "=" + ok);
+						if (!ok || trace)
+							System.out.println(toString(field, fieldVal) + " : " + cType + "=" + ok);
 					} catch (Exception e) {
 						throw new RuntimeException("チェック処理例外発生 : " + cType + " : " + toString(field, fieldVal), e);
 					}
@@ -56,17 +64,30 @@ public class Checker<T> extends AbstractValidator<T> {
 						Predicate<Object> check = (Predicate<Object>) class1.getDeclaredConstructor().newInstance();
 						boolean ok = check.test(fieldVal);
 						result = result && ok;
-						System.out.println(toString(field, fieldVal) + " : " + class1 + "=" + ok);
+						if (!ok || trace)
+							System.out.println(toString(field, fieldVal) + " : " + class1 + "=" + ok);
 					} catch (Exception e) {
 						throw new RuntimeException("チェック処理例外発生 : " + class1 + " : " + toString(field, fieldVal), e);
 					}
 				}
 			}
 
-		} catch (IllegalArgumentException | IllegalAccessException e) {
+			Deep deepAnno = field.getAnnotation(Deep.class);
+			if (Objects.nonNull(deepAnno) && Objects.nonNull(fieldVal)) {
+				boolean ok = deep(field, fieldVal);
+				result = result && ok;
+			}
+
+		} catch (IllegalArgumentException | IllegalAccessException | ClassNotFoundException e) {
 			throw new RuntimeException("チェック処理例外発生 : " + toString(field), e);
 		}
 		return result;
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	protected <C> boolean deepInit(Class<C> class1, Object fieldVal, FieldType fieldType, String nextFieldName) {
+		return new Checker<C>(class1, lv + 1, nextFieldName, fieldType).check((C)fieldVal);
 	}
 
 }
