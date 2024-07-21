@@ -9,8 +9,6 @@ import zircuf.util.io.core.path.PathReader;
 
 public class LocalResource {
 
-	private String root = "";
-
 	public LocalResourceItem of(String pathStr) {
 		return new LocalResourceItem(pathStr);
 	}

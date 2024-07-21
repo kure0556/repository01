@@ -2,6 +2,7 @@ package zircuf.util.general;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -55,6 +56,17 @@ public final class To {
 //	public static final String text(InputStream is) {
 //		return Readers.text().toData(To.supplier(is));
 //	}
+
+	// Refrect関連
+
+	public static final <T> T newInstance(Class<T> clazz) {
+		try {
+			return clazz.getDeclaredConstructor().newInstance();
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException | SecurityException e) {
+			throw rException(e);
+		}
+	}
 
 	// Exception関連
 

@@ -44,12 +44,12 @@ public interface Reader {
 		}
 
 		public AsTable titled() {
-			tableLines.skip(1);
+			tableLines = tableLines.skip(1);
 			return this;
 		}
 
 		public AsTable titled(int skipRows) {
-			tableLines.skip(skipRows);
+			tableLines = tableLines.skip(skipRows);
 			return this;
 		}
 
