@@ -24,7 +24,7 @@ class CheckerTest {
 			CheckerTestDto checkerTestDto33 = new CheckerTestDto(null, null, "zz13 ", false, null, null);
 
 			CheckerTestDto checkerTestDto2 = new CheckerTestDto(null, null, " yy ", false, null, null);
-			CheckerTestDto checkerTestDto3 = new CheckerTestDto(null, " zz1 ", " zz2 ", false, checkerTestDto2,
+			CheckerTestDto checkerTestDto3 = new CheckerTestDto(" ", " zz1 ", " zz2 ", false, checkerTestDto2,
 					List.of(checkerTestDto31, checkerTestDto32, checkerTestDto33));
 			CheckerTestDto checkerTestDto1 = new CheckerTestDto("   aaa  ", null, "    cccc", false,
 					checkerTestDto2, Collections.singletonList(checkerTestDto3));

@@ -15,8 +15,6 @@ public class Checker<T> extends AbstractValidator<T> {
 		return new Checker<S>(clazz);
 	}
 
-	private static final boolean trace = false;
-
 	public Checker(Class<T> clazz) {
 		super(clazz);
 	}
@@ -47,8 +45,10 @@ public class Checker<T> extends AbstractValidator<T> {
 					try {
 						boolean ok = cType.isOk(fieldVal);
 						result = result && ok;
-						if (!ok || trace)
+						if (!ok) {
 							putLog(field, fieldVal, cType, String.valueOf(ok));
+							break;
+						}
 					} catch (Exception e) {
 						throw new RuntimeException("チェック処理例外発生 : " + cType + " : " + toString(field, fieldVal), e);
 					}
@@ -65,8 +65,10 @@ public class Checker<T> extends AbstractValidator<T> {
 								.newInstance();
 						boolean ok = check.test(fieldVal);
 						result = result && ok;
-						if (!ok || trace)
+						if (!ok) {
 							putLog(field, fieldVal, checkLogicClass, String.valueOf(ok));
+							break;
+						}
 					} catch (Exception e) {
 						throw new RuntimeException(
 								"チェック処理例外発生 : " + checkLogicClass + " : " + toString(field, fieldVal), e);

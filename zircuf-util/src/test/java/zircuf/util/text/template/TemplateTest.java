@@ -50,6 +50,7 @@ class TemplateTest {
 	void test2() {
 
 		Performance.of(() -> {
+			@SuppressWarnings("unused")
 			String template = """
 					{
 					  aaa:"%s",
