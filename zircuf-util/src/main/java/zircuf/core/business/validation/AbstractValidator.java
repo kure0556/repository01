@@ -1,4 +1,4 @@
-package zircuf.core.business.validate;
+package zircuf.core.business.validation;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;

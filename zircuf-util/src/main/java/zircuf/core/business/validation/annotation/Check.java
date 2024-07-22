@@ -1,4 +1,4 @@
-package zircuf.core.business.validate.annotation;
+package zircuf.core.business.validation.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

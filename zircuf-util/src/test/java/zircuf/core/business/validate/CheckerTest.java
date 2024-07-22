@@ -7,12 +7,13 @@ import org.junit.jupiter.api.Test;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import zircuf.core.business.validate.annotation.Check;
-import zircuf.core.business.validate.annotation.Check.CType;
-import zircuf.core.business.validate.annotation.CheckLogic;
-import zircuf.core.business.validate.annotation.Deep;
-import zircuf.core.business.validate.annotation.Edit;
-import zircuf.core.business.validate.annotation.Edit.EType;
+import zircuf.core.business.validation.Validator;
+import zircuf.core.business.validation.annotation.Check;
+import zircuf.core.business.validation.annotation.CheckLogic;
+import zircuf.core.business.validation.annotation.Deep;
+import zircuf.core.business.validation.annotation.Edit;
+import zircuf.core.business.validation.annotation.Check.CType;
+import zircuf.core.business.validation.annotation.Edit.EType;
 
 class CheckerTest {
 
