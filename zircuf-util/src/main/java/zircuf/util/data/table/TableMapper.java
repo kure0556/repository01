@@ -14,6 +14,19 @@ public interface TableMapper {
 
 	public List<String[]> getTable();
 
+	default public LinkedHashMap<String, String> asMap() {
+		return asMap(0, 1);
+	}
+
+	default public LinkedHashMap<String, String> asMap(int fromIdx, int toIdx) {
+		LinkedHashMap<String, String> compiledMap = new LinkedHashMap<>();
+		getTable().forEach(line -> {
+			String key = line[fromIdx];
+			compiledMap.put(key, line[toIdx]);
+		});
+		return compiledMap;
+	}
+
 	default public Mapper mapper() {
 		return new Mapper(getTable(), 0, 1);
 	}

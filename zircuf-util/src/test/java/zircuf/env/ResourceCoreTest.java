@@ -14,6 +14,11 @@ class ResourceCoreTest {
 		Converter converter = Resource.of("code_table.tsv").asTsv().titled().converter(1);
 		String code = converter.find("a").get()[0];
 		assertEquals(code, "01");
+
+		Converter converter2 = Resource.of("code_table.tsv").asTsv().titled().converter();
+		String name = converter2.find("02").get()[1];
+		assertEquals(name, "b");
+
 		System.out.println(Text.summry(Resource.local().of("code_table.tsv").asTsv().titled().getTable()));
 	}
 
