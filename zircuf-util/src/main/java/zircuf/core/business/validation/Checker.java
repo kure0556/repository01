@@ -43,7 +43,7 @@ public class Checker<T> extends AbstractValidator<T> {
 			if (Objects.nonNull(checkAnno)) {
 				for (CType cType : checkAnno.value()) {
 					try {
-						boolean ok = cType.isOk(fieldVal);
+						boolean ok = cType.test(fieldVal);
 						result = result && ok;
 						if (!ok) {
 							putLog(field, fieldVal, cType, String.valueOf(ok));

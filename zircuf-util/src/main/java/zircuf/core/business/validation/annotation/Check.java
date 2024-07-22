@@ -14,7 +14,7 @@ public @interface Check {
 
 	CType[] value();
 
-	public enum CType {
+	public enum CType implements Predicate<Object> {
 		// 汎用チェックロジック
 		/** 必須チェック（非nullチェック） */
 		REQUIERD(Objects::nonNull),
@@ -30,7 +30,8 @@ public @interface Check {
 			this.predicate = predicate;
 		}
 
-		public boolean isOk(Object fieldObject) {
+		@Override
+		public boolean test(Object fieldObject) {
 			return predicate.test(fieldObject);
 		}
 
