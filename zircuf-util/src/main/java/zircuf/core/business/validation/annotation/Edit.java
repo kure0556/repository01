@@ -15,7 +15,10 @@ public @interface Edit {
 
 	EType[] value();
 
-	public enum EType {
+	/**
+	 * 編集タイプ
+	 */
+	public enum EType implements Function<Object, Object> {
 		// 汎用編集ロジック
 		/** トリム */
 		TRIM(EditLogic::trim),
@@ -30,7 +33,8 @@ public @interface Edit {
 			this.function = (Function<Object, Object>) function;
 		}
 
-		public Object edit(Object fieldObject) {
+		@Override
+		public Object apply(Object fieldObject) {
 			return function.apply(fieldObject);
 		}
 

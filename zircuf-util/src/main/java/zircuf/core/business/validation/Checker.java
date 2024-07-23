@@ -5,9 +5,9 @@ import java.util.Objects;
 import java.util.function.Predicate;
 
 import zircuf.core.business.validation.annotation.Check;
+import zircuf.core.business.validation.annotation.Check.CType;
 import zircuf.core.business.validation.annotation.CheckLogic;
 import zircuf.core.business.validation.annotation.Deep;
-import zircuf.core.business.validation.annotation.Check.CType;
 
 public class Checker<T> extends AbstractValidator<T> {
 
@@ -46,7 +46,7 @@ public class Checker<T> extends AbstractValidator<T> {
 						boolean ok = cType.test(fieldVal);
 						result = result && ok;
 						if (!ok) {
-							putLog(field, fieldVal, cType, String.valueOf(ok));
+							putCheckLog(field, fieldVal, cType, String.valueOf(ok));
 							break;
 						}
 					} catch (Exception e) {
@@ -66,7 +66,7 @@ public class Checker<T> extends AbstractValidator<T> {
 						boolean ok = check.test(fieldVal);
 						result = result && ok;
 						if (!ok) {
-							putLog(field, fieldVal, checkLogicClass, String.valueOf(ok));
+							putCheckLog(field, fieldVal, check, String.valueOf(ok));
 							break;
 						}
 					} catch (Exception e) {
@@ -93,6 +93,10 @@ public class Checker<T> extends AbstractValidator<T> {
 	@SuppressWarnings("unchecked")
 	protected <C> boolean deepInit(Class<C> class1, Object fieldVal, FieldType fieldType, String nextFieldName) {
 		return new Checker<C>(class1, lv + 1, nextFieldName, fieldType).check((C) fieldVal);
+	}
+
+	protected <C extends Predicate<?>> void putCheckLog(Field field, Object fieldVal, C operation, String result) {
+		System.out.println(toString(field, fieldVal) + " : " + operation + " -> " + result);
 	}
 
 }

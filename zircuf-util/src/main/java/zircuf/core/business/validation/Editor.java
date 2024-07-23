@@ -2,6 +2,7 @@ package zircuf.core.business.validation;
 
 import java.lang.reflect.Field;
 import java.util.Objects;
+import java.util.function.Function;
 
 import zircuf.core.business.validation.annotation.Deep;
 import zircuf.core.business.validation.annotation.Edit;
@@ -38,9 +39,9 @@ public class Editor<T> extends AbstractValidator<T> {
 				boolean isEdited = false;
 				for (EType eType : editAnno.value()) {
 					try {
-						Object editedVal = eType.edit(fieldVal);
+						Object editedVal = eType.apply(fieldVal);
 						if (!Objects.equals(fieldVal, editedVal)) {
-							putLog(field, fieldVal, eType, editedVal.toString());
+							putEditLog(field, fieldVal, eType, editedVal.toString());
 							fieldVal = editedVal;
 							isEdited = true;
 						}
@@ -72,6 +73,10 @@ public class Editor<T> extends AbstractValidator<T> {
 	protected <C> boolean deepInit(Class<C> class1, Object fieldVal, FieldType fieldType2, String nextFieldName) {
 		new Editor<C>(class1, lv + 1, nextFieldName, fieldType).edit((C) fieldVal);
 		return true;
+	}
+
+	protected <E extends Function<?, ?>> void putEditLog(Field field, Object fieldVal, E operation, String result) {
+		System.out.println(toString(field, fieldVal) + " : " + operation + " -> " + result);
 	}
 
 }

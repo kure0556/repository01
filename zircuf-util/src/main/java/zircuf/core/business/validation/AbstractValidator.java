@@ -92,18 +92,6 @@ public abstract class AbstractValidator<T> {
 
 	protected abstract <C> boolean deepInit(Class<C> class1, Object fieldVal, FieldType fieldType2, String nextFieldName);
 
-	// -----------------------
-	// Dto、Collectionの走査
-	// -----------------------
-
-	protected void putLog(Field field, Object fieldVal, Enum<?> operation, String result) {
-		System.out.println(toString(field, fieldVal) + " : " + operation + " -> " + result);
-	}
-
-	protected void putLog(Field field, Object fieldVal, Class<?> operation, String result) {
-		System.out.println(toString(field, fieldVal) + " : " + operation + " -> " + result);
-	}
-
 	protected enum FieldType {
 		DTO, COLLECTION;
 	}

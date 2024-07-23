@@ -14,6 +14,9 @@ public @interface Check {
 
 	CType[] value();
 
+	/**
+	 * チェックタイプ
+	 */
 	public enum CType implements Predicate<Object> {
 		// 汎用チェックロジック
 		/** 必須チェック（非nullチェック） */
