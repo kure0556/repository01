@@ -41,7 +41,7 @@ public abstract class AbstractValidator<T> {
 	protected String toString(Field field, Object fieldVal) {
 		String name = field.getName();
 		Type genericType = field.getGenericType();
-		return (parentFieldName.isBlank() ? "" : parentFieldName + ".") + name + " (" + genericType + ") = " + fieldVal;
+		return (parentFieldName.isBlank() ? "" : parentFieldName + ".") + name + " (" + genericType + ") = " + fieldVal + ".";
 	}
 
 	// -----------------------
