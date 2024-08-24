@@ -1,5 +1,7 @@
 package zircuf_tools.gen.core.base;
 
+import java.util.Map;
+
 public interface CodeTemplate {
 
 	public static final String FIX_ME = "__FIX_ME__";
@@ -31,5 +33,7 @@ public interface CodeTemplate {
 	default public String footerChild() {
 		return footer();
 	};
+
+	public Map<String, FieldTemplate> fieldSet();
 
 }
