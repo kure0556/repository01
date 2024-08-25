@@ -20,10 +20,10 @@ public class CodeGenSample {
 		CodeTemplate codeTemplate = new TypeScriptCodeTemplate();
 
 		Map<String, FieldTemplate> fieldSet = codeTemplate.fieldSet();
-		StringBuilder javaCode = new StringBuilder();
+		StringBuilder code = new StringBuilder();
 
 		// ヘッダ
-		javaCode.append(codeTemplate.header(null, null));
+		code.append(codeTemplate.header(null, null));
 		int childCnt = 0;
 
 		for (String[] line : table) {
@@ -39,22 +39,22 @@ public class CodeGenSample {
 			} else if (fieldTemplate.hasChild()) {
 				String childName = "Child" + childCnt;
 				// フィールド追加
-				javaCode.append(codeTemplate.addField(fieldTemplate, pysicalName, logicalName, childName));
+				code.append(codeTemplate.addField(fieldTemplate, pysicalName, logicalName, childName));
 				// 子クラスヘッダー
-				javaCode.append(codeTemplate.headerChild(childName, "子クラス" + childCnt));
+				code.append(codeTemplate.headerChild(childName, "子クラス" + childCnt));
 				// 子クラスフッター
-				javaCode.append(codeTemplate.footerChild());
+				code.append(codeTemplate.footerChild());
 				childCnt++;
 			} else {
 				// フィールド追加
-				javaCode.append(codeTemplate.addField(fieldTemplate, pysicalName, logicalName));
+				code.append(codeTemplate.addField(fieldTemplate, pysicalName, logicalName));
 			}
 		}
 
 		// フッタ
-		javaCode.append(codeTemplate.footer());
+		code.append(codeTemplate.footer());
 
-		System.out.println(javaCode.toString());
+		System.out.println(code.toString());
 	}
 
 }
