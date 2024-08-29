@@ -6,9 +6,11 @@ import java.util.Objects;
 
 import zircuf_tools.gen.core.base.CodeTemplate;
 import zircuf_tools.gen.core.base.FieldTemplate;
+import zircuf_tools.gen.core.base.IHasPackage;
+import zircuf_tools.gen.core.base.IInnerChilds;
 
-public class JavaCodeTemplate implements CodeTemplate {
-	
+public class JavaCodeTemplate implements CodeTemplate, IHasPackage, IInnerChilds {
+
 	public String header(String pName, String lName, String option) {
 		pName = Objects.requireNonNullElse(pName, FIX_ME);
 		lName = Objects.requireNonNullElse(lName, FIX_ME);
@@ -27,7 +29,7 @@ public class JavaCodeTemplate implements CodeTemplate {
 		lName = Objects.requireNonNullElse(lName, FIX_ME);
 		option = Objects.requireNonNullElse(option, "");
 		return """
-				
+
 				/**
 				 * %s
 				 */
@@ -46,7 +48,7 @@ public class JavaCodeTemplate implements CodeTemplate {
 		}
 		String fieldCode = field.fieldCode(pName, option);
 		return """
-				
+
 				/** %s */
 				%s
 				""".formatted(lName, fieldCode);
@@ -69,6 +71,15 @@ public class JavaCodeTemplate implements CodeTemplate {
 		hashMap.put("リストマップ", JavaFieldType.LIST_MAP);
 		hashMap.put("文字列リスト", JavaFieldType.STRING_LIST);
 		return hashMap;
+	}
+
+	@Override
+	public String packageText(String packagePath) {
+		packagePath = Objects.requireNonNullElse(packagePath, FIX_ME);
+		return """
+				import %s;
+
+				""".formatted(packagePath);
 	}
 
 }

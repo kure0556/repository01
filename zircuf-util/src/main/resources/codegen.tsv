@@ -1,6 +1,12 @@
-文字列	my_field1	文字列の項目
-整数	my_field2	整数の項目
-真偽値	my_field3	真偽値の項目
-文字列リスト	my_field4	文字列リストの項目
-リスト	my_field5	オブジェクトリストの項目
-マップ	my_field6	オブジェクトマップの項目
+my_field1									文字列	文字列の項目
+my_field2									整数	整数の項目
+my_field3									真偽値	真偽値の項目
+my_field4									文字列リスト	文字列リストの項目
+my_object1									オブジェクト	オブジェクトの項目
+	my_field7								文字列	文字列の項目
+	my_field8								整数	整数の項目
+	my_field9								真偽値	真偽値の項目
+my_field5									リスト	オブジェクトリストの項目
+	my_field51								文字列	文字列の項目
+my_field6									マップ	オブジェクトマップの項目
+	my_field61								文字列	文字列の項目

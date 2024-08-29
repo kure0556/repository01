@@ -28,7 +28,7 @@ public enum JavaFieldType implements FieldTemplate {
 		public String fieldCode(String name, String option) {
 			Objects.requireNonNull(name, "name");
 			Objects.requireNonNull(option, "option");
-			return "private %s %s = new %s();".formatted(option, name, option);
+			return "private %s %s;".formatted(option, name);
 		}
 	},
 	LIST() {
@@ -60,7 +60,7 @@ public enum JavaFieldType implements FieldTemplate {
 		@Override
 		public String fieldCode(String name, String option) {
 			Objects.requireNonNull(name, "name");
-			return "private List<String> %s = new List<String>();".formatted(name);
+			return "private List<String> %s = new ArrayList<String>();".formatted(name);
 		}
 	};
 

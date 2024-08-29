@@ -1,5 +1,6 @@
 package zircuf.env.storage;
 
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Path;
 
 import lombok.Getter;
@@ -28,6 +29,16 @@ public class LocalStorage {
 			return Path.of(objectKey);
 		}
 
+		/**
+		 * すでにファイルが存在する場合に例外スローするオプション
+		 * @throws Exception
+		 */
+		public LocalStorageItem blockOverWrite() throws FileAlreadyExistsException {
+			if (this.isExists()) {
+				throw new FileAlreadyExistsException(objectKey);
+			}
+			return this;
+		}
 	}
 
 }
