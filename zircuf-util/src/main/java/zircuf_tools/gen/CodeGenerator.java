@@ -76,8 +76,8 @@ public class CodeGenerator {
 			// フィールド型の特定
 			FieldTemplate fieldTemplate = fieldSet.get(typeStr);
 			if (Objects.isNull(fieldTemplate)) {
-				System.err.println("サポートされていない型です typeStr=%s pysicalName=%s logicalName=%s".formatted(typeStr,
-						pysicalName, logicalName));
+				System.err.println("サポートされていない型です typeStr=%s pysicalName=%s logicalName=%s"
+						.formatted(typeStr, pysicalName, logicalName));
 				continue;
 			} else if (fieldTemplate.hasChild()) {
 //				String childPysiName = "Child" + childCnt;
