@@ -37,7 +37,7 @@ public interface CodeTemplate {
 	public Map<String, FieldTemplate> fieldSet();
 
 	public default boolean isInnerChilds() {
-		return this instanceof IInnerChilds;
+		return this instanceof IChildsInside;
 	}
 
 }

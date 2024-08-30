@@ -6,37 +6,58 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import lombok.Data;
-import zircuf.util.text.function.Code;
+import zircuf.env.Resource;
+import zircuf_tools.gen.core.base.CodeTemplate;
 import zircuf_tools.gen.core.java.JavaCodeTemplate;
-import zircuf_tools.gen.core.java.JavaFieldType;
+import zircuf_tools.gen.core.ts.TypeScriptCodeTemplate;
 
 class CodeGenTest {
 
 	@Test
-	void test() {
-		JavaCodeTemplate javaCodeTemplate = new JavaCodeTemplate();
-		StringBuilder sb = new StringBuilder();
+	void test1() {
+		List<String[]> table = Resource.local().of("codegen.tsv").asTsv().getTable();
 
-		// クラス開始
-		sb.append(javaCodeTemplate.header("MyClass", "マイクラス"));
+		CodeTemplate codeTemplate = new JavaCodeTemplate();
+//		CodeTemplate codeTemplate = new TypeScriptCodeTemplate();
 
-		sb.append(javaCodeTemplate.addField(JavaFieldType.STRING, Code.lowerSnakeToLowerCamel("my_field_01"), "変数01"));
-		sb.append(javaCodeTemplate.addField(JavaFieldType.OBJECT, Code.lowerSnakeToLowerCamel("my_field_02"), "変数02", "Child1"));
+		CodeGenerator codeGenerator = CodeGenerator.builder()
+				.table(table)
+				.codeTemplate(codeTemplate)
+				.pysicalNameIdx(0)
+				.logicalNameIdx(10)
+				.typeTxetIdx(9)
+				.classPysicalName(null)
+				.classLogicalName(null)
+				.extendsOrImplementsText(null)
+				.packageText(null)
+				.build();
+		String string = codeGenerator.generateCode();
 
-		// 子クラス開始
-		sb.append(javaCodeTemplate.headerChild("Child1", "子クラス"));
-		sb.append(javaCodeTemplate.addField(JavaFieldType.STRING, Code.lowerSnakeToLowerCamel("child_field_01"), "子変数01"));
-		sb.append(javaCodeTemplate.addField(JavaFieldType.INTEGER, Code.lowerSnakeToLowerCamel("child_field_02"), "子変数03"));
-		sb.append(javaCodeTemplate.addField(JavaFieldType.BOOLEAN, Code.lowerSnakeToLowerCamel("child_field_03"), "子変数03"));
-		sb.append(javaCodeTemplate.footerChild());
-		// 子クラス終了
+		System.out.println(string);
 
-		sb.append(javaCodeTemplate.addField(JavaFieldType.LIST, Code.lowerSnakeToLowerCamel("my_field_03"), "変数03", "Child1"));
+	}
 
-		// クラス終了
-		sb.append(javaCodeTemplate.footer());
+	@Test
+	void test2() {
+		List<String[]> table = Resource.local().of("codegen.tsv").asTsv().getTable();
 
-		System.out.println(sb.toString());
+		CodeTemplate codeTemplate = new TypeScriptCodeTemplate();
+
+		CodeGenerator codeGenerator = CodeGenerator.builder()
+				.table(table)
+				.codeTemplate(codeTemplate)
+				.pysicalNameIdx(0)
+				.logicalNameIdx(10)
+				.typeTxetIdx(9)
+				.classPysicalName(null)
+				.classLogicalName(null)
+				.extendsOrImplementsText(null)
+				.packageText(null)
+				.build();
+		String string = codeGenerator.generateCode();
+
+		System.out.println(string);
+
 	}
 
 	/**

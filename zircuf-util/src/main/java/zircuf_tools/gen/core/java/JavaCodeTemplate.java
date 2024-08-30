@@ -7,9 +7,9 @@ import java.util.Objects;
 import zircuf_tools.gen.core.base.CodeTemplate;
 import zircuf_tools.gen.core.base.FieldTemplate;
 import zircuf_tools.gen.core.base.IHasPackage;
-import zircuf_tools.gen.core.base.IInnerChilds;
+import zircuf_tools.gen.core.base.IChildsInside;
 
-public class JavaCodeTemplate implements CodeTemplate, IHasPackage, IInnerChilds {
+public class JavaCodeTemplate implements CodeTemplate, IHasPackage, IChildsInside {
 
 	@Override
 	public String header(String pName, String lName, String option) {

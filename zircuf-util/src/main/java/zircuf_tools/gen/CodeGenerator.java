@@ -9,40 +9,15 @@ import java.util.Stack;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
-import zircuf.env.Resource;
 import zircuf.util.text.function.Code;
 import zircuf_tools.gen.core.base.CodeTemplate;
 import zircuf_tools.gen.core.base.FieldTemplate;
 import zircuf_tools.gen.core.base.IHasPackage;
-import zircuf_tools.gen.core.java.JavaCodeTemplate;
 
 @RequiredArgsConstructor(staticName = "of")
 @AllArgsConstructor(staticName = "of")
 @Builder
 public class CodeGenerator {
-
-	public static void main(String[] args) {
-
-		List<String[]> table = Resource.local().of("codegen.tsv").asTsv().getTable();
-
-		CodeTemplate codeTemplate = new JavaCodeTemplate();
-//		CodeTemplate codeTemplate = new TypeScriptCodeTemplate();
-
-		CodeGenerator codeGenerator = CodeGenerator.builder()
-				.table(table)
-				.codeTemplate(codeTemplate)
-				.pysicalNameIdx(0)
-				.logicalNameIdx(10)
-				.typeTxetIdx(9)
-				.classPysicalName(null)
-				.classLogicalName(null)
-				.extendsOrImplementsText(null)
-				.packageText(null)
-				.build();
-		String string = codeGenerator.generateCode();
-
-		System.out.println(string);
-	}
 
 	/**
 	 * 入力データのテーブル
@@ -62,7 +37,7 @@ public class CodeGenerator {
 	private String extendsOrImplementsText;
 	private String packageText;
 
-	private String generateCode() {
+	public String generateCode() {
 		Objects.requireNonNull(table, "table");
 		Objects.requireNonNull(codeTemplate, "codeTemplate");
 
@@ -105,7 +80,8 @@ public class CodeGenerator {
 						pysicalName, logicalName));
 				continue;
 			} else if (fieldTemplate.hasChild()) {
-				String childPysiName = "Child" + childCnt;
+//				String childPysiName = "Child" + childCnt;
+				String childPysiName = makeChildClassName(pysicalName);
 				String childLogiName = "子クラス" + childCnt;
 				childCnt++;
 
@@ -182,10 +158,10 @@ public class CodeGenerator {
 		public void push() {
 			stack.push(code);
 			code = new StringBuilder();
+			allBuilder.add(code);
 		}
 
 		public void pop() {
-			allBuilder.add(code);
 			code = stack.pop();
 		}
 
@@ -195,5 +171,15 @@ public class CodeGenerator {
 			}
 			allBuilder.clear();
 		}
+	}
+
+	private String makeChildClassName(String pysicalClassName) {
+		if (pysicalClassName.endsWith("Map") || pysicalClassName.endsWith("map")) {
+			return Code.firstCharOnlyToUpper(pysicalClassName.substring(0, pysicalClassName.length() - 3));
+		}
+		if (pysicalClassName.endsWith("List") || pysicalClassName.endsWith("list")) {
+			return Code.firstCharOnlyToUpper(pysicalClassName.substring(0, pysicalClassName.length() - 4));
+		}
+		return Code.firstCharOnlyToUpper(pysicalClassName);
 	}
 }
