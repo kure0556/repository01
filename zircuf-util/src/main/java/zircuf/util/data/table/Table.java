@@ -10,11 +10,11 @@ import zircuf.util.text.function.Split;
 @RequiredArgsConstructor(staticName = "of")
 public class Table implements TableBase, TableConverter, TableListMapper {
 
-	public final Table ofTsv(String tsvText) {
+	public static final Table ofTsv(String tsvText) {
 		return Table.of(tsvText.lines().map(Split::tsv).toList());
 	}
 
-	public final Table ofCsv(String csvText) {
+	public static final Table ofCsv(String csvText) {
 		return Table.of(csvText.lines().map(Split::csv).toList());
 	}
 

@@ -6,19 +6,35 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import lombok.Data;
-import zircuf.env.Resource;
+import zircuf.util.data.table.Table;
 import zircuf_tools.gen.core.base.CodeTemplate;
 import zircuf_tools.gen.core.java.JavaCodeTemplate;
 import zircuf_tools.gen.core.ts.TypeScriptCodeTemplate;
 
 class CodeGenTest {
 
+//	List<String[]> table = Resource.local().of("codegen.tsv").asTsv().getTable();
+	List<String[]> table = Table.ofTsv("""
+			my_field1									文字列	文字列の項目
+			my_field2									整数	整数の項目
+			my_field3									真偽値	真偽値の項目
+			my_field4									文字列リスト	文字列リストの項目
+			my_object1									オブジェクト	オブジェクトの項目
+				my_field7								文字列	文字列の項目
+				my_field8								整数	整数の項目
+				my_field9								真偽値	真偽値の項目
+				my_object2								オブジェクト	オブジェクトの項目
+			my_field5_list									リスト	オブジェクトリストの項目
+				my_field51								文字列	文字列の項目
+			my_field6_map									マップ	オブジェクトマップの項目
+				my_field61								文字列	文字列の項目
+			""").getTable();
+
 	@Test
 	void test1() {
-		List<String[]> table = Resource.local().of("codegen.tsv").asTsv().getTable();
 
 		CodeTemplate codeTemplate = new JavaCodeTemplate();
-//		CodeTemplate codeTemplate = new TypeScriptCodeTemplate();
+		//		CodeTemplate codeTemplate = new TypeScriptCodeTemplate();
 
 		CodeGenerator codeGenerator = CodeGenerator.builder()
 				.table(table)
@@ -39,8 +55,6 @@ class CodeGenTest {
 
 	@Test
 	void test2() {
-		List<String[]> table = Resource.local().of("codegen.tsv").asTsv().getTable();
-
 		CodeTemplate codeTemplate = new TypeScriptCodeTemplate();
 
 		CodeGenerator codeGenerator = CodeGenerator.builder()
