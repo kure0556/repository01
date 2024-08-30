@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 
+import lombok.Getter;
 import lombok.NonNull;
 
 public interface TableListMapper {
@@ -36,20 +37,17 @@ public interface TableListMapper {
 	 */
 	public static final class ListMapper {
 
-		private LinkedHashMap<String, List<String>> compiledMap = new LinkedHashMap<>();
-
-		LinkedHashMap<String, List<String>> getListMap() {
-			return compiledMap;
-		}
+		@Getter
+		private LinkedHashMap<String, List<String>> listMap = new LinkedHashMap<>();
 
 		private ListMapper(@NonNull List<String[]> table, int fromIdx, int toIdx) {
 			try {
 				table.forEach(line -> {
 					String key = line[fromIdx];
-					List<String> list = compiledMap.get(key);
+					List<String> list = listMap.get(key);
 					if (Objects.isNull(list)) {
 						list = new ArrayList<>();
-						compiledMap.put(key, list);
+						listMap.put(key, list);
 					}
 					list.add(line[toIdx]);
 				});
@@ -60,12 +58,12 @@ public interface TableListMapper {
 
 		public final List<String> get(String key) {
 			Objects.requireNonNull(key, "key");
-			return Objects.requireNonNullElse(compiledMap.get(key), Collections.emptyList());
+			return Objects.requireNonNullElse(listMap.get(key), Collections.emptyList());
 		}
 
-		public final Optional<String> findKey(String value) {
+		public final Optional<String> findKeyfirst(String value) {
 			Objects.requireNonNull(value, "value");
-			for (Entry<String, List<String>> entry : compiledMap.entrySet()) {
+			for (Entry<String, List<String>> entry : listMap.entrySet()) {
 				List<String> valueList = entry.getValue();
 				for (int i = 0; i < valueList.size(); i++) {
 					String value2 = valueList.get(i);
@@ -81,7 +79,7 @@ public interface TableListMapper {
 		public final List<String> findKeyAll(String value) {
 			Objects.requireNonNull(value, "value");
 			ArrayList<String> result = new ArrayList<>();
-			for (Entry<String, List<String>> entry : compiledMap.entrySet()) {
+			for (Entry<String, List<String>> entry : listMap.entrySet()) {
 				List<String> valueList = entry.getValue();
 				for (int i = 0; i < valueList.size(); i++) {
 					String value2 = valueList.get(i);
