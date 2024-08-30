@@ -37,7 +37,7 @@ public class Code {
 		return sb.toString();
 	}
 
-	private static String firstCharOnlyToUpper(String str) {
+	public static String firstCharOnlyToUpper(String str) {
 		return str.isEmpty()
 				? str
 				: toUpperCase(str.charAt(0)) + str.substring(1);
