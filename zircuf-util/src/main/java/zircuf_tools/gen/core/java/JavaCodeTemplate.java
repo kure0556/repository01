@@ -6,8 +6,8 @@ import java.util.Objects;
 
 import zircuf_tools.gen.core.base.CodeTemplate;
 import zircuf_tools.gen.core.base.FieldTemplate;
-import zircuf_tools.gen.core.base.IHasPackage;
 import zircuf_tools.gen.core.base.IChildsInside;
+import zircuf_tools.gen.core.base.IHasPackage;
 
 public class JavaCodeTemplate implements CodeTemplate, IHasPackage, IChildsInside {
 
@@ -21,6 +21,7 @@ public class JavaCodeTemplate implements CodeTemplate, IHasPackage, IChildsInsid
 				 * %s
 				 */
 				@Data
+				@Builder
 				public class %s %s {
 				""".formatted(lName, pName, option);
 	};
@@ -36,6 +37,7 @@ public class JavaCodeTemplate implements CodeTemplate, IHasPackage, IChildsInsid
 				 * %s
 				 */
 				@Data
+				@Builder
 				public static class %s %s {
 				""".formatted(lName, pName, option);
 	};

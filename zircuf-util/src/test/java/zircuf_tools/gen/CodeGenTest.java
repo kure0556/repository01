@@ -24,6 +24,8 @@ class CodeGenTest {
 				my_field8								整数	整数の項目
 				my_field9								真偽値	真偽値の項目
 				my_object2								オブジェクト	オブジェクトの項目
+					my_field21							文字列	文字列の項目
+					my_field22							整数	整数の項目
 			my_field5_list									リスト	オブジェクトリストの項目
 				my_field51								文字列	文字列の項目
 			my_field6_map									マップ	オブジェクトマップの項目

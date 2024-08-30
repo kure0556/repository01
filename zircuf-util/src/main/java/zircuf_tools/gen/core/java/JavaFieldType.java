@@ -11,9 +11,11 @@ public enum JavaFieldType implements FieldTemplate {
 		public String fieldCode(String name, String option) {
 			Objects.requireNonNull(name, "name");
 			if (Objects.isNull(option)) {
-				return "private String %s;".formatted(name);
+				return "private String %s;"
+						.formatted(name);
 			} else {
-				return "private String %s = \"%s\";".formatted(name, option);
+				return "@Builder.Default private String %s = \"%s\";"
+						.formatted(name, option);
 			}
 		}
 	},
@@ -28,7 +30,8 @@ public enum JavaFieldType implements FieldTemplate {
 		public String fieldCode(String name, String option) {
 			Objects.requireNonNull(name, "name");
 			Objects.requireNonNull(option, "option");
-			return "private %s %s;".formatted(option, name);
+			return "private %s %s;"
+					.formatted(option, name);
 		}
 	},
 	LIST() {
@@ -36,7 +39,8 @@ public enum JavaFieldType implements FieldTemplate {
 		public String fieldCode(String name, String option) {
 			Objects.requireNonNull(name, "name");
 			Objects.requireNonNull(option, "option");
-			return "private List<%s> %s = new ArrayList<%s>();".formatted(option, name, option);
+			return "@Builder.Default private List<%s> %s = new ArrayList<%s>();"
+					.formatted(option, name, option);
 		}
 	},
 	MAP() {
@@ -44,7 +48,8 @@ public enum JavaFieldType implements FieldTemplate {
 		public String fieldCode(String name, String option) {
 			Objects.requireNonNull(name, "name");
 			Objects.requireNonNull(option, "option");
-			return "private Map<String, %s> %s = new LinkedHashMap<String, %s>();".formatted(option, name, option);
+			return "@Builder.Default private Map<String, %s> %s = new LinkedHashMap<String, %s>();"
+					.formatted(option, name, option);
 		}
 	},
 	LIST_MAP() {
@@ -52,15 +57,16 @@ public enum JavaFieldType implements FieldTemplate {
 		public String fieldCode(String name, String option) {
 			Objects.requireNonNull(name, "name");
 			Objects.requireNonNull(option, "option");
-			return "private Map<String, List<%s>> %s = new LinkedHashMap<String, List<%s>>();".formatted(option, name,
-					option);
+			return "@Builder.Default private Map<String, List<%s>> %s = new LinkedHashMap<String, List<%s>>();"
+					.formatted(option, name, option);
 		}
 	},
 	STRING_LIST("List<String>") {
 		@Override
 		public String fieldCode(String name, String option) {
 			Objects.requireNonNull(name, "name");
-			return "private List<String> %s = new ArrayList<String>();".formatted(name);
+			return "@Builder.Default private List<String> %s = new ArrayList<String>();"
+					.formatted(name);
 		}
 	};
 
