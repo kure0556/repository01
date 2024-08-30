@@ -1,5 +1,6 @@
 package zircuf.util.data.table;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -28,6 +29,19 @@ interface TableBase {
 		return getTable().stream();
 	}
 
+	default public LinkedHashMap<String, String> asMap() {
+		return asMap(0, 1);
+	}
+
+	default public LinkedHashMap<String, String> asMap(int fromIdx, int toIdx) {
+		LinkedHashMap<String, String> compiledMap = new LinkedHashMap<>();
+		getTable().forEach(line -> {
+			String key = line[fromIdx];
+			compiledMap.put(key, line[toIdx]);
+		});
+		return compiledMap;
+	}
+
 	default public Optional<String[]> find(String input, int fromIdx) {
 		return Optional.ofNullable(get(input, fromIdx));
 	}
@@ -36,7 +50,6 @@ interface TableBase {
 		return Optional.ofNullable(get(input, fromIdx, toIdx));
 	}
 
-	@Deprecated
 	default public String[] get(String input, int fromIdx) {
 		Objects.requireNonNull(input, "input");
 		try {
@@ -49,7 +62,6 @@ interface TableBase {
 		return null;
 	}
 
-	@Deprecated
 	default public String get(String input, int fromIdx, int toIdx) {
 		return Text.lineIdx(get(input, fromIdx), toIdx);
 	}

@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import zircuf.util.text.function.Split;
 
 @RequiredArgsConstructor(staticName = "of")
-public class Table implements TableBase, TableConverter, TableMapper {
+public class Table implements TableBase, TableConverter, TableListMapper {
 
 	public final Table ofTsv(String tsvText) {
 		return Table.of(tsvText.lines().map(Split::tsv).toList());

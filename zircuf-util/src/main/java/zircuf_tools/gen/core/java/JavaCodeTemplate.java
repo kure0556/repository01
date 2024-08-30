@@ -11,6 +11,7 @@ import zircuf_tools.gen.core.base.IInnerChilds;
 
 public class JavaCodeTemplate implements CodeTemplate, IHasPackage, IInnerChilds {
 
+	@Override
 	public String header(String pName, String lName, String option) {
 		pName = Objects.requireNonNullElse(pName, FIX_ME);
 		lName = Objects.requireNonNullElse(lName, FIX_ME);
@@ -24,6 +25,7 @@ public class JavaCodeTemplate implements CodeTemplate, IHasPackage, IInnerChilds
 				""".formatted(lName, pName, option);
 	};
 
+	@Override
 	public String headerChild(String pName, String lName, String option) {
 		pName = Objects.requireNonNullElse(pName, FIX_ME);
 		lName = Objects.requireNonNullElse(lName, FIX_ME);
@@ -38,8 +40,8 @@ public class JavaCodeTemplate implements CodeTemplate, IHasPackage, IInnerChilds
 				""".formatted(lName, pName, option);
 	};
 
-	public String addField(FieldTemplate field, String pName, String lName, String option,
-			String[] annotation) {
+	@Override
+	public String field(FieldTemplate field, String pName, String lName, String option, String[] annotation) {
 		Objects.requireNonNull(field);
 		pName = Objects.requireNonNullElse(pName, FIX_ME);
 		lName = Objects.requireNonNullElse(lName, FIX_ME);
@@ -54,12 +56,14 @@ public class JavaCodeTemplate implements CodeTemplate, IHasPackage, IInnerChilds
 				""".formatted(lName, fieldCode);
 	};
 
+	@Override
 	public String footer() {
 		return """
 				}
 				""";
 	};
 
+	@Override
 	public Map<String, FieldTemplate> fieldSet() {
 		HashMap<String, FieldTemplate> hashMap = new HashMap<String, FieldTemplate>();
 		hashMap.put("文字列", JavaFieldType.STRING);
@@ -77,7 +81,7 @@ public class JavaCodeTemplate implements CodeTemplate, IHasPackage, IInnerChilds
 	public String packageText(String packagePath) {
 		packagePath = Objects.requireNonNullElse(packagePath, FIX_ME);
 		return """
-				import %s;
+				package %s;
 
 				""".formatted(packagePath);
 	}

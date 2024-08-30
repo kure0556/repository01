@@ -19,14 +19,14 @@ public interface CodeTemplate {
 	public String headerChild(String pName, String lName, String option);
 
 	default public String addField(FieldTemplate field, String pName, String lName) {
-		return addField(field, pName, lName, null, null);
+		return field(field, pName, lName, null, null);
 	}
 
 	default public String addField(FieldTemplate field, String pName, String lName, String option) {
-		return addField(field, pName, lName, option, null);
+		return field(field, pName, lName, option, null);
 	}
 
-	public String addField(FieldTemplate field, String pName, String lName, String option, String[] annotation);
+	public String field(FieldTemplate field, String pName, String lName, String option, String[] annotation);
 
 	public String footer();
 

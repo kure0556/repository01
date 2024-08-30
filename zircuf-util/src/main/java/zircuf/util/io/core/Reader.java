@@ -5,7 +5,7 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import zircuf.util.data.table.TableConverter;
-import zircuf.util.data.table.TableMapper;
+import zircuf.util.data.table.TableListMapper;
 import zircuf.util.text.function.Split;
 
 public interface Reader {
@@ -26,7 +26,7 @@ public interface Reader {
 		return new AsTable(lines(), Split::csv);
 	}
 
-	public static class AsTable implements TableConverter, TableMapper {
+	public static class AsTable implements TableConverter, TableListMapper {
 
 		public Stream<String[]> tableLines;
 

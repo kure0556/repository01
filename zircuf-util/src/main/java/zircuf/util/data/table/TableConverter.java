@@ -20,6 +20,10 @@ public interface TableConverter {
 		return new Converter(getTable(), fromIdx);
 	}
 
+	/**
+	 * Converter<br/>
+	 * 特定の列（fromIdx）を起点に該当行に変換
+	 */
 	public static final class Converter {
 
 		private LinkedHashMap<String, String[]> compiledMap = new LinkedHashMap<>();
@@ -38,20 +42,16 @@ public interface TableConverter {
 			return Optional.ofNullable(get(input));
 		}
 
-		public final Optional<String> find(String input, int toIdx) {
-			return Optional.ofNullable(get(input, toIdx));
-		}
-
-		@Deprecated
 		public final String[] get(String input) {
 			Objects.requireNonNull(input, "input");
 			return compiledMap.get(input);
 		}
 
-		@Deprecated
 		public final String get(String input, int toIdx) {
 			Objects.requireNonNull(input, "input");
-			return Text.lineIdx(compiledMap.get(input), toIdx);
+			String[] line = compiledMap.get(input);
+			Objects.requireNonNull(line, "line");
+			return Text.lineIdx(line, toIdx);
 		}
 	}
 

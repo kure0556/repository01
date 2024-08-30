@@ -10,40 +10,31 @@ import java.util.Optional;
 
 import lombok.NonNull;
 
-public interface TableMapper {
+public interface TableListMapper {
 
 	public List<String[]> getTable();
 
-	default public LinkedHashMap<String, String> asMap() {
-		return asMap(0, 1);
+	default public ListMapper listMapper() {
+		return new ListMapper(getTable(), 0, 1);
 	}
 
-	default public LinkedHashMap<String, String> asMap(int fromIdx, int toIdx) {
-		LinkedHashMap<String, String> compiledMap = new LinkedHashMap<>();
-		getTable().forEach(line -> {
-			String key = line[fromIdx];
-			compiledMap.put(key, line[toIdx]);
-		});
-		return compiledMap;
-	}
-
-	default public Mapper mapper() {
-		return new Mapper(getTable(), 0, 1);
-	}
-
-	default public Mapper mapper(int fromIdx, int toIdx) {
-		return new Mapper(getTable(), fromIdx, toIdx);
+	default public ListMapper listMapper(int fromIdx, int toIdx) {
+		return new ListMapper(getTable(), fromIdx, toIdx);
 	}
 
 	default public LinkedHashMap<String, List<String>> asListMap() {
-		return new Mapper(getTable(), 0, 1).getListMap();
+		return new ListMapper(getTable(), 0, 1).getListMap();
 	}
 
 	default public LinkedHashMap<String, List<String>> asListMap(int fromIdx, int toIdx) {
-		return new Mapper(getTable(), fromIdx, toIdx).getListMap();
+		return new ListMapper(getTable(), fromIdx, toIdx).getListMap();
 	}
 
-	public static final class Mapper {
+	/**
+	 * Mapper<br/>
+	 * キーの列（fromIdx）、バリューの列（toIdx）を起点に１対Nのマップに変換
+	 */
+	public static final class ListMapper {
 
 		private LinkedHashMap<String, List<String>> compiledMap = new LinkedHashMap<>();
 
@@ -51,7 +42,7 @@ public interface TableMapper {
 			return compiledMap;
 		}
 
-		private Mapper(@NonNull List<String[]> table, int fromIdx, int toIdx) {
+		private ListMapper(@NonNull List<String[]> table, int fromIdx, int toIdx) {
 			try {
 				table.forEach(line -> {
 					String key = line[fromIdx];
