@@ -49,7 +49,7 @@ class CheckerTest {
 	@Data
 	@AllArgsConstructor
 	static final class CheckerTestDto {
-		@Check({ CType.REQUIERD, CType.NON_BLANK })
+		@Check({ CType.REQUIERD, CType.NON_NULL })
 		public String myField0;
 
 		@Check(CType.REQUIERD)

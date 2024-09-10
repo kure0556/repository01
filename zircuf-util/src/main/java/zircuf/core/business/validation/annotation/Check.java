@@ -19,10 +19,10 @@ public @interface Check {
 	 */
 	public enum CType implements Predicate<Object> {
 		// 汎用チェックロジック
-		/** 必須チェック（非nullチェック） */
-		REQUIERD(Objects::nonNull),
-		/** 非空文字チェック */
-		NON_BLANK(CheckLogic::nonBlank),
+		/** 必須チェック（非空文字チェック） */
+		REQUIERD(CheckLogic::nonBlank),
+		/** 非nullチェック */
+		NON_NULL(Objects::nonNull),
 		/** 非空リストチェック（1件以上リストのチェック） */
 		NOT_EMPTY_COLLECTION(CheckLogic::notEmptyCollection),
 		;
