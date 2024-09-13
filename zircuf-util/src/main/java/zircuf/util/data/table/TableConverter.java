@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import lombok.NonNull;
-import zircuf.util.text.function.Texts;
+import zircuf.util.text.Texts;
 
 public interface TableConverter {
 

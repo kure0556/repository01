@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import zircuf.util.data.table.TableConverter.Converter;
 import zircuf.util.performance.Performance;
+import zircuf.util.text.Texts;
 import zircuf.util.text.function.Split;
-import zircuf.util.text.function.Texts;
 
 class TableTest {
 

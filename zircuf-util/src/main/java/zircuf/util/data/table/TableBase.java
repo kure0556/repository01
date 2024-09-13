@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import zircuf.util.text.function.Texts;
+import zircuf.util.text.Texts;
 
 interface TableBase {
 
