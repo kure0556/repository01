@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-public final class Text {
+public final class Texts {
 
 	public static Stream<String> lines(String text) {
 		return text.lines();

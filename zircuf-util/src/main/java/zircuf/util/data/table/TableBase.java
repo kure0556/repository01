@@ -7,14 +7,14 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import zircuf.util.text.function.Text;
+import zircuf.util.text.function.Texts;
 
 interface TableBase {
 
 	public List<String[]> getTable();
 
 	default public String toSummry() {
-		return Text.summry(getTable());
+		return Texts.summry(getTable());
 	}
 
 	default public int size() {
@@ -63,7 +63,7 @@ interface TableBase {
 	}
 
 	default public String get(String input, int fromIdx, int toIdx) {
-		return Text.lineIdx(get(input, fromIdx), toIdx);
+		return Texts.lineIdx(get(input, fromIdx), toIdx);
 	}
 
 }

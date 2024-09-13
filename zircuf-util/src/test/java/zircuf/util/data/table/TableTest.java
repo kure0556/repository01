@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import zircuf.util.data.table.TableConverter.Converter;
 import zircuf.util.performance.Performance;
 import zircuf.util.text.function.Split;
-import zircuf.util.text.function.Text;
+import zircuf.util.text.function.Texts;
 
 class TableTest {
 
@@ -18,7 +18,7 @@ class TableTest {
 		List<String[]> list = IntStream.range(1, 10000).mapToObj(i -> {
 			return i + "," + i;
 		}).map(Split::csv).toList();
-		System.out.println(Text.summry(list));
+		System.out.println(Texts.summry(list));
 
 		var data = List.of(
 				List.of("123", "ひふみ").toArray(String[]::new),
@@ -31,7 +31,7 @@ class TableTest {
 				List.of("8", "しごろ").toArray(String[]::new),
 				List.of("9", "しごろ").toArray(String[]::new),
 				List.of("10", "しごろ").toArray(String[]::new));
-		System.out.println(Text.summry(data));
+		System.out.println(Texts.summry(data));
 		@SuppressWarnings("deprecation")
 		String[] convert = Table.of(data).get("123", 0);
 		System.out.println(Arrays.toString(convert));

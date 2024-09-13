@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import lombok.NonNull;
-import zircuf.util.text.function.Text;
+import zircuf.util.text.function.Texts;
 
 public interface TableConverter {
 
@@ -51,7 +51,7 @@ public interface TableConverter {
 			Objects.requireNonNull(input, "input");
 			String[] line = compiledMap.get(input);
 			Objects.requireNonNull(line, "line");
-			return Text.lineIdx(line, toIdx);
+			return Texts.lineIdx(line, toIdx);
 		}
 	}
 
