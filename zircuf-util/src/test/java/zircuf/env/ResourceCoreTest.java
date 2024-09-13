@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import zircuf.util.data.table.TableConverter.Converter;
-import zircuf.util.text.function.Text;
+import zircuf.util.text.Texts;
 
 class ResourceCoreTest {
 
@@ -19,7 +19,7 @@ class ResourceCoreTest {
 		String name = converter2.find("02").get()[1];
 		assertEquals(name, "b");
 
-		System.out.println(Text.summry(Resource.local().of("code_table.tsv").asTsv().titled().getTable()));
+		System.out.println(Texts.summry(Resource.local().of("code_table.tsv").asTsv().titled().getTable()));
 	}
 
 }
