@@ -3,7 +3,7 @@ package zircuf.util.text.template;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArrayTemplate implements TemplateCore<String[], ArrayTemplateItem> {
+public class ArrayTemplate implements TextTemplate<String[], ArrayTemplateItem> {
 
 	@Override
 	public void addText(String text) {
@@ -22,6 +22,13 @@ public class ArrayTemplate implements TemplateCore<String[], ArrayTemplateItem> 
 		return itemList;
 	}
 
+	public String injectArgs(String... data) {
+		return inject(data);
+	};
+
+	public StringBuilder appendArgs(StringBuilder sb, String... data) {
+		return append(sb, data);
+	};
 }
 
 record ArrayTemplateItem(String text, String key, int keyInt) implements TemplateItem<String[]> {

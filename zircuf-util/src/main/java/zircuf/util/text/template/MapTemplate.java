@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class MapTemplate implements TemplateCore<Map<String, String>, MapTemplateItem> {
+public class MapTemplate implements TextTemplate<Map<String, String>, MapTemplateItem> {
 
 	@Override
 	public void addText(String text) {

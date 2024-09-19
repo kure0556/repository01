@@ -1,20 +1,19 @@
 package zircuf.util.text.template;
 
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Template {
 
-	public static TextTemplate<String[]> ofArray(String template) {
-		return compile(new ArrayTemplate(), template);
+	public static ArrayTemplate ofArray(String template) {
+		return (ArrayTemplate) compile(new ArrayTemplate(), template);
 	}
 
-	public static TextTemplate<Map<String, String>> ofMap(String template) {
-		return compile(new MapTemplate(), template);
+	public static MapTemplate ofMap(String template) {
+		return (MapTemplate) compile(new MapTemplate(), template);
 	}
 
-	private static final <T> TextTemplate<T> compile(TemplateCore<T, ?> templateX, final String template) {
+	private static final <T> TextTemplate<T, ?> compile(TextTemplate<T, ?> templateX, final String template) {
 		Pattern pattern = Pattern.compile("\\$\\{([^\\$\\{\\}]+)\\}");
 		Matcher m = pattern.matcher(template);
 		int i = 0;

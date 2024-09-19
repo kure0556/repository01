@@ -1,18 +1,34 @@
 package zircuf.util.text.template;
 
-public interface TextTemplate<D> {
+import java.util.List;
 
-	public String inject(D data);
+interface TextTemplate<D, E extends TemplateItem<D>> {
 
-	public String inject(StringBuilder sb, D data);
+	public List<E> itemList();
 
-	public StringBuilder append(StringBuilder sb, D data);
+	public void addText(String text);
 
-	default public String inject2(String... data) {
-		return null;
-	};
+	public void addParts(String defaultValue, String key);
 
-	default public StringBuilder append2(StringBuilder sb, String... data) {
-		return null;
-	};
+	default public String inject(D data) {
+		StringBuilder sb = new StringBuilder();
+		itemList().forEach(item -> item.inject(sb, data));
+		return sb.toString();
+	}
+
+	default public String inject(StringBuilder sb, D data) {
+		sb.setLength(0);
+		itemList().forEach(item -> item.inject(sb, data));
+		return sb.toString();
+	}
+
+	default public StringBuilder append(StringBuilder sb, D data) {
+		itemList().forEach(item -> item.inject(sb, data));
+		return sb;
+	}
+
+}
+
+interface TemplateItem<T> {
+	public StringBuilder inject(StringBuilder sb, T data);
 }
