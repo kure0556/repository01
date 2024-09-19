@@ -1,56 +1,108 @@
 package zircuf.util.text.function;
 
-import java.util.Objects;
-
 public class Code {
 
 	/**
-	 * 小文字スネークケースから先頭小文字キャメルケースに変換
+	 * スネークケースから先頭小文字キャメルケースに変換
 	 * @param input
 	 * @return
 	 */
-	public static String lowerSnakeToLowerCamel(String input) {
-		return lowerSnakeToCamel(input, true);
+	public static String toLowerCamel(String input) {
+		return toCamelCase(input, true);
 	}
 
 	/**
-	 * 小文字スネークケースから先頭大文字キャメルケースに変換
+	 * スネークケースから先頭大文字キャメルケースに変換
 	 * @param input
 	 * @return
 	 */
-	public static String lowerSnakeToUpperCamel(String input) {
-		return lowerSnakeToCamel(input, false);
+	public static String toUpperCamel(String input) {
+		return toCamelCase(input, false);
 	}
 
-	private static String lowerSnakeToCamel(String input, boolean isFirstLower) {
-		Objects.requireNonNull(input, "input");
-		String[] split = input.split("_");
-		StringBuilder sb = new StringBuilder();
-		int n = 0;
-		if (isFirstLower) {
-			sb.append(split[0]);
-			n = 1;
+	private static String toCamelCase(String snakeCase, boolean isFirstLower) {
+		if (snakeCase.isEmpty()) {
+			return snakeCase;
 		}
-		for (int i = n; i < split.length; i++) {
-			sb.append(firstCharOnlyToUpper(split[i]));
+		StringBuilder sb = new StringBuilder();
+		boolean capitalizeNext = false;
+		boolean isFirstChar = true;
+		for (char c : snakeCase.toCharArray()) {
+			if (isFirstChar) {
+				sb.append(isFirstLower ? Character.toLowerCase(c) : Character.toUpperCase(c));
+				isFirstChar = false;
+			} else if (c == '_') {
+				capitalizeNext = true;
+			} else if (capitalizeNext) {
+				sb.append(Character.toUpperCase(c));
+				capitalizeNext = false;
+			} else {
+				sb.append(Character.toLowerCase(c));
+			}
 		}
 		return sb.toString();
 	}
 
-	public static String firstCharOnlyToUpper(String str) {
-		return str.isEmpty()
-				? str
-				: toUpperCase(str.charAt(0)) + str.substring(1);
+	/**
+	 * 先頭文字のみを大文字に変換
+	 * @param input
+	 * @return
+	 */
+	public static String firstCharOnlyToUpper(String input) {
+		return input.isEmpty()
+				? input
+				: Character.toUpperCase(input.charAt(0)) + input.substring(1);
 	}
 
-	private static final char CASE_MASK = 0x20;
-
-	private static char toUpperCase(char c) {
-		return isLowerCase(c) ? (char) (c ^ CASE_MASK) : c;
+	/**
+	 * 先頭文字のみを子文字に変換
+	 * @param input
+	 * @return
+	 */
+	public static String firstCharOnlyToLower(String input) {
+		return input.isEmpty()
+				? input
+				: Character.toLowerCase(input.charAt(0)) + input.substring(1);
 	}
 
-	private static boolean isLowerCase(char c) {
-		return (c >= 'a') && (c <= 'z');
+	/**
+	 * 英単語の複数形を単一系の名称に変換する
+	 * <ul>
+	 * <li>items -> item</li>
+	 * <li>boxes -> box</li>
+	 * <li>entries -> entry</li>
+	 * <li>fooList -> foo</li>
+	 * <li>fooMap -> foo</li>
+	 * <li>fooSet -> foo</li>
+	 * </ul>
+	 * @param input
+	 * @return
+	 */
+	public static String convertSingletonName(String input) {
+		if (input.endsWith("s") && input.length() > 1) {
+			if (input.endsWith("es") && input.length() > 2) {
+				if (input.endsWith("ies") && input.length() > 3) {
+					// entries -> entry
+					return input.substring(0, input.length() - 3) + "y";
+				} else {
+					// boxes -> box
+					return input.substring(0, input.length() - 2);
+				}
+			} else {
+				// items -> item
+				return input.substring(0, input.length() - 1);
+			}
+		} else if (input.endsWith("List")) {
+			// fooList -> foo
+			return input.substring(0, input.length() - 4);
+		} else if (input.endsWith("Map")) {
+			// fooMap -> foo
+			return input.substring(0, input.length() - 3);
+		} else if (input.endsWith("Set")) {
+			// fooSet -> foo
+			return input.substring(0, input.length() - 3);
+		}
+		return input;
 	}
 
 }

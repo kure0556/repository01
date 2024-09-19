@@ -69,7 +69,7 @@ public class CodeGenerator {
 			}
 
 			// 物理名をキャメルケース変換
-			String pysicalName = Code.lowerSnakeToLowerCamel(line[pysicalNameIdx + builder.stackSize()]);
+			String pysicalName = Code.toLowerCamel(line[pysicalNameIdx + builder.stackSize()]);
 			String logicalName = line[logicalNameIdx];
 			String typeStr = line[typeTxetIdx];
 
@@ -81,7 +81,7 @@ public class CodeGenerator {
 				continue;
 			} else if (fieldTemplate.hasChild()) {
 //				String childPysiName = "Child" + childCnt;
-				String childPysiName = makeChildClassName(pysicalName);
+				String childPysiName = Code.firstCharOnlyToUpper(Code.convertSingletonName(pysicalName));
 				String childLogiName = "子クラス" + childCnt;
 				childCnt++;
 
@@ -173,13 +173,4 @@ public class CodeGenerator {
 		}
 	}
 
-	private String makeChildClassName(String pysicalClassName) {
-		if (pysicalClassName.endsWith("Map") || pysicalClassName.endsWith("map")) {
-			return Code.firstCharOnlyToUpper(pysicalClassName.substring(0, pysicalClassName.length() - 3));
-		}
-		if (pysicalClassName.endsWith("List") || pysicalClassName.endsWith("list")) {
-			return Code.firstCharOnlyToUpper(pysicalClassName.substring(0, pysicalClassName.length() - 4));
-		}
-		return Code.firstCharOnlyToUpper(pysicalClassName);
-	}
 }
