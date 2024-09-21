@@ -6,7 +6,6 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import lombok.Data;
-import zircuf.tools.gen.CodeGenerator;
 import zircuf.tools.gen.core.base.CodeTemplate;
 import zircuf.tools.gen.core.java.JavaCodeTemplate;
 import zircuf.tools.gen.core.ts.TypeScriptCodeTemplate;
