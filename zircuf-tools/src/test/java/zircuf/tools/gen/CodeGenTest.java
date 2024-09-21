@@ -1,4 +1,4 @@
-package zircuf_tools.gen;
+package zircuf.tools.gen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,10 +6,11 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import lombok.Data;
+import zircuf.tools.gen.CodeGenerator;
+import zircuf.tools.gen.core.base.CodeTemplate;
+import zircuf.tools.gen.core.java.JavaCodeTemplate;
+import zircuf.tools.gen.core.ts.TypeScriptCodeTemplate;
 import zircuf.util.data.table.Table;
-import zircuf_tools.gen.core.base.CodeTemplate;
-import zircuf_tools.gen.core.java.JavaCodeTemplate;
-import zircuf_tools.gen.core.ts.TypeScriptCodeTemplate;
 
 class CodeGenTest {
 

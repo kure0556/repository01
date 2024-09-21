@@ -1,4 +1,4 @@
-package zircuf_tools.gen;
+package zircuf.tools.gen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +9,10 @@ import java.util.Stack;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
+import zircuf.tools.gen.core.base.CodeTemplate;
+import zircuf.tools.gen.core.base.FieldTemplate;
+import zircuf.tools.gen.core.base.IHasPackage;
 import zircuf.util.text.function.Code;
-import zircuf_tools.gen.core.base.CodeTemplate;
-import zircuf_tools.gen.core.base.FieldTemplate;
-import zircuf_tools.gen.core.base.IHasPackage;
 
 @RequiredArgsConstructor(staticName = "of")
 @AllArgsConstructor(staticName = "of")

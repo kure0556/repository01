@@ -1,4 +1,4 @@
-package zircuf_tools.gen.core.base;
+package zircuf.tools.gen.core.base;
 
 public interface FieldTemplate {
 

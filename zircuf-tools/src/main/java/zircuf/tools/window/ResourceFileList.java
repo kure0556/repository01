@@ -1,4 +1,4 @@
-package zircuf_tools.window;
+package zircuf.tools.window;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Enumeration;

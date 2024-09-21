@@ -1,11 +1,11 @@
-package zircuf_tools.gen.core.ts;
+package zircuf.tools.gen.core.ts;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import zircuf_tools.gen.core.base.CodeTemplate;
-import zircuf_tools.gen.core.base.FieldTemplate;
+import zircuf.tools.gen.core.base.CodeTemplate;
+import zircuf.tools.gen.core.base.FieldTemplate;
 
 public class TypeScriptCodeTemplate implements CodeTemplate {
 

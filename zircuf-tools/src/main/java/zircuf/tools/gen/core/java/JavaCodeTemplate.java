@@ -1,13 +1,13 @@
-package zircuf_tools.gen.core.java;
+package zircuf.tools.gen.core.java;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import zircuf_tools.gen.core.base.CodeTemplate;
-import zircuf_tools.gen.core.base.FieldTemplate;
-import zircuf_tools.gen.core.base.IChildsInside;
-import zircuf_tools.gen.core.base.IHasPackage;
+import zircuf.tools.gen.core.base.CodeTemplate;
+import zircuf.tools.gen.core.base.FieldTemplate;
+import zircuf.tools.gen.core.base.IChildsInside;
+import zircuf.tools.gen.core.base.IHasPackage;
 
 public class JavaCodeTemplate implements CodeTemplate, IHasPackage, IChildsInside {
 

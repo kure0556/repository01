@@ -1,4 +1,4 @@
-package zircuf_tools.gen;
+package zircuf.tools.gen;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,8 +1,8 @@
-package zircuf_tools.gen.core.java;
+package zircuf.tools.gen.core.java;
 
 import java.util.Objects;
 
-import zircuf_tools.gen.core.base.FieldTemplate;
+import zircuf.tools.gen.core.base.FieldTemplate;
 
 public enum JavaFieldType implements FieldTemplate {
 
