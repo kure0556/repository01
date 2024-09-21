@@ -1,13 +1,13 @@
 package zircuf.util.text.function;
 
-public class Code {
+public final class Code {
 
 	/**
 	 * スネークケースから先頭小文字キャメルケースに変換
 	 * @param input
 	 * @return
 	 */
-	public static String toLowerCamel(String input) {
+	public static final String toLowerCamel(final String input) {
 		return toCamelCase(input, true);
 	}
 
@@ -16,11 +16,11 @@ public class Code {
 	 * @param input
 	 * @return
 	 */
-	public static String toUpperCamel(String input) {
+	public static final String toUpperCamel(final String input) {
 		return toCamelCase(input, false);
 	}
 
-	private static String toCamelCase(String snakeCase, boolean isFirstLower) {
+	private static final String toCamelCase(final String snakeCase, final boolean isFirstLower) {
 		if (snakeCase.isEmpty()) {
 			return snakeCase;
 		}
@@ -48,7 +48,7 @@ public class Code {
 	 * @param input
 	 * @return
 	 */
-	public static String firstCharOnlyToUpper(String input) {
+	public static final String firstCharOnlyToUpper(final String input) {
 		return input.isEmpty()
 				? input
 				: Character.toUpperCase(input.charAt(0)) + input.substring(1);
@@ -59,7 +59,7 @@ public class Code {
 	 * @param input
 	 * @return
 	 */
-	public static String firstCharOnlyToLower(String input) {
+	public static final String firstCharOnlyToLower(final String input) {
 		return input.isEmpty()
 				? input
 				: Character.toLowerCase(input.charAt(0)) + input.substring(1);
@@ -78,7 +78,7 @@ public class Code {
 	 * @param input
 	 * @return
 	 */
-	public static String convertSingletonName(String input) {
+	public static final String convertSingletonName(final String input) {
 		if (input.endsWith("s") && input.length() > 1) {
 			if (input.endsWith("es") && input.length() > 2) {
 				if (input.endsWith("ies") && input.length() > 3) {

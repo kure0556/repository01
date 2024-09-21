@@ -1,0 +1,28 @@
+{
+  "components": [
+    {
+      "type": "JTextField",
+      "label": "コード:",
+      "name": "code"
+    },
+    {
+      "type": "JTextField",
+      "label": "名前:",
+      "name": "name"
+    },
+    {
+      "type": "JRadioButton",
+      "label": "性別:",
+      "name": "sex",
+      "options": [
+        { "value": "1", "text": "男" },
+        { "value": "2", "text": "女" }
+      ]
+    },
+    {
+      "type": "JCheckBox",
+      "label": "ファイルを上書きする",
+      "name": "overwrite"
+    }
+  ]
+}

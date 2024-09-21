@@ -19,7 +19,6 @@ import java.util.function.BiConsumer;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -166,18 +165,6 @@ public class FileDropDialog extends JFrame {
 
 		boolean confirm(String message) {
 			return Dialog.confirm(message);
-		}
-
-		static class Dialog {
-			public static boolean confirm(String message) {
-				int result = JOptionPane.showConfirmDialog(
-						null,
-						message,
-						"確認",
-						JOptionPane.YES_NO_OPTION,
-						JOptionPane.QUESTION_MESSAGE);
-				return result == JOptionPane.YES_OPTION;
-			}
 		}
 
 	}

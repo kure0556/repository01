@@ -19,22 +19,25 @@ import zircuf.util.text.function.Code;
 @Builder
 public class CodeGenerator {
 
-	/**
-	 * 入力データのテーブル
-	 */
+	/** 入力データのテーブル */
 	private final List<String[]> table;
-	/**
-	 * コードテンプレート
-	 */
+	/** コードテンプレート */
 	private final CodeTemplate codeTemplate;
 
+	/** 物理名の列インデックス */
 	private final int pysicalNameIdx;
+	/** 論理名の列インデックス */
 	private final int logicalNameIdx;
+	/** 型名の列インデックス */
 	private final int typeTxetIdx;
 
-	private String classPysicalName;
+	/** クラスの物理名 */
+	private String classPhysicalName;
+	/** クラスの論理名 */
 	private String classLogicalName;
+	/** クラスに付与する継承関係 */
 	private String extendsOrImplementsText;
+	/** クラスのパッケージ */
 	private String packageText;
 
 	public String generateCode() {
@@ -50,7 +53,7 @@ public class CodeGenerator {
 		}
 
 		// ヘッダ
-		builder.append(codeTemplate.header(classPysicalName, classLogicalName, extendsOrImplementsText));
+		builder.append(codeTemplate.header(classPhysicalName, classLogicalName, extendsOrImplementsText));
 		int childCnt = 0;
 
 		// field定義
