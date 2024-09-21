@@ -3,6 +3,8 @@ package zircuf.util.text.function;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class CodeTest {
 
@@ -41,18 +43,22 @@ class CodeTest {
 		extracted(Code.toUpperCamel("MY_NAME_IS__SNAKE"), "MyNameIsSnake");
 	}
 
-	@Test
-	void test6() {
-		extracted(Code.convertSingletonName("entries"), "entry");
-		extracted(Code.convertSingletonName("boxes"), "box");
-		extracted(Code.convertSingletonName("items"), "item");
-		extracted(Code.convertSingletonName("fooList"), "foo");
-		extracted(Code.convertSingletonName("fooMap"), "foo");
-		extracted(Code.convertSingletonName("fooSet"), "foo");
-		extracted(Code.convertSingletonName("ies"), "i");
-		extracted(Code.convertSingletonName("es"), "e");
-		extracted(Code.convertSingletonName("s"), "s");
-		extracted(Code.convertSingletonName("foo"), "foo");
+	@ParameterizedTest
+	@CsvSource({
+        "entries, entry",
+        "boxes, box",
+        "resources, resource",
+        "items, item",
+        "fooList, foo",
+        "fooMap, foo",
+        "fooSet, foo",
+        "ies, ie",
+        "es, e",
+        "s, s",
+        "foo, foo",
+	})
+	void test6(String src, String dst) {
+		extracted(Code.convertSingletonName(src), dst);
 	}
 
 }

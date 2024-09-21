@@ -84,9 +84,16 @@ public class Code {
 				if (input.endsWith("ies") && input.length() > 3) {
 					// entries -> entry
 					return input.substring(0, input.length() - 3) + "y";
-				} else {
+				} else if (input.endsWith("ses")
+						|| input.endsWith("oes")
+						|| input.endsWith("xes")
+						|| input.endsWith("shes")
+						|| input.endsWith("ches")) {
 					// boxes -> box
 					return input.substring(0, input.length() - 2);
+				} else {
+					// resources -> resource
+					return input.substring(0, input.length() - 1);
 				}
 			} else {
 				// items -> item
