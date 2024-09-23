@@ -3,6 +3,7 @@ package zircuf.tools.swing;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.datatransfer.DataFlavor;
@@ -13,16 +14,20 @@ import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiConsumer;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import lombok.RequiredArgsConstructor;
 
@@ -47,29 +52,35 @@ public class FileDropDialog extends JFrame {
 
 	public FileDropDialog(String windowTitle, BiConsumer<Window, List<File>> proc) {
 		setTitle(windowTitle);
-		setSize(400, 250);
+		setSize(440, 250);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// ドロップエリア
 		dropArea = new JPanel();
+		dropArea.setLayout(new FlowLayout(FlowLayout.LEFT)); // 左寄せのFlowLayout
 		dropArea.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // JPanelの内側の余白
-		dropArea.setPreferredSize(new Dimension(400, 60));
+		dropArea.setPreferredSize(new Dimension(440, 50));
 		dropArea.setBackground(Color.LIGHT_GRAY);
 		dropArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
 
+		// ファイル選択ボタン
+		FileChooserButton fcButton = new FileChooserButton("ファイル選択").init(this, proc);
+		dropArea.add(fcButton);
+
 		// ドロップエリアにテキストを追加
-		label = new JLabel("こちらにファイルをドラッグアンドドロップ");
+		label = new JLabel("ここにファイルをドラッグアンドドロップ");
 		label.setBorder(BorderFactory.createDashedBorder(Color.DARK_GRAY, (float) 2, (float) 2, (float) 2, false));
-		label.setPreferredSize(new Dimension(360, 40));
+		label.setPreferredSize(new Dimension(280, 30));
 		label.setHorizontalAlignment(SwingConstants.CENTER); // 水平方向中央
 		label.setForeground(Color.DARK_GRAY); // 文字色
+
 		GridBagConstraints gbc = new GridBagConstraints(); // 垂直方向中央
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 1.0;
 		gbc.weighty = 1.0;
-		dropArea.add(label, gbc);
+		dropArea.add(label);
 
 		// ログ出力エリア
 		logArea = new JTextArea();
@@ -153,6 +164,38 @@ public class FileDropDialog extends JFrame {
 
 		@Override
 		public void dropActionChanged(DropTargetDragEvent dtde) {
+		}
+
+	}
+
+	public class FileChooserButton extends JButton {
+
+		public FileChooserButton(String text) {
+			super(text);
+		}
+
+		public FileChooserButton init(JFrame frame, BiConsumer<Window, List<File>> proc) {
+			addActionListener(e -> {
+				JFileChooser chooser = new JFileChooser();
+				// 初期ディレクトリの設定（例：デスクトップ）
+				chooser.setCurrentDirectory(new File("src/main/resources/"));
+
+				// ファイルフィルタの設定（.tsvファイルのみ）
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("TSVファイル (*.tsv)", "tsv");
+				chooser.setFileFilter(filter);
+
+				// 複数ファイル選択
+				chooser.setMultiSelectionEnabled(true);
+				int returnVal = chooser.showOpenDialog(frame);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					File[] selectedFiles = chooser.getSelectedFiles();
+					Arrays.stream(selectedFiles).forEach(file -> {
+						log("selected > " + file.getAbsolutePath());
+					});
+					proc.accept(window, Arrays.asList(selectedFiles));
+				}
+			});
+			return this;
 		}
 
 	}

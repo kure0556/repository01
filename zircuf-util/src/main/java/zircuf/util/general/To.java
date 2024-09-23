@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
@@ -49,6 +50,12 @@ public final class To {
 		} catch (IOException e) {
 			throw rException(e);
 		}
+	}
+
+	// リスト
+
+	public static final <E> List<E> list(E[] array) {
+		return Arrays.asList(array);
 	}
 
 	// InputStream -> 汎用データ
