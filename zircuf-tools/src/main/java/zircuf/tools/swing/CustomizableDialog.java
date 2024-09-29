@@ -16,6 +16,8 @@ import javax.swing.JTextField;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import zircuf.tools.swing.parts.MenuBuilder;
+
 public class CustomizableDialog {
 	public static void main(String[] args) throws Exception {
 		// JSONファイルを読み込む
@@ -68,6 +70,13 @@ public class CustomizableDialog {
 
 		// JFrameの作成
 		JFrame frame = new JFrame("JSONから生成された画面");
+		MenuBuilder.of(frame)
+				.addItem("選択１", () -> {
+					Dialog.input("なんか出た").ifPresent(s -> {
+						Dialog.message(s + "が入力された");
+					});
+				});
+		
 		frame.add(panel);
 		frame.pack();
 		frame.setVisible(true);

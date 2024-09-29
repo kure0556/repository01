@@ -2,16 +2,16 @@ package zircuf.env.storage;
 
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Path;
+import java.util.function.Consumer;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import zircuf.env.storage.StorageCore.StorageItem;
 import zircuf.util.io.core.path.PathDeletable;
 import zircuf.util.io.core.path.PathExistable;
 import zircuf.util.io.core.path.PathReader;
 import zircuf.util.io.core.path.PathWriter;
 
-public class LocalStorage {
+public class LocalStorage implements StorageCore {
 
 	public LocalStorageItem of(String objectKey) {
 		return new LocalStorageItem(objectKey);
@@ -25,8 +25,17 @@ public class LocalStorage {
 		private final String objectKey;
 
 		@Override
-		public Path getPath() {
+		public final Path getPath() {
 			return Path.of(objectKey);
+		}
+
+		public LocalStorageItem printPath() {
+			return printPath(System.out::println);
+		}
+
+		private LocalStorageItem printPath(Consumer<String> cons) {
+			cons.accept(objectKey);
+			return this;
 		}
 
 		/**
