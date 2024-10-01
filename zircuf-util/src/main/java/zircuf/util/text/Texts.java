@@ -42,4 +42,17 @@ public final class Texts {
 		sb.append("--- table data has %d line(s).".formatted(data.size()));
 		return sb.toString();
 	}
+
+	public static String requireNonBlank(String str, String message) {
+		if (str.isBlank()) {
+			throw new IllegalArgumentException(message);
+		}
+		return str;
+	}
+
+	public static String requireNonBlankElse(String str, String defaultStr) {
+		return (str != null && !str.isBlank()) ? str : requireNonBlank(defaultStr, "defaultStr");
+	}
+
+
 }
