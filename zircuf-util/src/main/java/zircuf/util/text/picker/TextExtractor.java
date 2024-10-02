@@ -10,19 +10,7 @@ import java.util.regex.Pattern;
 
 import zircuf.util.text.Texts;
 
-
 public class TextExtractor {
-
-	public static void main(String[] args) {
-		//                           1         2 
-		//                 012345678901234567890123456
-		String template = "aaa{hoge}bbb{fuga:2}{piyo}c.cc{yyyy:4}{mm:2}{dd:2}-{}.csv";
-		String input = "aaaxxxbbb123c.cc20241023-eoapijfwih.csv";
-
-		System.out.println(new TextExtractor(template));
-		Map<String, String> map = new TextExtractor(template).extract(input);
-		System.out.println(map); // 出力: {hoge=xxx, fuga=123}
-	}
 
 	public static TextExtractor of(String template) {
 		return new TextExtractor(template);
@@ -32,18 +20,33 @@ public class TextExtractor {
 	private final String keyRegx;
 	private final ArrayList<String> keyList = new ArrayList<String>();
 
+	/**
+	 * 
+	 * <pre>
+	 * ex1) aaa{hoge}bbb{fuga:2}{piyo}_{}.csv
+	 *   - hoge : aaaとbbbに挟まれた文字列を取得
+	 *   - fuga : bbbの後の2桁の文字列を取得
+	 *   - piyo : fuga2桁と_に挟まれた文字列を取得
+	 * </pre>
+	 * @param template
+	 */
 	protected TextExtractor(String template) {
 		this.template = template;
-		Pattern pattern = Pattern.compile("\\{([^:\\}]*)(:([0-9]+))?\\}");
+		//                                    1         2 34
+		Pattern pattern = Pattern.compile("\\{([^:\\}]*)(:(([0-9]+)?(,([0-9]+)?)?))?\\}");
 		Matcher matcher = pattern.matcher(template);
 
 		StringBuilder sb = new StringBuilder();
 		int templateIndex = 0;
 		int injectIdx = 0;
 		while (matcher.find(templateIndex)) {
+			// キーが指定されていない場合用のインデックスをカウントアップ
 			injectIdx++;
-			String key = Texts.requireNonBlankElse(matcher.group(1), "{%d}".formatted(injectIdx)); // xxx
-			String num = matcher.group(3); // n
+			// キー部分
+			String key = Texts.requireNonBlankElse(matcher.group(1), "{%d}".formatted(injectIdx));
+			// キーの桁数部分「:」を含む
+			String option = matcher.group(3); // 桁数部
+			String min = matcher.group(4); // 最小値
 			int start = matcher.start(); // {xxx:n}の先頭位置
 			String pre = template.substring(templateIndex, start); // {xxx:n}が登場する直前までの文字列
 			templateIndex = matcher.end(); // {xxx:n}の末端位置
@@ -58,9 +61,15 @@ public class TextExtractor {
 			keyList.add(key);
 
 			// 正規表現の追加
-			if (Objects.nonNull(num)) {
+			if (Objects.nonNull(option)) {
 				// 桁数の指定あり
-				sb.append("(.{").append(num).append("})");
+				if (Objects.isNull(min)) {
+					// 最小桁部がない場合は、以下の例外が出るため0を補完する
+					// PatternSyntaxException: Illegal repetition
+					option = "0" + option;
+				}
+				// 桁数判定を正規表現に追加
+				sb.append("(.{").append(option).append("})");
 			} else {
 				// 桁数の指定なし
 				sb.append("(.*)");
@@ -81,7 +90,8 @@ public class TextExtractor {
 		Matcher matcher = pattern.matcher(input);
 		boolean found = matcher.find();
 		if (!found) {
-			throw new IllegalArgumentException("入力された値はテンプレートの情報にマッチしていません template=%d input=%d".formatted(template, input));
+			throw new IllegalArgumentException(
+					"入力された値はテンプレートの情報にマッチしていません template=%s input=%s".formatted(template, input));
 		}
 
 		Map<String, String> result = new LinkedHashMap<>();
@@ -103,7 +113,7 @@ public class TextExtractor {
 
 	@Override
 	public String toString() {
-		return template + " -> " + keyRegx +" -> " + keyList;
+		return template + " -> " + keyRegx + " -> " + keyList;
 	}
 
 }
