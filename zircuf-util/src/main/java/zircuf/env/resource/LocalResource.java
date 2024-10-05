@@ -2,6 +2,7 @@ package zircuf.env.resource;
 
 import java.net.URISyntaxException;
 import java.nio.file.Path;
+import java.util.function.Consumer;
 
 import lombok.Getter;
 import zircuf.env.resource.ResourceCore.ResourceItem;
@@ -20,6 +21,11 @@ public class LocalResource {
 
 		private LocalResourceItem(String pathStr) {
 			path = resourcePath(pathStr);
+		}
+
+		public final LocalResourceItem peek(Consumer<String> cons) {
+			cons.accept(path.toString());
+			return this;
 		}
 
 		private final Path resourcePath(String pathStr) {

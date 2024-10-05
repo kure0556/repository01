@@ -29,11 +29,7 @@ public class LocalStorage implements StorageCore {
 			return Path.of(objectKey);
 		}
 
-		public LocalStorageItem printPath() {
-			return printPath(System.out::println);
-		}
-
-		private LocalStorageItem printPath(Consumer<String> cons) {
+		public final LocalStorageItem peek(Consumer<String> cons) {
 			cons.accept(objectKey);
 			return this;
 		}
