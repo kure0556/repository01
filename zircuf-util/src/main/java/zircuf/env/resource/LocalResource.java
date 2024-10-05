@@ -23,7 +23,7 @@ public class LocalResource {
 			path = resourcePath(pathStr);
 		}
 
-		public final LocalResourceItem peek(Consumer<String> action) {
+		public final LocalResourceItem peekPath(Consumer<String> action) {
 			action.accept(path.toString());
 			return this;
 		}
