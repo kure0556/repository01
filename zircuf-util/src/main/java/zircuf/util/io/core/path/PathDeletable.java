@@ -7,6 +7,9 @@ import java.nio.file.Path;
 import zircuf.util.general.To;
 import zircuf.util.io.core.Deletable;
 
+/**
+ * Pathが与えられた場合の削除処理インターフェース
+ */
 public interface PathDeletable extends Deletable {
 
 	public Path getPath();

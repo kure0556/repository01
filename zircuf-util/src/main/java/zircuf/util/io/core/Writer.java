@@ -2,10 +2,14 @@ package zircuf.util.io.core;
 
 import java.nio.file.Path;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import zircuf.util.text.function.Join;
 
+/**
+ * テキストを様々な形式で書き込むインターフェース
+ */
 public interface Writer {
 
 	public Path write(CharSequence text);
@@ -26,13 +30,19 @@ public interface Writer {
 	}
 
 	default public Path writeTsv(List<String[]> tsv) {
-		Stream<String> stream = tsv.stream().map(Join::tsv);
-		Iterable<String> iterable = stream::iterator;
-		return writeAll(iterable);
+		return write(tsv, Join::tsv);
 	}
 
-	default public Path writeCsv(List<String[]> tsv) {
-		Stream<String> stream = tsv.stream().map(Join::csv);
+	default public Path writeCsv(List<String[]> csv) {
+		return write(csv, Join::csv);
+	}
+
+	default public Path writeCsvDQ(List<String[]> csv) {
+		return write(csv, Join::csvDQ);
+	}
+
+	default public Path write(List<String[]> tsv, Function<? super String[], ? extends String> mapper) {
+		Stream<String> stream = tsv.stream().map(mapper);
 		Iterable<String> iterable = stream::iterator;
 		return writeAll(iterable);
 	}

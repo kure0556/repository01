@@ -23,8 +23,8 @@ public class LocalResource {
 			path = resourcePath(pathStr);
 		}
 
-		public final LocalResourceItem peek(Consumer<String> cons) {
-			cons.accept(path.toString());
+		public final LocalResourceItem peek(Consumer<String> action) {
+			action.accept(path.toString());
 			return this;
 		}
 

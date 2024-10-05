@@ -8,6 +8,9 @@ import zircuf.util.data.table.TableConverter;
 import zircuf.util.data.table.TableListMapper;
 import zircuf.util.text.function.Split;
 
+/**
+ * テキストを様々な形式で取り出すインターフェース
+ */
 public interface Reader {
 
 	public String toText();
@@ -24,6 +27,10 @@ public interface Reader {
 
 	default public AsTable asCsv() {
 		return new AsTable(lines(), Split::csv);
+	}
+
+	default public AsTable asCsvDQ() {
+		return new AsTable(lines(), Split::csvDQ);
 	}
 
 	public static class AsTable implements TableConverter, TableListMapper {

@@ -29,8 +29,8 @@ public class LocalStorage implements StorageCore {
 			return Path.of(objectKey);
 		}
 
-		public final LocalStorageItem peek(Consumer<String> cons) {
-			cons.accept(objectKey);
+		public final LocalStorageItem peek(Consumer<String> action) {
+			action.accept(objectKey);
 			return this;
 		}
 

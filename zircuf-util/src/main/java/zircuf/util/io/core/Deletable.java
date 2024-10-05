@@ -1,5 +1,8 @@
 package zircuf.util.io.core;
 
+/**
+ * 削除可能
+ */
 public interface Deletable {
 
 	default public void delete() {
