@@ -14,22 +14,20 @@ import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 import java.io.File;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiConsumer;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import lombok.RequiredArgsConstructor;
+import zircuf.tools.swing.parts.FileSelector;
 
 public class FileDropDialog extends JFrame {
 
@@ -176,24 +174,25 @@ public class FileDropDialog extends JFrame {
 
 		public FileChooserButton init(JFrame frame, BiConsumer<Window, List<File>> proc) {
 			addActionListener(e -> {
-				JFileChooser chooser = new JFileChooser();
-				// 初期ディレクトリの設定（例：デスクトップ）
-				chooser.setCurrentDirectory(new File("src/main/resources/"));
-
-				// ファイルフィルタの設定（.tsvファイルのみ）
-				FileNameExtensionFilter filter = new FileNameExtensionFilter("TSVファイル (*.tsv)", "tsv");
-				chooser.setFileFilter(filter);
-
-				// 複数ファイル選択
-				chooser.setMultiSelectionEnabled(true);
-				int returnVal = chooser.showOpenDialog(frame);
-				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					File[] selectedFiles = chooser.getSelectedFiles();
-					Arrays.stream(selectedFiles).forEach(file -> {
-						log("selected > " + file.getAbsolutePath());
-					});
-					proc.accept(window, Arrays.asList(selectedFiles));
-				}
+//				JFileChooser chooser = new JFileChooser();
+//				// 初期ディレクトリの設定（例：デスクトップ）
+//				chooser.setCurrentDirectory(new File("src/main/resources/"));
+//
+//				// ファイルフィルタの設定（.tsvファイルのみ）
+//				FileNameExtensionFilter filter = new FileNameExtensionFilter("TSVファイル (*.tsv)", "tsv");
+//				chooser.setFileFilter(filter);
+//
+//				// 複数ファイル選択
+//				chooser.setMultiSelectionEnabled(true);
+//				int returnVal = chooser.showOpenDialog(frame);
+//				if (returnVal == JFileChooser.APPROVE_OPTION) {
+				FileSelector selector = new FileSelector("src/main/resources/", frame).tsv();
+				List<File> selectedFiles = selector.selectedFiles();
+				selectedFiles.forEach(file -> {
+					log("selected > " + file.getAbsolutePath());
+				});
+				proc.accept(window, selectedFiles);
+//				}
 			});
 			return this;
 		}

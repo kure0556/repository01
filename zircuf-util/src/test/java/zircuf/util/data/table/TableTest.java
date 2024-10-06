@@ -32,7 +32,7 @@ class TableTest {
 				List.of("9", "しごろ").toArray(String[]::new),
 				List.of("10", "しごろ").toArray(String[]::new));
 		System.out.println(Texts.summry(data));
-		@SuppressWarnings("deprecation")
+
 		String[] convert = Table.of(data).get("123", 0);
 		System.out.println(Arrays.toString(convert));
 
