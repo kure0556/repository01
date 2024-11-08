@@ -8,7 +8,7 @@ import zircuf.tools.swing.Dialog;
 import zircuf.util.data.table.TableConverter.Converter;
 import zircuf.util.text.Texts;
 
-class ResourceCoreTest {
+class ResourceTest {
 
 	@Test
 	void test() {
