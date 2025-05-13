@@ -124,7 +124,7 @@ public class CodeGenerator {
 		return builder.toString();
 	}
 
-	public static class CodeBuilderStack {
+	private static class CodeBuilderStack {
 
 		Stack<StringBuilder> stack = new Stack<StringBuilder>();
 
@@ -134,11 +134,6 @@ public class CodeGenerator {
 
 		public CodeBuilderStack append(String str) {
 			code.append(str);
-			return this;
-		}
-
-		public CodeBuilderStack append(StringBuilder sb) {
-			code.append(sb);
 			return this;
 		}
 

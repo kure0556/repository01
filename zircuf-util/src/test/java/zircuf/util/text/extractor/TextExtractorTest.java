@@ -26,6 +26,14 @@ class TextExtractorTest {
 			"""
 			'aaa{}bbb{:,1}{}c.cc{:4}{:2}{:2}{}.csv',\
 			'aaaxxxbbb123c.cc20241023eoapijfwih.csvX'\
+			""",
+			"""
+			'{hoge:2,3}{fuga:,3}{}{piyo:4,}',\
+			'aaabbbxxxxxxx.csv'\
+			""",
+			"""
+			'{hoge:2,3}{fuga:,3}{}{piyo:4,}',\
+			'aabbbxxxxxxx.csv'\
 			""" })
 	void test(String template, String input) {
 //		TextExtractor.of(template).extract(input).ifPresentOrElse(map -> {

@@ -3,6 +3,10 @@ package zircuf.util.general;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+/**
+ * Optional化インターフェース（提供されるデータが有効か無効かをisPresentで表現）
+ * @param <T>
+ */
 public interface IOptional<T> extends Supplier<T> {
 
 	public boolean isPresent();

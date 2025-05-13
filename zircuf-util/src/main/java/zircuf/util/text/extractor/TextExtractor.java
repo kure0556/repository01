@@ -31,11 +31,16 @@ public class TextExtractor {
 	 *   - [1] "{1}" : bbbの後の2桁の文字列を取得
 	 *   - [2] "{2}" : 2桁と_に挟まれた文字列を取得
 	 *   - [3] "{3}" : _と.csvの間の変数名が省略された{}の位置の文字を取得
-	 * ex1) aaa{hoge}bbb{fuga:2}{piyo}_{}.csv
+	 * ex2) aaa{hoge}bbb{fuga:2}{piyo}_{}.csv
 	 *   - [0] "hoge" : aaaとbbbに挟まれた文字列を取得
 	 *   - [1] "fuga" : bbbの後の2桁の文字列を取得
 	 *   - [2] "piyo" : fuga2桁と_に挟まれた文字列を取得
 	 *   - [3] "{3}"  : _と.csvの間の変数名が省略された{}の位置の文字を取得
+	 * ex3) {hoge:2,3}{fuga:,3}{}{piyo:4,}aabbbxxxxxxx.csv
+	 *   - [0] "hoge" : 2～3文字の文字列を抽出  aaabbbxxxxxxx.csv -> aaa
+	 *   - [1] "fuga" : 最大3文字の文字列を抽出  aaabbbxxxxxxx.csv -> bbb
+	 *   - [2] "{2}"  : 任意の文字列を抽出      aaabbbxxxxxxx.csv -> xxxxxxx
+	 *   - [3] "piyo" : 最小4文字の文字列を抽出  aaabbbxxxxxxx.csv -> .csv
 	 * </pre>
 	 * @param template
 	 */
@@ -47,23 +52,23 @@ public class TextExtractor {
 
 		StringBuilder sb = new StringBuilder();
 		int templateIndex = 0;
-		int injectIdx = 0;
+		int injectIdx = 0; // キー部の登場毎の通番
 		while (matcher.find(templateIndex)) {
-			// キー部分
+			// キー部分「{}」で囲まれた範囲（キー名称がない場合は0始まりの番号を設定）
 			String key = Texts.requireNonBlankElse(matcher.group(1), "{%d}".formatted(injectIdx));
 			// キーが指定されていない場合用のインデックスをカウントアップ
 			injectIdx++;
-			// キーの桁数部分「:」を含む
-			String option = matcher.group(3); // 桁数部
-			String min = matcher.group(4); // 最小値
+			// キーの桁数部分「:」以降の解析
+			String option = matcher.group(3); // 桁数部（最小値,最大値）（空 or "n" or "n,m" or ",m"）
+			String min = matcher.group(4); // 最小値（空 or "n"）※桁数部が指定されている場合は、後の処理で空の時に"0"を補完する
 			int start = matcher.start(); // {xxx:n}の先頭位置
-			String pre = template.substring(templateIndex, start); // {xxx:n}が登場する直前までの文字列
+			String beforeMatch = template.substring(templateIndex, start); // {xxx:n}が登場する直前までの文字列
 			templateIndex = matcher.end(); // {xxx:n}の末端位置
 
 			// 正規表現に固定文字列を追加
-			if (!pre.isBlank()) {
-				// エスケープして追加
-				sb.append(Pattern.quote(pre));
+			if (!beforeMatch.isBlank()) {
+				// エスケープして追加（「\Q」「\E」で囲まれた範囲は正規表現が無効となる）
+				sb.append(Pattern.quote(beforeMatch));
 			}
 
 			// キーリストにキーを追加
