@@ -10,18 +10,27 @@ class TemplateTest {
 
 	@Test
 	void test1() {
-
-		String template = """
+		String result = Template.ofArray("""
 				{
 				  aaa:"${0:}",
 				  bbb:"${1:}",
 				  ccc:"${0}${1}",
 				  ddd:"${2:指定なし}"
 				}
-				""";
-		System.out.println(Template.ofArray(template).injectArgs("あああ", null, "ううう"));
+				""").injectArgs("あああ", null, "ううう");
+		System.out.println(result);
+	}
 
-		ArrayTemplate arrayTemplate = Template.ofArray(template);
+	@Test
+	void test2() {
+		ArrayTemplate arrayTemplate = Template.ofArray("""
+				{
+				  aaa:"${0:}",
+				  bbb:"${1:}",
+				  ccc:"${0}${1}",
+				  ddd:"${2:指定なし}"
+				}
+				""");
 
 		Performance.of(() -> {
 			arrayTemplate.injectArgs("あああ");
@@ -37,7 +46,7 @@ class TemplateTest {
 	}
 
 	@Test
-	void test2() {
+	void test3() {
 		MapTemplate mapTemplate = Template.ofMap("""
 				{
 				  aaa:"${key0:}",
@@ -56,7 +65,7 @@ class TemplateTest {
 	}
 
 	@Test
-	void test3() {
+	void test4() {
 		Performance.of(() -> {
 			@SuppressWarnings("unused")
 			String template = """

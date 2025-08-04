@@ -13,6 +13,26 @@ import lombok.Getter;
 import zircuf.util.general.IOptional;
 import zircuf.util.text.Texts;
 
+/**
+ * 定型の文字列から特定位置（固定長・可変長）の文字列を抽出する
+ * <pre>
+ * ex1) aaa{}bbb{:2}{}_{}.csv
+ *   - [0] "{0}" : aaaとbbbに挟まれた文字列を取得
+ *   - [1] "{1}" : bbbの後の2桁の文字列を取得
+ *   - [2] "{2}" : 2桁と_に挟まれた文字列を取得
+ *   - [3] "{3}" : _と.csvの間の変数名が省略された{}の位置の文字を取得
+ * ex2) aaa{hoge}bbb{fuga:2}{piyo}_{}.csv
+ *   - [0] "hoge" : aaaとbbbに挟まれた文字列を取得
+ *   - [1] "fuga" : bbbの後の2桁の文字列を取得
+ *   - [2] "piyo" : fuga2桁と_に挟まれた文字列を取得
+ *   - [3] "{3}"  : _と.csvの間の変数名が省略された{}の位置の文字を取得
+ * ex3) {hoge:2,3}{fuga:,3}{}{piyo:4,}aabbbxxxxxxx.csv
+ *   - [0] "hoge" : 2～3文字の文字列を抽出  aaabbbxxxxxxx.csv -> aaa
+ *   - [1] "fuga" : 最大3文字の文字列を抽出  aaabbbxxxxxxx.csv -> bbb
+ *   - [2] "{2}"  : 任意の文字列を抽出      aaabbbxxxxxxx.csv -> xxxxxxx
+ *   - [3] "piyo" : 最小4文字の文字列を抽出  aaabbbxxxxxxx.csv -> .csv
+ * </pre>
+ */
 public class TextExtractor {
 
 	public static TextExtractor of(String template) {
@@ -23,27 +43,6 @@ public class TextExtractor {
 	private final String keyRegx;
 	private final ArrayList<String> keyList = new ArrayList<String>();
 
-	/**
-	 * 
-	 * <pre>
-	 * ex1) aaa{}bbb{:2}{}_{}.csv
-	 *   - [0] "{0}" : aaaとbbbに挟まれた文字列を取得
-	 *   - [1] "{1}" : bbbの後の2桁の文字列を取得
-	 *   - [2] "{2}" : 2桁と_に挟まれた文字列を取得
-	 *   - [3] "{3}" : _と.csvの間の変数名が省略された{}の位置の文字を取得
-	 * ex2) aaa{hoge}bbb{fuga:2}{piyo}_{}.csv
-	 *   - [0] "hoge" : aaaとbbbに挟まれた文字列を取得
-	 *   - [1] "fuga" : bbbの後の2桁の文字列を取得
-	 *   - [2] "piyo" : fuga2桁と_に挟まれた文字列を取得
-	 *   - [3] "{3}"  : _と.csvの間の変数名が省略された{}の位置の文字を取得
-	 * ex3) {hoge:2,3}{fuga:,3}{}{piyo:4,}aabbbxxxxxxx.csv
-	 *   - [0] "hoge" : 2～3文字の文字列を抽出  aaabbbxxxxxxx.csv -> aaa
-	 *   - [1] "fuga" : 最大3文字の文字列を抽出  aaabbbxxxxxxx.csv -> bbb
-	 *   - [2] "{2}"  : 任意の文字列を抽出      aaabbbxxxxxxx.csv -> xxxxxxx
-	 *   - [3] "piyo" : 最小4文字の文字列を抽出  aaabbbxxxxxxx.csv -> .csv
-	 * </pre>
-	 * @param template
-	 */
 	protected TextExtractor(String template) {
 		this.template = template;
 		//                                    1         2 34

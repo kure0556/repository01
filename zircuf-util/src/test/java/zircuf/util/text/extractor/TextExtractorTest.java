@@ -36,20 +36,15 @@ class TextExtractorTest {
 			'aabbbxxxxxxx.csv'\
 			""" })
 	void test(String template, String input) {
-//		TextExtractor.of(template).extract(input).ifPresentOrElse(map -> {
-		TextExtractor.of(template).peek(System.out::println).extract(input).peek(System.out::println).ifPresentOrElse(map -> {
-			System.out.println("変数が抽出された");
-		}, () -> {
-			System.out.println("マッチしていません");
-		});
-	}
-
-	void test2(String template, String input) {
-		TextExtractor.of(template).extract(input).ifPresentOrElse(map -> {
-			System.out.println("変数が抽出された");
-		}, () -> {
-			System.out.println("マッチしていません");
-		});
+		TextExtractor.of(template)
+				.peek(System.out::println)	// テンプレートの正規表現を覗き見る
+				.extract(input)				// inputの文字列から変数を抽出する
+				.peek(System.out::println)	// 抽出した変数（map形式）を覗き見る
+				.ifPresentOrElse(map -> {
+					System.out.println("変数が抽出された");		// 変数の抽出に成功した場合
+				}, () -> {
+					System.out.println("マッチしていません");	// 変数の抽出に失敗した場合
+				});
 	}
 
 }

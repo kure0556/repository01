@@ -20,7 +20,7 @@ public @interface Check {
 	public enum CType implements Predicate<Object> {
 		// 汎用チェックロジック
 		/** 必須チェック（非空文字チェック） */
-		REQUIERD(CheckLogic::nonBlank),
+		NOT_BLANK(CheckLogic::notBlank),
 		/** 非nullチェック */
 		NON_NULL(Objects::nonNull),
 		/** 非空リストチェック（1件以上リストのチェック） */
@@ -46,14 +46,14 @@ public @interface Check {
 
 	public static class CheckLogic {
 
-		public static boolean nonBlank(Object input) {
+		public static boolean notBlank(Object input) {
 			if (Objects.isNull(input)) {
 				return false;
 			}
 			if (input instanceof String str) {
 				return !str.isBlank();
 			}
-			throw new UnsupportedOperationException("nonBlankはString型のみサポートされます");
+			throw new UnsupportedOperationException("チェック定義例外発生：NOT_BLANK はString型のみサポートされます");
 		}
 
 		public static boolean notEmptyCollection(Object input) {
@@ -63,7 +63,7 @@ public @interface Check {
 			if (input instanceof Collection collection) {
 				return !collection.isEmpty();
 			}
-			throw new UnsupportedOperationException("notEmptyCollectionはCollection型のみサポートされます");
+			throw new UnsupportedOperationException("チェック定義例外発生：NOT_EMPTY_COLLECTION はCollection型のみサポートされます");
 		}
 
 	}

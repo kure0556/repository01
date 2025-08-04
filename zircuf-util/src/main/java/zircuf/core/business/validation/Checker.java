@@ -49,6 +49,9 @@ public class Checker<T> extends AbstractValidator<T> {
 							putCheckLog(field, fieldVal, cType, String.valueOf(ok));
 							break;
 						}
+					} catch (UnsupportedOperationException e){
+						// チェック定義例外発生
+						throw e;
 					} catch (Exception e) {
 						throw new RuntimeException("チェック処理例外発生 : " + cType + " : " + toString(field, fieldVal), e);
 					}
@@ -69,6 +72,9 @@ public class Checker<T> extends AbstractValidator<T> {
 							putCheckLog(field, fieldVal, check, String.valueOf(ok));
 							break;
 						}
+					} catch (UnsupportedOperationException e){
+						// チェック定義例外発生
+						throw e;
 					} catch (Exception e) {
 						throw new RuntimeException(
 								"チェック処理例外発生 : " + checkLogicClass + " : " + toString(field, fieldVal), e);

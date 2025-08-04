@@ -1,5 +1,7 @@
 package zircuf.core.business.validate;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -10,6 +12,7 @@ import lombok.Data;
 import zircuf.core.business.validation.Validator;
 import zircuf.core.business.validation.annotation.Check;
 import zircuf.core.business.validation.annotation.Check.CType;
+import zircuf.core.business.validation.annotation.CheckLength;
 import zircuf.core.business.validation.annotation.CheckLogic;
 import zircuf.core.business.validation.annotation.Deep;
 import zircuf.core.business.validation.annotation.Edit;
@@ -46,21 +49,36 @@ class CheckerTest {
 		}
 	}
 
+	@Test
+	void test2() {
+		CheckerErrorTestDto errorTestDto = new CheckerErrorTestDto(false, "");
+
+		assertThrows(RuntimeException.class, () -> {
+			try {
+				Validator.checkAndEdit(errorTestDto);
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw e;
+			}
+		});
+
+	}
+
 	@Data
 	@AllArgsConstructor
 	static final class CheckerTestDto {
-		@Check({ CType.REQUIERD, CType.NON_NULL })
+		@Check({ CType.NOT_BLANK, CType.NON_NULL })
 		public String myField0;
 
-		@Check(CType.REQUIERD)
+		@Check(CType.NOT_BLANK)
 		public String myField1;
 
-		@Check(CType.REQUIERD)
+		@Check(CType.NOT_BLANK)
 		@CheckLogic(MyCheckLogic.class)
 		@Edit(EType.TRIM)
 		private String myField2;
 
-		@Check(CType.REQUIERD)
+		@CheckLength(min=1, max=2)
 		private boolean myField3;
 
 		@Deep
@@ -69,6 +87,16 @@ class CheckerTest {
 		@Edit(EType.NON_NULL_LIST)
 		@Deep
 		private List<CheckerTestDto> myDtos;
+	}
+
+	@Data
+	@AllArgsConstructor
+	static final class CheckerErrorTestDto {
+		@Check(CType.NOT_BLANK)
+		private boolean errorItem1;
+
+		@Check(CType.NOT_EMPTY_COLLECTION)
+		private String errorItem2;
 	}
 
 }
