@@ -14,11 +14,11 @@ import javax.swing.JMenuItem;
  * メニュービルダー
  * <pre>
  * 		MenuBuilder.of(this)
- *				.add("ファイル")
- *				.addItem("開く", () -> {
+ *				.add("ファイル")                                   // 親メニューの追加
+ *				.addItem("開く", () -> {                          // 子メニューのイベント追加
  *					statusLabel.setText("開くが選択されました");
  *				})
- *				.addSeparator()
+ *				.addSeparator()                                  // セパレーターの追加
  *				.addItem("終了", () -> {
  *					System.exit(0);
  *				})

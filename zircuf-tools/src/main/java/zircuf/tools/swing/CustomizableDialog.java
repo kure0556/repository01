@@ -1,7 +1,6 @@
 package zircuf.tools.swing;
 
 import java.awt.GridLayout;
-import java.io.File;
 import java.util.Iterator;
 
 import javax.swing.ButtonGroup;
@@ -22,7 +21,37 @@ public class CustomizableDialog {
 	public static void main(String[] args) throws Exception {
 		// JSONファイルを読み込む
 		ObjectMapper mapper = new ObjectMapper();
-		JsonNode root = mapper.readTree(new File("ui.json"));
+//		JsonNode root = mapper.readTree(new File("ui.json"));
+		JsonNode root = mapper.readTree("""
+				{
+  				"components": [
+    				{
+	      				"type": "JTextField",
+	      				"label": "コード:",
+	      				"name": "code"
+    				},
+    				{
+	      				"type": "JTextField",
+	      				"label": "名前:",
+	      				"name": "name"
+    				},
+    				{
+	      				"type": "JRadioButton",
+	      				"label": "性別:",
+	      				"name": "sex",
+	      				"options": [
+	        				{ "value": "1", "text": "男" },
+	        				{ "value": "2", "text": "女" }
+	      				]
+    				},
+    				{
+	      				"type": "JCheckBox",
+	      				"label": "ファイルを上書きする",
+	      				"name": "overwrite"
+    				}
+  				]
+				}
+				""");
 
 		// JPanelを作成
 		JPanel panel = new JPanel(new GridLayout(0, 2));

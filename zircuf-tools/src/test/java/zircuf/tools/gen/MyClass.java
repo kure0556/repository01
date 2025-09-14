@@ -40,7 +40,7 @@ public class MyClass {
 	private Map<String, MyField6> myField6Map = new LinkedHashMap<String, MyField6>();
 
 	/**
-	 * 子クラス0
+	 * オブジェクトの項目Dto
 	 */
 	@Data
 	@Builder
@@ -60,7 +60,7 @@ public class MyClass {
 	}
 
 	/**
-	 * 子クラス1
+	 * オブジェクトの項目Dto
 	 */
 	@Data
 	@Builder
@@ -74,7 +74,7 @@ public class MyClass {
 	}
 
 	/**
-	 * 子クラス2
+	 * オブジェクトリストの項目Dto
 	 */
 	@Data
 	@Builder
@@ -85,7 +85,7 @@ public class MyClass {
 	}
 
 	/**
-	 * 子クラス3
+	 * オブジェクトマップの項目Dto
 	 */
 	@Data
 	@Builder

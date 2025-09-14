@@ -201,11 +201,11 @@ public class FileDropDialog extends JFrame {
 
 	public class Window {
 
-		void log(String str) {
+		public void log(String str) {
 			logArea.append(str + "\n");
 		}
 
-		boolean confirm(String message) {
+		public boolean confirm(String message) {
 			return Dialog.confirm(message);
 		}
 

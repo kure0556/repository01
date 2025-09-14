@@ -14,6 +14,7 @@ public enum JavaFieldType implements FieldTemplate {
 				return "private String %s;"
 						.formatted(name);
 			} else {
+				// デフォルト値がある場合は「@Builder.Default」を付与してbuilderで値省略ができるようにする
 				return "@Builder.Default private String %s = \"%s\";"
 						.formatted(name, option);
 			}

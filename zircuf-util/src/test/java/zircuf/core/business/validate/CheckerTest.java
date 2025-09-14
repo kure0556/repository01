@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import zircuf.core.business.validation.Validator;
 import zircuf.core.business.validation.annotation.Check;
 import zircuf.core.business.validation.annotation.Check.CType;
@@ -64,6 +66,18 @@ class CheckerTest {
 
 	}
 
+	@Test
+	void test3() {
+		CheckerOR2 testDto = new CheckerOR2("", "");
+
+		try {
+			Validator.checkAndEdit(testDto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
 	@Data
 	@AllArgsConstructor
 	static final class CheckerTestDto {
@@ -97,6 +111,27 @@ class CheckerTest {
 
 		@Check(CType.NOT_EMPTY_COLLECTION)
 		private String errorItem2;
+	}
+
+	@Data
+	@NoArgsConstructor
+	@AllArgsConstructor
+	static class CheckerOR1 {
+		@Check(CType.NOT_BLANK)
+		protected String myField1;
+	}
+
+	@Data
+	@EqualsAndHashCode(callSuper=false)
+	@AllArgsConstructor
+	static class CheckerOR2 extends CheckerOR1 {
+		public CheckerOR2(String myField1, String myField2) {
+			super(myField1);
+			this.myField2 = myField2;
+		}
+
+		@Check(CType.NOT_BLANK)
+		private String myField2;
 	}
 
 }

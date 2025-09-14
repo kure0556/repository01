@@ -54,7 +54,7 @@ public class CodeGenerator {
 
 		// ヘッダ
 		builder.append(codeTemplate.header(classPhysicalName, classLogicalName, extendsOrImplementsText));
-		int childCnt = 0;
+//		int childCnt = 0;
 
 		// field定義
 		Map<String, FieldTemplate> fieldSet = codeTemplate.fieldSet();
@@ -71,7 +71,7 @@ public class CodeGenerator {
 				continue;
 			}
 
-			// 物理名をキャメルケース変換
+			// 物理名はキャメルケースに変換
 			String pysicalName = Code.toLowerCamel(line[pysicalNameIdx + builder.stackSize()]);
 			String logicalName = line[logicalNameIdx];
 			String typeStr = line[typeTxetIdx];
@@ -84,9 +84,12 @@ public class CodeGenerator {
 				continue;
 			} else if (fieldTemplate.hasChild()) {
 //				String childPysiName = "Child" + childCnt;
+//				String childLogiName = "子クラス" + childCnt;
+				// 子クラスの物理名を自動生成する（fooList -> Foo）（Fooes -> Foo）（FooMap -> Foo）（FooSet -> Foo）
 				String childPysiName = Code.firstCharOnlyToUpper(Code.convertSingletonName(pysicalName));
-				String childLogiName = "子クラス" + childCnt;
-				childCnt++;
+				// 子クラスの論理名は論理名＋"Dto"（レコードリスト -> レコードリストDto）
+				String childLogiName = logicalName + "Dto";
+//				childCnt++;
 
 				// フィールド追加
 				builder.append(codeTemplate.addField(fieldTemplate, pysicalName, logicalName, childPysiName));
@@ -108,7 +111,7 @@ public class CodeGenerator {
 			builder.pop();
 		}
 
-		// フッタ（子クラスが外部の場合）
+		// フッタ（子クラスを親クラスの外部に生成する場合）
 		if (!codeTemplate.isInnerChilds()) {
 			builder.append(codeTemplate.footer());
 		}
@@ -116,7 +119,7 @@ public class CodeGenerator {
 		// 子クラスの全内容出力
 		builder.appendAll();
 
-		// フッタ（子クラスが内部の場合）
+		// フッタ（子クラスを親クラスの内部に生成する場合）
 		if (codeTemplate.isInnerChilds()) {
 			builder.append(codeTemplate.footer());
 		}
