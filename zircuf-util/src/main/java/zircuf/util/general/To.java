@@ -48,7 +48,7 @@ public final class To {
 		try {
 			return Files.newInputStream(path);
 		} catch (IOException e) {
-			throw rException(e);
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -71,14 +71,8 @@ public final class To {
 			return clazz.getDeclaredConstructor().newInstance();
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {
-			throw rException(e);
+			throw new RuntimeException(e);
 		}
-	}
-
-	// Exception関連
-
-	public static final RuntimeException rException(Exception e) {
-		return new RuntimeException(e);
 	}
 
 	public static final <T> Supplier<T> supplier(T object) {

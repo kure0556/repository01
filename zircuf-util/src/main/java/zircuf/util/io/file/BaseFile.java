@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.function.Function;
 
-import zircuf.util.general.To;
 import zircuf.util.io.core.path.PathDeletable;
 import zircuf.util.io.core.path.PathExistable;
 
@@ -25,7 +24,7 @@ public interface BaseFile extends PathDeletable, PathExistable {
 			FileTime lastModifiedTime = Files.getLastModifiedTime(getPath());
 			return LocalDateTime.ofInstant(lastModifiedTime.toInstant(), ZoneId.systemDefault());
 		} catch (IOException e) {
-			throw To.rException(e);
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -33,7 +32,7 @@ public interface BaseFile extends PathDeletable, PathExistable {
 		try (InputStream is = Files.newInputStream(getPath())) {
 			return func.apply(is);
 		} catch (IOException e) {
-			throw To.rException(e);
+			throw new RuntimeException(e);
 		}
 	}
 

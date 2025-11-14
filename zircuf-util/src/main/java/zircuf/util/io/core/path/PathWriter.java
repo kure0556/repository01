@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import zircuf.util.general.To;
 import zircuf.util.io.common.OCharset;
 import zircuf.util.io.core.Writer;
 
@@ -22,7 +21,7 @@ public interface PathWriter extends Writer, OCharset {
 			Files.createDirectories(path.getParent());
 			return Files.writeString(path, text, getCharset());
 		} catch (IOException e) {
-			throw To.rException(e);
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -33,7 +32,7 @@ public interface PathWriter extends Writer, OCharset {
 			Files.createDirectories(path.getParent());
 			return Files.write(path, lines, getCharset());
 		} catch (IOException e) {
-			throw To.rException(e);
+			throw new RuntimeException(e);
 		}
 	}
 

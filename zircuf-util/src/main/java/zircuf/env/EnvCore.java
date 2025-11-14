@@ -1,7 +1,5 @@
 package zircuf.env;
 
-import zircuf.util.general.To;
-
 public interface EnvCore {
 
 	public static boolean isWinOS() {
@@ -12,7 +10,7 @@ public interface EnvCore {
 		try {
 			Thread.sleep(millis);
 		} catch (InterruptedException e) {
-			throw To.rException(e);
+			throw new RuntimeException(e);
 		}
 	}
 
