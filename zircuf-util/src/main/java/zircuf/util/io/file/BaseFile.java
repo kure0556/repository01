@@ -19,6 +19,10 @@ public interface BaseFile extends PathDeletable, PathExistable {
 
 	public Path getPath();
 
+	/**
+	 * ファイルの更新日時を取得
+	 * @return ファイルの更新日時
+	 */
 	default public LocalDateTime getLastModified() {
 		try {
 			FileTime lastModifiedTime = Files.getLastModifiedTime(getPath());
@@ -28,6 +32,12 @@ public interface BaseFile extends PathDeletable, PathExistable {
 		}
 	}
 
+	/**
+	 * InputStreamに対する操作
+	 * @param <T> 操作結果クラス
+	 * @param func 操作内容
+	 * @return 操作結果
+	 */
 	default public <T> T work(Function<InputStream, T> func) {
 		try (InputStream is = Files.newInputStream(getPath())) {
 			return func.apply(is);

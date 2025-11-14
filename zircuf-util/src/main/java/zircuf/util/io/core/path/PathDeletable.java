@@ -13,6 +13,9 @@ public interface PathDeletable extends Deletable {
 
 	public Path getPath();
 
+	/**
+	 * ファイルの削除（ファイルなしの場合に例外スロー）
+	 */
 	@Override
 	default public void delete() {
 		try {
@@ -22,6 +25,9 @@ public interface PathDeletable extends Deletable {
 		}
 	}
 
+	/**
+	 * ファイルの削除（ファイルなしの場合はfalse）
+	 */
 	@Override
 	default public boolean deleteIfExists() {
 		try {

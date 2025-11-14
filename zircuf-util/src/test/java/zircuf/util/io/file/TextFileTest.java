@@ -6,17 +6,36 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import zircuf.util.io.common.Encode;
+
 class TextFileTest {
 
 	@Test
 	void test() {
-		TextFile temp = TextFile.ofTemp("hoge", "fuga");
+		TextFile temp = TextFile.ofTemp("hoge", ".txt");
 		if (temp.isExists()) {
-			System.out.println("fairuaru");
+			System.out.println("ファイルあり" + temp.getPath());
 		} else {
-			System.out.println("fairuneeeeeeeee");
+			System.out.println("ファイルなし" + temp.getPath());
 		}
 
+	}
+
+	@Test
+	void test2() {
+		TextFile temp = TextFile.ofTemp("hoge", ".txt").encode(Encode.SJIS);
+		temp.write("""
+				エンコード確認
+				エンコード確認
+				""");
+		if (temp.isExists()) {
+			System.out.println("ファイルあり" + temp.getPath());
+		} else {
+			System.out.println("ファイルなし" + temp.getPath());
+		}
+
+		String text = temp.toText();
+		System.out.println(text);
 	}
 
 	@ParameterizedTest

@@ -12,6 +12,9 @@ public interface PathExistable extends Existable {
 
 	public Path getPath();
 
+	/**
+	 * ファイル存在確認（ファイルが存在する場合true）
+	 */
 	@Override
 	default public boolean isExists() {
 		return Files.exists(getPath());
