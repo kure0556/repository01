@@ -14,6 +14,9 @@ public interface PathWriter extends Writer, OCharset {
 
 	public Path getPath();
 
+	/**
+	 * ファイルへの書き込み（テキストデータ）
+	 */
 	default public Path write(CharSequence text) {
 		try {
 			Path path = getPath();
@@ -25,6 +28,9 @@ public interface PathWriter extends Writer, OCharset {
 		}
 	}
 
+	/**
+	 * ファイルへの書き込み（複数行データ）
+	 */
 	default public Path writeAll(Iterable<? extends CharSequence> lines) {
 		try {
 			Path path = getPath();

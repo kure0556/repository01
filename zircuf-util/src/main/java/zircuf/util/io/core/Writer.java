@@ -41,7 +41,7 @@ public interface Writer {
 		return write(csv, Join::csvDQ);
 	}
 
-	default public Path write(List<String[]> table, Function<? super String[], ? extends String> mapper) {
+	private Path write(List<String[]> table, Function<? super String[], ? extends String> mapper) {
 		Stream<String> stream = table.stream().map(mapper);
 		Iterable<String> iterable = stream::iterator;
 		return writeAll(iterable);

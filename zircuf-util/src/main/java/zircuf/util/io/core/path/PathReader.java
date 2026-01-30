@@ -15,6 +15,9 @@ public interface PathReader extends Reader, OCharset {
 
 	public Path getPath();
 
+	/**
+	 * String形式での取得
+	 */
 	default public String toText() {
 		try {
 			return Files.readString(getPath(), getCharset());
@@ -23,6 +26,9 @@ public interface PathReader extends Reader, OCharset {
 		}
 	}
 
+	/**
+	 * StringのStream形式での取得
+	 */
 	default public Stream<String> lines() {
 		try {
 			return Files.lines(getPath(), getCharset());
