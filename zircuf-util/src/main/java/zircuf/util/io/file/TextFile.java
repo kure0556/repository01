@@ -60,16 +60,16 @@ public class TextFile implements BaseFile, PathReader, PathWriter {
 	@Getter
 	protected final Path path;
 
-	/** エンコード */
-	protected Optional<Charset> oCharSet = Optional.empty();
+	@Getter
+	protected Optional<Charset> charset = Optional.empty();
 
 	/**
 	 * エンコードの指定
 	 * @param encode エンコード
 	 * @return 自インスタンス
 	 */
-	public TextFile encode(Encode encode) {
-		this.oCharSet = Optional.of(encode.getCharset());
+	public TextFile withEncode(Encode encode) {
+		this.charset = Optional.of(encode.getCharset());
 		return this;
 	}
 

@@ -3,24 +3,21 @@ package zircuf.util.io.common;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 public enum Encode {
 
 	UTF8(StandardCharsets.UTF_8),
 	SJIS("MS932"),
 	;
 
-	private Charset charset;
+	@Getter
+	private final Charset charset;
 
 	private Encode(String charset) {
 		this.charset = Charset.forName(charset);
-	}
-
-	private Encode(Charset charset) {
-		this.charset = charset;
-	}
-
-	public Charset getCharset() {
-		return charset;
 	}
 
 	public static byte[] asByte(String text) {

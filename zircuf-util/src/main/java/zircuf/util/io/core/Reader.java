@@ -21,42 +21,42 @@ public interface Reader {
 		return lines().toList();
 	}
 
-	default public AsTable asTsv() {
-		return new AsTable(lines(), Split::tsv);
+	default public TableStream asTsv() {
+		return new TableStream(lines(), Split::tsv);
 	}
 
-	default public AsTable asCsv() {
-		return new AsTable(lines(), Split::csv);
+	default public TableStream asCsv() {
+		return new TableStream(lines(), Split::csv);
 	}
 
-	default public AsTable asCsvDQ() {
-		return new AsTable(lines(), Split::csvDQ);
+	default public TableStream asCsvDQ() {
+		return new TableStream(lines(), Split::csvDQ);
 	}
 
-	public static class AsTable implements TableConverter, TableListMapper {
+	public static class TableStream implements TableConverter, TableListMapper {
 
-		public Stream<String[]> tableLines;
+		private Stream<String[]> tableStream;
 
-		public AsTable(Stream<String> lines, Function<String, String[]> func) {
-			tableLines = lines.map(func);
+		public TableStream(Stream<String> lines, Function<String, String[]> func) {
+			tableStream = lines.map(func);
 		}
 
 		public Stream<String[]> stream() {
-			return tableLines;
+			return tableStream;
 		}
 
 		@Override
 		public List<String[]> getTable() {
-			return tableLines.toList();
+			return tableStream.toList();
 		}
 
-		public AsTable titled() {
-			tableLines = tableLines.skip(1);
+		public TableStream titled() {
+			tableStream = tableStream.skip(1);
 			return this;
 		}
 
-		public AsTable titled(int skipRows) {
-			tableLines = tableLines.skip(skipRows);
+		public TableStream titled(int skipRows) {
+			tableStream = tableStream.skip(skipRows);
 			return this;
 		}
 

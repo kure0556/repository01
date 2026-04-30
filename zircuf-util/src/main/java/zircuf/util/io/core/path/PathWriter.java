@@ -1,16 +1,17 @@
 package zircuf.util.io.core.path;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import zircuf.util.io.common.OCharset;
+import zircuf.util.io.common.CharsetOpt;
 import zircuf.util.io.core.Writer;
 
 /**
  * Pathが与えられた場合に様々なデータに変換するインターフェース
  */
-public interface PathWriter extends Writer, OCharset {
+public interface PathWriter extends Writer<Path>, CharsetOpt {
 
 	public Path getPath();
 
@@ -22,7 +23,7 @@ public interface PathWriter extends Writer, OCharset {
 			Path path = getPath();
 			// 出力先ディレクトリの作成
 			Files.createDirectories(path.getParent());
-			return Files.writeString(path, text, getCharset());
+			return Files.writeString(path, text, getCharset().orElse(Charset.defaultCharset()));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -36,7 +37,7 @@ public interface PathWriter extends Writer, OCharset {
 			Path path = getPath();
 			// 出力先ディレクトリの作成
 			Files.createDirectories(path.getParent());
-			return Files.write(path, lines, getCharset());
+			return Files.write(path, lines, getCharset().orElse(Charset.defaultCharset()));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

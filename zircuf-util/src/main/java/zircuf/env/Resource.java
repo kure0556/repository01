@@ -1,10 +1,14 @@
 package zircuf.env;
 
 import java.net.URISyntaxException;
+import java.nio.charset.Charset;
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 import lombok.Getter;
+import zircuf.util.io.common.CharsetOpt;
+import zircuf.util.io.common.Encode;
 import zircuf.util.io.core.path.PathReader;
 
 public class Resource {
@@ -13,13 +17,26 @@ public class Resource {
 		return new ResourceItem(pathStr);
 	}
 
-	public static class ResourceItem implements PathReader {
+	public static class ResourceItem implements PathReader, CharsetOpt {
 
 		@Getter
 		private final Path path;
 
+		@Getter
+		protected Optional<Charset> charset = Optional.empty();
+
 		private ResourceItem(String pathStr) {
 			path = resourcePath(pathStr);
+		}
+
+		/**
+		 * エンコードの指定
+		 * @param encode エンコード
+		 * @return 自インスタンス
+		 */
+		public ResourceItem withEncode(Encode encode) {
+			this.charset = Optional.of(encode.getCharset());
+			return this;
 		}
 
 		public final ResourceItem peekPath(Consumer<String> action) {

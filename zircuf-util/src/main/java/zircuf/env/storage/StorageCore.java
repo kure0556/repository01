@@ -8,17 +8,21 @@ import zircuf.util.io.core.Existable;
 import zircuf.util.io.core.Reader;
 import zircuf.util.io.core.Writer;
 
-public interface StorageCore {
+/**
+ * @param <P> パスの型
+ * @param <R> 書き込み時の戻り値型
+ */
+public interface StorageCore<P, R> {
 
-	public StorageItem of(String objectKey);
+	public StorageItem<P, R> of(String objectKey);
 
-	public static interface StorageItem extends Reader, Writer, Deletable, Existable {
+	public static interface StorageItem<P, R> extends Reader, Writer<R>, Deletable, Existable {
 
-		public String getObjectKey();
+		public P getPath();
 
 		@SuppressWarnings("unchecked")
-		public default <T extends StorageItem> T peekPath(Consumer<String> action) {
-			action.accept(getObjectKey());
+		public default <T extends StorageItem<P, R>> T peekPath(Consumer<P> action) {
+			action.accept(getPath());
 			return (T) this;
 		}
 
@@ -26,7 +30,7 @@ public interface StorageCore {
 		 * すでにファイルが存在する場合に処理
 		 */
 		@SuppressWarnings("unchecked")
-		public default <T extends StorageItem> void ifExist(Consumer<T> action) {
+		public default <T extends StorageItem<P, R>> void ifExist(Consumer<T> action) {
 			if (isExists()) {
 				action.accept((T) this);
 			}
@@ -36,7 +40,7 @@ public interface StorageCore {
 		 * すでにファイルが存在するかに応じて処理を切り替え
 		 */
 		@SuppressWarnings("unchecked")
-		public default <T extends StorageItem> void ifExistOrElse(Consumer<T> action, Runnable elseAction) {
+		public default <T extends StorageItem<P, R>> void ifExistOrElse(Consumer<T> action, Runnable elseAction) {
 			if (isExists()) {
 				action.accept((T) this);
 			} else {
@@ -46,12 +50,12 @@ public interface StorageCore {
 
 		/**
 		 * すでにファイルが存在する場合に例外スローするオプション
-		 * @throws Exception
+		 * @throws FileAlreadyExistsException
 		 */
 		@SuppressWarnings("unchecked")
-		public default <T extends StorageItem> T blockOverWrite() throws FileAlreadyExistsException {
+		public default <T extends StorageItem<P, R>> T blockOverWrite() throws FileAlreadyExistsException {
 			if (this.isExists()) {
-				throw new FileAlreadyExistsException(getObjectKey());
+				throw new FileAlreadyExistsException(getPath().toString());
 			}
 			return (T) this;
 		}
