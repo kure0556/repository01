@@ -14,10 +14,18 @@ import zircuf.util.io.core.path.PathExistable;
 import zircuf.util.io.core.path.PathReader;
 import zircuf.util.io.core.path.PathWriter;
 
+@RequiredArgsConstructor
 public class LocalStorage implements StorageCore<Path, Path> {
 
+	private final String root;
+
+	public LocalStorage() {
+		super();
+		this.root = "";
+	}
+
 	public LocalStorageItem of(String objectKey) {
-		return new LocalStorageItem(Path.of(objectKey));
+		return new LocalStorageItem(Path.of(this.root, objectKey));
 	}
 
 	public LocalStorageItem ofTemp(String prefix, String suffix) {

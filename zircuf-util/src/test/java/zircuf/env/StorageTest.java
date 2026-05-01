@@ -54,4 +54,17 @@ class StorageTest {
 		System.out.println(text);
 	}
 
+	@Test
+	void test3() {
+		Storage.local().of("hoge").peekPath(System.out::println).touch();
+		Storage.local().of("huga/huga.txt").peekPath(System.out::println).touch();
+
+		// 動作確認用ダイアログ
+		Dialog.message("ファイルが出力されました。\n出力したファイルを削除します。");
+
+		Storage.local().of("hoge").delete();
+		Storage.local().of("huga/huga.txt").delete();
+		Storage.local().of("huga").delete();
+		Storage.local().of("").delete();
+	}
 }

@@ -6,6 +6,8 @@ import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.FileTime;
+import java.time.Instant;
 import java.util.Objects;
 
 import zircuf.util.io.common.CharsetOpt;
@@ -17,6 +19,22 @@ import zircuf.util.io.core.Writer;
 public interface PathWriter extends Writer<Path>, CharsetOpt {
 
 	public Path getPath();
+
+	/**
+	 * ファイルのtouch（ディレクトリやファイルが無ければ作成し、更新日時を更新する）
+	 */
+	default public Path touch() {
+	    try {
+	    	Path path = getPath();
+	        Files.createDirectories(path.getParent());
+	        if (Files.notExists(path)) {
+	            Files.createFile(path);
+	        }
+	        return Files.setLastModifiedTime(path, FileTime.from(Instant.now()));
+	    } catch (IOException e) {
+	        throw new UncheckedIOException(e);
+	    }
+	}
 
 	/**
 	 * ファイルへの書き込み（テキストデータ）

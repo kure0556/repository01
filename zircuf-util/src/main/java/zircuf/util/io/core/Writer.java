@@ -12,6 +12,10 @@ import zircuf.util.text.function.Join;
  */
 public interface Writer<R> {
 
+	public default R touch() {
+		throw new UnsupportedOperationException("サポート外操作：touch()");
+	}
+
 	public R write(CharSequence text);
 
 	default public R writeAll(Iterable<? extends CharSequence> lines) {

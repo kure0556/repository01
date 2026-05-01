@@ -24,13 +24,19 @@ public class PD {
 	 * P2DT3H4M : 2日と3時間4分
 	 * </pre>
 	 * @param text
-	 * @return
+	 * @return TemporalAmount(Duration/Period)
 	 */
 	public static final TemporalAmount of(String text) {
-		if (text.startsWith("PT")) {
-			return Duration.parse(text);
-		} else {
-			return Period.parse(text);
-		}
+	    if (text == null || text.isEmpty()) {
+	        throw new IllegalArgumentException("text must not be null or empty");
+	    }
+
+	    if (text.contains("T")) {
+	    	// 時間成分がある場合はDuration
+	        return Duration.parse(text);
+	    } else {
+	    	// 時間成分がない場合はPeriod
+	        return Period.parse(text);
+	    }
 	}
 }

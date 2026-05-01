@@ -23,7 +23,7 @@ public class SystemClock implements TimeProvider {
     /**
      * 非DI環境向けのデフォルトインスタンス（JST固定）。
      */
-    private static final SystemClock JST_INSTANCE = new SystemClock(Clock.system(DT.JST));
+    private static final SystemClock JST_INSTANCE = new SystemClock(Clock.system(DT.Zone.JST));
 
     /**
      * 非DI環境向けファクトリ（JST固定）。

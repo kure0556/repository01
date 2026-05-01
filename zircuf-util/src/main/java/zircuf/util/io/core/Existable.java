@@ -6,7 +6,7 @@ package zircuf.util.io.core;
 public interface Existable {
 
 	default public boolean isExists() {
-		throw new UnsupportedOperationException("未実装");
+		throw new UnsupportedOperationException("サポート外操作：isExists()");
 	}
 
 }

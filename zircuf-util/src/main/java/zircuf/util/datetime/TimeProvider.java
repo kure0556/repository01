@@ -35,10 +35,6 @@ public interface TimeProvider {
 
     /**
      * 現在時刻を「yyyyMMddHHmmss」形式で返す。
-     *
-     * 用途:
-     * - 外部IFの連番生成
-     * - ログIDやトランザクションIDの付番
      */
     default String nowYYYYMMDDHHMMSS() {
         return DTF.DATE_TIME.format(now());
@@ -46,10 +42,6 @@ public interface TimeProvider {
 
     /**
      * 現在日付を「yyyyMMdd」形式で返す。
-     *
-     * 用途:
-     * - 日付キー
-     * - バッチ処理の基準日
      */
     default String nowYYYYMMDD() {
         return DTF.DATE.format(now());
@@ -57,10 +49,6 @@ public interface TimeProvider {
 
     /**
      * 現在時刻を「HHmmss」形式で返す。
-     *
-     * 用途:
-     * - ログ出力
-     * - 秒単位の時刻比較
      */
     default String nowHHMMSS() {
         return DTF.TIME.format(now());
@@ -68,56 +56,43 @@ public interface TimeProvider {
 
     /**
 	 * 現在時刻（秒精度 / LocalDateTime）。
-	 *
-	 * 用途:
-	 * - 業務ロジック
-	 * - DB保存
-	 * - 時刻比較
 	 */
 	default LocalDateTime now() {
-		return LocalDateTime.ofInstant(nowInstant(), DT.JST).truncatedTo(ChronoUnit.SECONDS);
+		return LocalDateTime.ofInstant(nowInstant(), DT.Zone.JST).truncatedTo(ChronoUnit.SECONDS);
 	}
 
 	/**
 	 * 現在時刻（ミリ秒精度 / LocalDateTime）。
-	 *
-	 * 用途:
-	 * - 外部インターフェース
-	 * - ログ出力
 	 */
 	default LocalDateTime nowMillis() {
-		return LocalDateTime.ofInstant(nowInstant(), DT.JST).truncatedTo(ChronoUnit.MILLIS);
+		return LocalDateTime.ofInstant(nowInstant(), DT.Zone.JST).truncatedTo(ChronoUnit.MILLIS);
 	}
 
 	/**
 	 * 現在時刻（ナノ秒精度 / LocalDateTime）。
-	 *
-	 * 用途:
-	 * - 内部処理
-	 * - 高精度な比較
 	 */
 	default LocalDateTime nowRaw() {
-		return LocalDateTime.ofInstant(nowInstant(), DT.JST);
+		return LocalDateTime.ofInstant(nowInstant(), DT.Zone.JST);
 	}
 
 	/**
 	 * 現在時刻（秒精度 / ZonedDateTime）。
 	 */
 	default ZonedDateTime nowZoned() {
-		return ZonedDateTime.ofInstant(nowInstant(), DT.JST).truncatedTo(ChronoUnit.SECONDS);
+		return ZonedDateTime.ofInstant(nowInstant(), DT.Zone.JST).truncatedTo(ChronoUnit.SECONDS);
 	}
 
 	/**
 	 * 現在時刻（ミリ秒精度 / ZonedDateTime）。
 	 */
 	default ZonedDateTime nowZonedMillis() {
-		return ZonedDateTime.ofInstant(nowInstant(), DT.JST).truncatedTo(ChronoUnit.MILLIS);
+		return ZonedDateTime.ofInstant(nowInstant(), DT.Zone.JST).truncatedTo(ChronoUnit.MILLIS);
 	}
 
 	/**
 	 * 現在時刻（ナノ秒精度 / ZonedDateTime）。
 	 */
 	default ZonedDateTime nowZonedRaw() {
-		return ZonedDateTime.ofInstant(nowInstant(), DT.JST);
+		return ZonedDateTime.ofInstant(nowInstant(), DT.Zone.JST);
 	}
 }

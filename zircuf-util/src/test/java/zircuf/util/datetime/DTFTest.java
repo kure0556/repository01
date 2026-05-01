@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +17,7 @@ class DTFTest {
 
 		LocalDateTime ldt = LocalDateTime.now();
 		ZonedDateTime zdt = ZonedDateTime.now();
-		ZonedDateTime udt = ZonedDateTime.now(DT.UTC);
+		ZonedDateTime udt = ZonedDateTime.now(DT.Zone.UTC);
 
 		System.out.println(DTF.ISO_DATE_TIME.format(ldt));
 		System.out.println(DTF.ISO_DATE_TIME.format(zdt));
@@ -29,9 +29,9 @@ class DTFTest {
 		System.out.println(DTF.ISO_DATE_TIME_NANOS_ZONED.format(udt));
 		System.out.println();
 
-		ldt = DT.trimMillis(ldt);
-		zdt = DT.trimMillis(zdt);
-		udt = DT.trimMillis(udt);
+		ldt = DT.Trim.seconds(ldt);
+		zdt = DT.Trim.seconds(zdt);
+		udt = DT.Trim.seconds(udt);
 
 		System.out.println(DTF.ISO_DATE_TIME.format(ldt));
 		System.out.println(DTF.ISO_DATE_TIME.format(zdt));
@@ -50,7 +50,7 @@ class DTFTest {
             LocalDateTime.of(2024, 4, 1, 12, 34, 56, 789_123_456);
 
     private static final ZonedDateTime FIXED_ZDT =
-            ZonedDateTime.of(FIXED_LDT, ZoneId.of("Asia/Tokyo"));
+            ZonedDateTime.of(FIXED_LDT, DT.Zone.JST);
 
     // ---------------------------------------------------------
     // format()
@@ -115,7 +115,7 @@ class DTFTest {
     @Test
     void testOf_DATE() {
         LocalDate actual = DTF.DATE.ofDate("20240401");
-        assertEquals(LocalDate.of(2024, 4, 1).atStartOfDay(), actual);
+        assertEquals(LocalDate.of(2024, 4, 1), actual);
     }
 
     @Test
@@ -133,7 +133,7 @@ class DTFTest {
     @Test
     void testOf_DATE_TIME_MILLIS() {
         LocalDateTime actual = DTF.DATE_TIME_MILLIS.of("20240401123456789");
-        assertEquals(FIXED_LDT, actual);
+        assertEquals(FIXED_LDT.truncatedTo(ChronoUnit.MILLIS), actual);
     }
 
     // ---------------------------------------------------------
@@ -142,13 +142,13 @@ class DTFTest {
     @Test
     void testOfZoned_ISO_DATE_TIME_ZONED() {
         ZonedDateTime actual = DTF.ISO_DATE_TIME_ZONED.ofZoned("2024-04-01T12:34:56+09:00");
-        assertEquals(FIXED_ZDT, actual);
+        assertEquals(FIXED_ZDT.truncatedTo(ChronoUnit.SECONDS).toInstant(), actual.toInstant());
     }
 
     @Test
     void testOfZoned_ISO_DATE_TIME_MILLIS_ZONED() {
         ZonedDateTime actual = DTF.ISO_DATE_TIME_MILLIS_ZONED.ofZoned("2024-04-01T12:34:56.789+09:00");
-        assertEquals(FIXED_ZDT, actual);
+        assertEquals(FIXED_ZDT.truncatedTo(ChronoUnit.MILLIS).toInstant(), actual.toInstant());
     }
 
     // ---------------------------------------------------------
