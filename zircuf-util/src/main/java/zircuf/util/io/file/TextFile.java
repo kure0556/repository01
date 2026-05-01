@@ -9,7 +9,7 @@ import java.util.Optional;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import zircuf.util.io.common.Encode;
+import zircuf.util.io.common.Encoding;
 import zircuf.util.io.core.path.PathReader;
 import zircuf.util.io.core.path.PathWriter;
 
@@ -65,11 +65,11 @@ public class TextFile implements BaseFile, PathReader, PathWriter {
 
 	/**
 	 * エンコードの指定
-	 * @param encode エンコード
+	 * @param encoding エンコード
 	 * @return 自インスタンス
 	 */
-	public TextFile withEncode(Encode encode) {
-		this.charset = Optional.of(encode.getCharset());
+	public TextFile withEncoding(Encoding encoding) {
+		this.charset = Optional.of(encoding.getCharset());
 		return this;
 	}
 

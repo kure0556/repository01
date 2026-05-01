@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 
 import lombok.Getter;
 import zircuf.util.io.common.CharsetOpt;
-import zircuf.util.io.common.Encode;
+import zircuf.util.io.common.Encoding;
 import zircuf.util.io.core.path.PathReader;
 
 public class Resource {
@@ -31,11 +31,11 @@ public class Resource {
 
 		/**
 		 * エンコードの指定
-		 * @param encode エンコード
+		 * @param encoding エンコード
 		 * @return 自インスタンス
 		 */
-		public ResourceItem withEncode(Encode encode) {
-			this.charset = Optional.of(encode.getCharset());
+		public ResourceItem withEncode(Encoding encoding) {
+			this.charset = Optional.of(encoding.getCharset());
 			return this;
 		}
 

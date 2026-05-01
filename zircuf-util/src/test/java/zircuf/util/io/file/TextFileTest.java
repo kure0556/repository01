@@ -7,7 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import zircuf.env.Storage;
-import zircuf.util.io.common.Encode;
+import zircuf.util.io.common.Encoding;
 
 class TextFileTest {
 
@@ -24,7 +24,7 @@ class TextFileTest {
 
 	@Test
 	void test2() {
-		TextFile temp = TextFile.ofTemp("hoge", ".txt").withEncode(Encode.SJIS);
+		TextFile temp = TextFile.ofTemp("hoge", ".txt").withEncoding(Encoding.SJIS);
 		temp.write("""
 				エンコード確認①②③
 				エンコード確認
@@ -41,7 +41,7 @@ class TextFileTest {
 
 	@Test
 	void test3() {
-		var temp = Storage.local().ofTemp("hoge", ".txt").withEncode(Encode.SJIS);
+		var temp = Storage.local().ofTemp("hoge", ".txt").withEncoding(Encoding.SJIS);
 		temp.write("""
 				エンコード確認①②③
 				エンコード確認

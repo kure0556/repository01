@@ -8,7 +8,7 @@ import java.util.Optional;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import zircuf.util.io.common.Encode;
+import zircuf.util.io.common.Encoding;
 import zircuf.util.io.core.path.PathDeletable;
 import zircuf.util.io.core.path.PathExistable;
 import zircuf.util.io.core.path.PathReader;
@@ -40,11 +40,11 @@ public class LocalStorage implements StorageCore<Path, Path> {
 
 		/**
 		 * エンコードの指定
-		 * @param encode エンコード
+		 * @param encoding エンコード
 		 * @return 自インスタンス
 		 */
-		public LocalStorageItem withEncode(Encode encode) {
-			this.charset = Optional.of(encode.getCharset());
+		public LocalStorageItem withEncoding(Encoding encoding) {
+			this.charset = Optional.of(encoding.getCharset());
 			return this;
 		}
 
