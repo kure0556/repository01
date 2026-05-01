@@ -1,126 +1,60 @@
 package zircuf.env;
 
 import java.time.Clock;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
+import java.time.Instant;
 
 import zircuf.util.datetime.DT;
+import zircuf.util.datetime.TimeProvider;
 
-public class SystemClock {
+/**
+ * システム時刻ラッパー。<br/>
+ * <br/>
+ * 【設計意図】<br/>
+ * - java.time.Clock をラップして、DIで差し替え可能にする<br/>
+ * - 業務では秒精度を標準とする（now）<br/>
+ * - テストでは Clock を差し替えて時間固定できる<br/>
+ * <br/>
+ * 【使い分け】<br/>
+ * - Spring環境：DI（@Component）で使用<br/>
+ * - 非Spring環境：staticファクトリ(systemJst)で簡易生成<br/>
+ */
+public class SystemClock implements TimeProvider {
 
-	private Clock innerClock;
+    /**
+     * 非DI環境向けのデフォルトインスタンス（JST固定）。
+     */
+    private static final SystemClock JST_INSTANCE = new SystemClock(Clock.system(DT.JST));
 
-	public SystemClock() {
-		this.innerClock = Clock.system(DT.JST);
+    /**
+     * 非DI環境向けファクトリ（JST固定）。
+     */
+    public static SystemClock systemJst() {
+        return JST_INSTANCE;
+    }
+
+    /**
+     * 時刻取得の実体。<br/>
+     * <br/>
+     * 【DIポイント】
+     * - Springでは @Bean で定義された Clock が注入される<br/>
+     * - テストでは Clock.fixed(...) に差し替える<br/>
+     */
+    private final Clock clock;
+
+    /**
+     * コンストラクタインジェクション。<br/>
+     * <br/>
+     * 【DIポイント】
+     * - デフォルトコンストラクタは定義しない<br/>
+     *   → Clockの注入を強制するため<br/>
+     * - これにより「必ず差し替え可能」な設計になる<br/>
+     */
+    public SystemClock(Clock clock) {
+        this.clock = clock;
+    }
+
+	@Override
+	public Instant nowInstant() {
+		return clock.instant();
 	}
-
-	/**
-	 * 起点日時を設定
-	 */
-	public void setOrigin(String fixedDateTimeText) {
-		setOrigin(LocalDateTime.parse(fixedDateTimeText));
-	}
-
-	/**
-	 * 起点日時を設定
-	 */
-	public void setOrigin(int year, int month, int day, int hour, int minute) {
-		setOrigin(LocalDateTime.of(year, month, day, hour, minute));
-	}
-
-	/**
-	 * 起点日時を設定
-	 */
-	public void setOrigin(int year, int month, int day, int hour, int minute, int second) {
-		setOrigin(LocalDateTime.of(year, month, day, hour, minute, second));
-	}
-
-	/**
-	 * 起点日時を設定
-	 */
-	public void setOrigin(LocalDateTime fromLdt) {
-		Duration between = Duration.between(this.innerClock.instant(), fromLdt.toInstant(DT.offsetJST));
-		setOffset(between);
-	}
-
-	/**
-	 * 日付のオフセットを設定
-	 */
-	public void setOffsetDays(long days) {
-		setOffset(Duration.ofDays(days));
-	}
-
-	/**
-	 * 日時のオフセットを設定
-	 */
-	public void setOffset(String durationText) {
-		setOffset(Duration.parse(durationText));
-	}
-
-	/**
-	 * 日時のオフセットを設定
-	 */
-	public void setOffset(Duration duration) {
-		this.innerClock = Clock.offset(this.innerClock, duration);
-	}
-
-	/**
-	 * 固定日時を設定
-	 */
-	public void setFixed(String fixedDateTimeText) {
-		setFixed(LocalDateTime.parse(fixedDateTimeText));
-	}
-
-	/**
-	 * 固定日時を設定
-	 */
-	public void setFixed(int year, int month, int day, int hour, int minute) {
-		setFixed(LocalDateTime.of(year, month, day, hour, minute));
-	}
-
-	/**
-	 * 固定日時を設定
-	 */
-	public void setFixed(int year, int month, int day, int hour, int minute, int second) {
-		setFixed(LocalDateTime.of(year, month, day, hour, minute, second));
-	}
-
-	/**
-	 * 固定日時を設定
-	 */
-	public void setFixed(LocalDateTime ldt) {
-		this.innerClock = Clock.fixed(ldt.toInstant(ZoneOffset.ofHours(9)), DT.JST);
-	}
-
-	/**
-	 * @return LocalDateTime（秒未満をトリミング）
-	 */
-	public LocalDateTime now() {
-		return nowNanos().truncatedTo(ChronoUnit.SECONDS);
-	}
-
-	/**
-	 * @return ZonedDateTime（秒未満をトリミング）
-	 */
-	public ZonedDateTime nowJST() {
-		return nowNanosJST().truncatedTo(ChronoUnit.SECONDS);
-	}
-
-	/**
-	 * @return LocalDateTime
-	 */
-	public LocalDateTime nowNanos() {
-		return LocalDateTime.ofInstant(innerClock.instant(), DT.JST);
-	}
-
-	/**
-	 * @return ZonedDateTime
-	 */
-	public ZonedDateTime nowNanosJST() {
-		return ZonedDateTime.ofInstant(innerClock.instant(), DT.JST);
-	}
-
 }

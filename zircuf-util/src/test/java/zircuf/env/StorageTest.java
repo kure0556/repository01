@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 
 import zircuf.tools.swing.Dialog;
+import zircuf.util.io.common.Encoding;
 
 class StorageTest {
 
@@ -34,6 +35,23 @@ class StorageTest {
 		// ディレクトリが削除できたか
 		boolean existsDir = Storage.local().of("data").isExists();
 		assertFalse(existsDir);
+	}
+
+	@Test
+	void test2() {
+		var temp = Storage.local().ofTemp("hoge", ".txt").withEncoding(Encoding.SJIS);
+		temp.write("""
+				エンコード確認①②③
+				エンコード確認
+				""");
+		if (temp.isExists()) {
+			System.out.println("ファイルあり" + temp.getPath());
+		} else {
+			System.out.println("ファイルなし" + temp.getPath());
+		}
+
+		String text = temp.toText();
+		System.out.println(text);
 	}
 
 }

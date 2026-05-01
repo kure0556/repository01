@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import zircuf.env.Storage;
 import zircuf.util.io.common.Encoding;
 
 class TextFileTest {
@@ -25,23 +24,6 @@ class TextFileTest {
 	@Test
 	void test2() {
 		TextFile temp = TextFile.ofTemp("hoge", ".txt").withEncoding(Encoding.SJIS);
-		temp.write("""
-				エンコード確認①②③
-				エンコード確認
-				""");
-		if (temp.isExists()) {
-			System.out.println("ファイルあり" + temp.getPath());
-		} else {
-			System.out.println("ファイルなし" + temp.getPath());
-		}
-
-		String text = temp.toText();
-		System.out.println(text);
-	}
-
-	@Test
-	void test3() {
-		var temp = Storage.local().ofTemp("hoge", ".txt").withEncoding(Encoding.SJIS);
 		temp.write("""
 				エンコード確認①②③
 				エンコード確認
