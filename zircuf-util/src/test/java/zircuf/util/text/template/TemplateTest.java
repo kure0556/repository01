@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-import zircuf.util.performance.Performance;
+import zircuf.util.performance.Bench;
 
 class TemplateTest {
 
@@ -32,15 +32,15 @@ class TemplateTest {
 				}
 				""");
 
-		Performance.of(() -> {
+		Bench.measure(() -> {
 			arrayTemplate.injectArgs("あああ");
-		});
+		}, 10_000, 100_000).result(System.out::println);
 
 		StringBuilder sb = new StringBuilder();
-		Performance.of(() -> {
+		Bench.measure(() -> {
 			sb.setLength(0);
 			arrayTemplate.append(sb, new String[] { "あああ", "いいい", "ううう" });
-		});
+		}, 10_000, 100_000).result(System.out::println);
 		System.out.println(sb.toString());
 
 	}
@@ -57,16 +57,16 @@ class TemplateTest {
 				""");
 
 		StringBuilder sb = new StringBuilder();
-		Performance.of(() -> {
+		Bench.measure(() -> {
 			sb.setLength(0);
 			mapTemplate.append(sb, Map.of("key1", "あああ", "key2", "いいい"));
-		});
+		}, 10_000, 100_000).result(System.out::println);
 		System.out.println(sb.toString());
 	}
 
 	@Test
 	void test4() {
-		Performance.of(() -> {
+		Bench.measure(() -> {
 			@SuppressWarnings("unused")
 			String template = """
 					{
@@ -76,6 +76,6 @@ class TemplateTest {
 					  ddd:"%s"
 					}
 					""".formatted("あああ", "いいい", "ううう", "えええ");
-		});
+		}, 10_000, 100_000).result(System.out::println);
 	}
 }

@@ -9,7 +9,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import zircuf.util.data.table.TableConverter.Converter;
-import zircuf.util.performance.Performance;
+import zircuf.util.performance.Bench;
 import zircuf.util.text.Texts;
 import zircuf.util.text.function.Split;
 
@@ -23,9 +23,9 @@ class TableTest {
 		System.out.println(Texts.summry(list));
 
 		Converter converter = Table.of(list).converter();
-		Performance.of(() -> {
+		Bench.measure(() -> {
 			converter.get("5000", 1);
-		});
+		}, 10_000, 100_000).result(System.out::println);
 	}
 
 	@Test

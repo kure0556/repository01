@@ -6,7 +6,7 @@ import java.util.Date;
 
 import org.junit.jupiter.api.Test;
 
-import zircuf.util.performance.Performance;
+import zircuf.util.performance.Bench;
 
 class DTTest {
 
@@ -63,12 +63,12 @@ class DTTest {
 		System.out.println();
 
 		// 性能差の確認
-		Performance.of(() -> {
+		Bench.measure(() -> {
 			DT.Trim.millis(LocalDateTime.now());
-		});
-		Performance.of(() -> {
+		}, 10_000, 100_000).result(System.out::println);
+		Bench.measure(() -> {
 			LocalDateTime.now().withNano(0);
-		});
+		}, 10_000, 100_000).result(System.out::println);
 		System.out.println();
 
 		// 

@@ -28,6 +28,23 @@ package zircuf.util.text.template;
  * }</pre>
  *
  * <p>本クラスはユーティリティであり、インスタンス化はできない。</p>
+ * 
+ * <p>【性能に関する注意】
+ * Java 17 以降の String::formatted は、内部的に invokedynamic と
+ * StringConcatFactory によって強力に最適化されており、固定フォーマットの
+ * 文字列生成では非常に高速です。特に JSON のように構造が固定されている場合、
+ * TextTemplate よりも formatted のほうが高速になることがあります。
+ *
+ * 【TextTemplate を使うべき場面】
+ * - キーの有無による default 値の挿入が必要な場合
+ * - Map / DTO など任意データを柔軟に埋め込みたい場合
+ * - テンプレートを外部ファイルとして管理したい場合
+ * - JSON 構造が動的に変わる場合
+ * - escape 処理を統一的に扱いたい場合
+ *
+ * 固定フォーマット → formatted が最速  
+ * 可変フォーマット・柔軟性 → TextTemplate が有効</p>
+ * 
  */
 public class Template {
 
