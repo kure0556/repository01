@@ -13,25 +13,76 @@ import zircuf.util.general.IOptional;
 import zircuf.util.text.Texts;
 
 /**
- * 定型の文字列から特定位置（固定長・可変長）の文字列を抽出する
+ * テンプレート文字列に基づいて、固定文字列と可変長ブロックからなる
+ * 構造化テキスト（ファイル名・ログ行など）を抽出するユーティリティ。
+ *
+ * <p>テンプレート内では以下の 3 種類のブロックを使用できる：</p>
+ *
+ * <ul>
+ *   <li><b>{}</b>  
+ *       任意長の文字列をキャプチャする。キー名が省略された場合は
+ *       出現順に <code>{0}</code>, <code>{1}</code> ... のように自動採番される。
+ *       主に「位置合わせ」や「捨てキャプチャ」として利用する。</li>
+ *
+ *   <li><b>{name}</b>  
+ *       任意長の文字列をキャプチャし、指定したキー名で取得する。</li>
+ *
+ *   <li><b>{name:min,max}</b>  
+ *       最小 <code>min</code> 文字、最大 <code>max</code> 文字の範囲でキャプチャする。
+ *       <code>min</code> または <code>max</code> は省略可能。
+ *       <ul>
+ *         <li><code>{name:4,}</code> → 最小 4 文字</li>
+ *         <li><code>{name:,3}</code> → 最大 3 文字</li>
+ *         <li><code>{name:2,3}</code> → 2〜3 文字</li>
+ *       </ul>
+ *   </li>
+ * </ul>
+ *
+ * <p>テンプレートに含まれる通常の文字列はそのまま固定文字列として扱われ、
+ * 正規表現として安全にエスケープされる。</p>
+ *
+ * <p><b>※注意：</b>  
+ * 本クラスは「テンプレートに基づく構造抽出」を目的としており、  
+ * 数字抽出や任意の正規表現マッチングを行うための DSL ではない。  
+ * より複雑なパターンマッチが必要な場合は通常の {@link java.util.regex.Pattern} を使用すること。</p>
+ *
+ * <h3>使用例</h3>
+ *
  * <pre>
- * ex1) aaa{}bbb{:2}{}_{}.csv
- *   - [0] "{0}" : aaaとbbbに挟まれた文字列を取得
- *   - [1] "{1}" : bbbの後の2桁の文字列を取得
- *   - [2] "{2}" : 2桁と_に挟まれた文字列を取得
- *   - [3] "{3}" : _と.csvの間の変数名が省略された{}の位置の文字を取得
- * ex2) aaa{hoge}bbb{fuga:2}{piyo}_{}.csv
- *   - [0] "hoge" : aaaとbbbに挟まれた文字列を取得
- *   - [1] "fuga" : bbbの後の2桁の文字列を取得
- *   - [2] "piyo" : fuga2桁と_に挟まれた文字列を取得
- *   - [3] "{3}"  : _と.csvの間の変数名が省略された{}の位置の文字を取得
- * ex3) {hoge:2,3}{fuga:,3}{}{piyo:4,}
- *   - [0] "hoge" : 2～3文字の文字列を抽出  aaabbbxxxxxxx.csv -> aaa
- *   - [1] "fuga" : 最大3文字の文字列を抽出  aaabbbxxxxxxx.csv -> bbb
- *   - [2] "{2}"  : 任意の文字列を抽出      aaabbbxxxxxxx.csv -> xxxxxxx
- *   - [3] "piyo" : 最小4文字の文字列を抽出  aaabbbxxxxxxx.csv -> .csv
+ * 【例1】無名キャプチャと固定長の組み合わせ
+ * テンプレート:  aaa{}bbb{:2}{}_{}.csv
+ * 入力:          aaaxxxbbb12YYY_ZZZ.csv
+ *
+ * 抽出結果:
+ *   {0} = "xxx"   (aaa と bbb の間)
+ *   {1} = "12"    (bbb の後の 2 文字)
+ *   {2} = "YYY"   (2 文字と '_' の間)
+ *   {3} = "ZZZ"   ('_' と .csv の間)
+ *
+ * 【例2】名前付きキーと固定長の組み合わせ
+ * テンプレート:  aaa{hoge}bbb{fuga:2}{piyo}_{}.csv
+ * 入力:          aaaxxxbbb12YYY_ZZZ.csv
+ *
+ * 抽出結果:
+ *   hoge = "xxx"
+ *   fuga = "12"
+ *   piyo = "YYY"
+ *   {3}  = "ZZZ"
+ *
+ * 【例3】最小・最大長の指定
+ * テンプレート:  {hoge:2,3}{fuga:,3}{}{piyo:4,}
+ * 入力:          aaabbbxxxxxxx.csv
+ *
+ * 抽出結果:
+ *   hoge = "aaa"      (2〜3 文字)
+ *   fuga = "bbb"      (最大 3 文字)
+ *   {2}  = "xxxxxxx"  (任意長)
+ *   piyo = ".csv"     (最小 4 文字)
  * </pre>
+ *
+ * <p>抽出結果は {@link ResultMap} として返され、キー名順に保持される。</p>
  */
+
 public class TextExtractor {
 
 	public static TextExtractor of(String template) {
