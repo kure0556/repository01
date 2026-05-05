@@ -15,7 +15,7 @@ public class ArrayTemplate implements TextTemplate<String[], ArrayTemplateItem> 
 		itemList.add(new ArrayTemplateItem(defaultText, key, Integer.parseInt(key)));
 	}
 
-	List<ArrayTemplateItem> itemList = new ArrayList<>();
+	private final List<ArrayTemplateItem> itemList = new ArrayList<>();
 
 	@Override
 	public List<ArrayTemplateItem> itemList() {

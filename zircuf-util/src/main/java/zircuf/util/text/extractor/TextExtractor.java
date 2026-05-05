@@ -85,6 +85,8 @@ import zircuf.util.text.Texts;
 
 public class TextExtractor {
 
+	private static final Pattern TEMPLATE_PARSE_PATTERN = Pattern.compile("\\{([^:\\}]*)(:(([0-9]+)?(,([0-9]+)?)?))?\\}");
+
 	public static TextExtractor of(String template) {
 		return new TextExtractor(template);
 	}
@@ -98,7 +100,7 @@ public class TextExtractor {
 		this.template = template;
 
 		// {name:min,max} のパターン
-		Pattern pattern = Pattern.compile("\\{([^:\\}]*)(:(([0-9]+)?(,([0-9]+)?)?))?\\}");
+		Pattern pattern = TEMPLATE_PARSE_PATTERN;
 		Matcher matcher = pattern.matcher(template);
 
 		StringBuilder sb = new StringBuilder();

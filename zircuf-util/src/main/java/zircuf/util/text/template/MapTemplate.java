@@ -16,7 +16,7 @@ public class MapTemplate implements TextTemplate<Map<String, String>, MapTemplat
 		itemList.add(new MapTemplateItem(defaultText, key));
 	}
 
-	List<MapTemplateItem> itemList = new ArrayList<>();
+	private final List<MapTemplateItem> itemList = new ArrayList<>();
 
 	@Override
 	public List<MapTemplateItem> itemList() {
