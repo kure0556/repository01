@@ -45,17 +45,17 @@ class CodeTest {
 
 	@ParameterizedTest
 	@CsvSource({
+		"fooList, foo",
+		"fooMap, foo",
+		"fooSet, foo",
         "entries, entry",
-        "boxes, box",
+        "boxes, boxe",
         "resources, resource",
         "items, item",
-        "fooList, foo",
-        "fooMap, foo",
-        "fooSet, foo",
         "ies, ie",
         "es, e",
-        "s, s",
-        "foo, foo",
+        "s, sItem",
+        "foo, fooItem",
 	})
 	void test6(String src, String dst) {
 		extracted(Code.convertSingletonName(src), dst);
