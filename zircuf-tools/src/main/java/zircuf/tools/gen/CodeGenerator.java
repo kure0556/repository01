@@ -25,11 +25,11 @@ public class CodeGenerator {
 	private final CodeTemplate codeTemplate;
 
 	/** 物理名の列インデックス */
-	private final int pysicalNameIdx;
+	private final int physicalNameIdx;
 	/** 論理名の列インデックス */
 	private final int logicalNameIdx;
 	/** 型名の列インデックス */
-	private final int typeTxetIdx;
+	private final int typeTextIdx;
 
 	/** クラスの物理名 */
 	private String classPhysicalName;
@@ -61,38 +61,38 @@ public class CodeGenerator {
 		for (String[] line : table) {
 
 			// 子クラスのフィールド終了判定
-			while (line[pysicalNameIdx + builder.stackSize()].isBlank() && builder.stackIsPresent()) {
+			while (line[physicalNameIdx + builder.stackSize()].isBlank() && builder.stackIsPresent()) {
 				builder.append(codeTemplate.footerChild());
 				builder.pop();
 			}
 
 			// スタックが空で物理名が取れない場合は行をスキップ
-			if (line[pysicalNameIdx + builder.stackSize()].isBlank() && builder.stackIsEmpty()) {
+			if (line[physicalNameIdx + builder.stackSize()].isBlank() && builder.stackIsEmpty()) {
 				continue;
 			}
 
 			// 物理名はキャメルケースに変換
-			String pysicalName = Code.toLowerCamel(line[pysicalNameIdx + builder.stackSize()]);
+			String physicalName = Code.toLowerCamel(line[physicalNameIdx + builder.stackSize()]);
 			String logicalName = line[logicalNameIdx];
-			String typeStr = line[typeTxetIdx];
+			String typeStr = line[typeTextIdx];
 
 			// フィールド型の特定
 			FieldTemplate fieldTemplate = fieldSet.get(typeStr);
 			if (Objects.isNull(fieldTemplate)) {
-				System.err.println("サポートされていない型です typeStr=%s pysicalName=%s logicalName=%s"
-						.formatted(typeStr, pysicalName, logicalName));
+				System.err.println("サポートされていない型です typeStr=%s physicalName=%s logicalName=%s"
+						.formatted(typeStr, physicalName, logicalName));
 				continue;
 			} else if (fieldTemplate.hasChild()) {
 //				String childPysiName = "Child" + childCnt;
 //				String childLogiName = "子クラス" + childCnt;
-				// 子クラスの物理名を自動生成する（fooList -> Foo）（Fooes -> Foo）（FooMap -> Foo）（FooSet -> Foo）
-				String childPysiName = Code.firstCharOnlyToUpper(Code.convertSingletonName(pysicalName));
+				// 子クラスの物理名を自動生成する（fooList -> Foo）（foos -> Foo）（fooMap -> Foo）（fooSet -> Foo）（foo -> FooItem）
+				String childPysiName = Code.firstCharOnlyToUpper(Code.convertSingletonName(physicalName));
 				// 子クラスの論理名は論理名＋"Dto"（レコードリスト -> レコードリストDto）
 				String childLogiName = logicalName + "Dto";
 //				childCnt++;
 
 				// フィールド追加
-				builder.append(codeTemplate.addField(fieldTemplate, pysicalName, logicalName, childPysiName));
+				builder.append(codeTemplate.addField(fieldTemplate, physicalName, logicalName, childPysiName));
 
 				// 子クラス開始
 				builder.push();
@@ -101,7 +101,7 @@ public class CodeGenerator {
 
 			} else {
 				// フィールド追加
-				builder.append(codeTemplate.addField(fieldTemplate, pysicalName, logicalName));
+				builder.append(codeTemplate.addField(fieldTemplate, physicalName, logicalName));
 			}
 		}
 		// フィールドの終了判定 スタックが空になるまで子クラスフッターを出力

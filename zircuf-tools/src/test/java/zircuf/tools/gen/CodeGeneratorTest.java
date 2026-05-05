@@ -41,9 +41,9 @@ class CodeGeneratorTest {
 		CodeGenerator codeGenerator = CodeGenerator.builder()
 				.table(table)					// オブジェクト定義の指定
 				.codeTemplate(codeTemplate)		// テンプレートの指定
-				.pysicalNameIdx(0)				// 物理名の列番号（+1ずらして階層を表現）
+				.physicalNameIdx(0)				// 物理名の列番号（+1ずらして階層を表現）
 				.logicalNameIdx(10)				// 論理名の列番号
-				.typeTxetIdx(9)					// 型の列番号
+				.typeTextIdx(9)					// 型の列番号
 				.classPhysicalName(null)		// 生成するクラスの物理名（省略可）
 				.classLogicalName(null)			// 生成するクラスの論理名（省略可）
 				.extendsOrImplementsText(null)	// 生成するクラスの付与文字列（継承用）
@@ -67,9 +67,9 @@ class CodeGeneratorTest {
 		CodeGenerator codeGenerator = CodeGenerator.builder()
 				.table(table)
 				.codeTemplate(codeTemplate)
-				.pysicalNameIdx(0)
+				.physicalNameIdx(0)
 				.logicalNameIdx(10)
-				.typeTxetIdx(9)
+				.typeTextIdx(9)
 				.classPhysicalName(null)
 				.classLogicalName(null)
 				.extendsOrImplementsText(null)
