@@ -2,6 +2,7 @@ package zircuf.util.io.file;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.FileTime;
@@ -28,7 +29,7 @@ public interface BaseFile extends PathDeletable, PathExistable {
 			FileTime lastModifiedTime = Files.getLastModifiedTime(getPath());
 			return LocalDateTime.ofInstant(lastModifiedTime.toInstant(), ZoneId.systemDefault());
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			throw new UncheckedIOException(e);
 		}
 	}
 
@@ -42,7 +43,7 @@ public interface BaseFile extends PathDeletable, PathExistable {
 		try (InputStream is = Files.newInputStream(getPath())) {
 			return func.apply(is);
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			throw new UncheckedIOException(e);
 		}
 	}
 

@@ -1,6 +1,7 @@
 package zircuf.util.io.core.path;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -21,7 +22,7 @@ public interface PathDeletable extends Deletable {
 		try {
 			Files.delete(getPath());
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			throw new UncheckedIOException(e);
 		}
 	}
 
@@ -33,7 +34,7 @@ public interface PathDeletable extends Deletable {
 		try {
 			return Files.deleteIfExists(getPath());
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			throw new UncheckedIOException(e);
 		}
 	}
 

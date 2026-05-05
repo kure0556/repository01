@@ -1,6 +1,7 @@
 package zircuf.util.io.core.path;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -23,7 +24,7 @@ public interface PathReader extends Reader, CharsetOpt {
 		try {
 			return Files.readString(getPath(), getCharset().orElse(Charset.defaultCharset()));
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			throw new UncheckedIOException(e);
 		}
 	}
 
@@ -34,7 +35,7 @@ public interface PathReader extends Reader, CharsetOpt {
 		try {
 			return Files.lines(getPath(), getCharset().orElse(Charset.defaultCharset()));
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			throw new UncheckedIOException(e);
 		}
 	}
 

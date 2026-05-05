@@ -2,6 +2,7 @@ package zircuf.util.io.file;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -48,7 +49,7 @@ public class BinaryFile implements BaseFile {
 		try {
 			return new BinaryFile(Files.createTempFile(prefix, suffix));
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			throw new UncheckedIOException(e);
 		}
 	}
 
@@ -63,7 +64,7 @@ public class BinaryFile implements BaseFile {
 		try {
 			return Files.readAllBytes(path);
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			throw new UncheckedIOException(e);
 		}
 	}
 
@@ -76,7 +77,7 @@ public class BinaryFile implements BaseFile {
 		try {
 			return Files.write(path, bytes);
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			throw new UncheckedIOException(e);
 		}
 	}
 

@@ -1,6 +1,7 @@
 package zircuf.env.storage;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -32,7 +33,7 @@ public class LocalStorage implements StorageCore<Path, Path> {
 		try {
 			return new LocalStorageItem(Files.createTempFile(prefix, suffix));
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			throw new UncheckedIOException(e);
 		}
 	}
 

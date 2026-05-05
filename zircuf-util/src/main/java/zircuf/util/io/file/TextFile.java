@@ -2,6 +2,7 @@ package zircuf.util.io.file;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -53,7 +54,7 @@ public class TextFile implements BaseFile, PathReader, PathWriter {
 		try {
 			return new TextFile(Files.createTempFile(prefix, suffix));
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			throw new UncheckedIOException(e);
 		}
 	}
 
