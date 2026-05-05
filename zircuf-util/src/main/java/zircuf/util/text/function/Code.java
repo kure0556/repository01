@@ -43,6 +43,9 @@ package zircuf.util.text.function;
  */
 public final class Code {
 
+	private Code() {
+	}
+
 	/**
 	 * スネークケースから先頭小文字キャメルケースに変換
 	 * @param input

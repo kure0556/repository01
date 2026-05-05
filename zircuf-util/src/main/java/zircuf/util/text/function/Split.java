@@ -34,6 +34,9 @@ import java.util.List;
  */
 public final class Split {
 
+	private Split() {
+	}
+
 	/**
 	 * カンマ区切りで分割する。
 	 * 空セルも保持する（"A,,C" → ["A", "", "C"]）。

@@ -31,6 +31,9 @@ package zircuf.util.text.function;
  */
 public final class Join {
 
+	private Join() {
+	}
+
 	/**
 	 * カンマ区切りで連結する。
 	 * null は "null" として扱われる（String.join と同じ）。
