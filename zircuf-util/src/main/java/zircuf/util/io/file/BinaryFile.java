@@ -41,8 +41,8 @@ public class BinaryFile implements BaseFile {
 
 	/**
 	 * 一時バイナリファイルの指定
-	 * @param prefix ファイル名
-	 * @param suffix 拡張子
+	 * @param prefix 一時ファイル名のプレフィックス（prefixとsuffixの間に衝突回避のためのユニークIDが入る）
+	 * @param suffix 一時ファイル名のサフィックス（拡張子等で使用）
 	 * @return BinaryFileインスタンス
 	 */
 	public static final BinaryFile ofTemp(String prefix, String suffix) {

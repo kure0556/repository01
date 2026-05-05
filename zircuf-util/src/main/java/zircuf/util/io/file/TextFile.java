@@ -46,8 +46,8 @@ public class TextFile implements BaseFile, PathReader, PathWriter {
 
 	/**
 	 * 一時テキストファイルの指定
-	 * @param prefix ファイル名
-	 * @param suffix 拡張子
+	 * @param prefix 一時ファイル名のプレフィックス（prefixとsuffixの間に衝突回避のためのユニークIDが入る）
+	 * @param suffix 一時ファイル名のサフィックス（拡張子等で使用）
 	 * @return TextFileインスタンス
 	 */
 	public static final TextFile ofTemp(String prefix, String suffix) {

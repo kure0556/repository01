@@ -1,6 +1,7 @@
 package zircuf.env.storage;
 
 import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Path;
 import java.util.function.Consumer;
 
 import zircuf.util.io.core.Deletable;
@@ -20,6 +21,22 @@ public interface StorageCore<P, R> {
 
 		public P getPath();
 
+		/**
+		 * 解決済みのストレージパスを外部から参照するためのフック。
+		 * <p>
+		 * LocalStorage が内部で解決した {@link Path} を文字列として受け取り、
+		 * 指定されたアクションに渡す。デバッグ用途で「最終的にどのパスが参照されているか」
+		 * を確認したい場合に便利。
+		 *
+		 * <h2>使用例</h2>
+		 * <pre>{@code
+		 * Storage.local().of("data/my.json")
+		 *         .peekPath(System.out::println);  // 実際に解決されたパスを出力
+		 * }</pre>
+		 *
+		 * @param action 解決されたパス文字列を受け取る処理
+		 * @return 自インスタンス（メソッドチェーン用）
+		 */
 		@SuppressWarnings("unchecked")
 		public default <T extends StorageItem<P, R>> T peekPath(Consumer<P> action) {
 			action.accept(getPath());
@@ -59,7 +76,5 @@ public interface StorageCore<P, R> {
 			}
 			return (T) this;
 		}
-
 	}
-
 }
